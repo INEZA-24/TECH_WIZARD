@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certifications | FIDELE Portfolio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        .certifications-page {
+            padding: 120px 0 80px;
+            min-height: auto;
+        }
+
+        .certifications-hero {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .certifications-hero h1 {
+            font-size: 3.5rem;
+            color: var(--lighter);
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .certifications-hero p {
+            font-size: 1.3rem;
+            color: var(--light);
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease 0.3s forwards;
+        }
+
+        .certifications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .certification-card {
+            background: var(--darker);
+            padding: 40px 30px;
+            border-radius: 15px;
+            border-left: 4px solid var(--primary);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .certification-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.1), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .certification-card:hover::before {
+            left: 100%;
+        }
+
+        .certification-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .certification-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+        }
+
+        .cert-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .cert-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            transition: all 0.4s ease;
+        }
+
+        .certification-card:hover .cert-icon {
+            transform: rotate(10deg) scale(1.1);
+            background: var(--primary-dark);
+        }
+
+        .cert-icon i {
+            font-size: 28px;
+            color: var(--darker);
+            transition: all 0.4s ease;
+        }
+
+        .certification-card:hover .cert-icon i {
+            transform: scale(1.1);
+        }
+
+        .cert-title {
+            flex: 1;
+        }
+
+        .cert-title h3 {
+            font-size: 1.5rem;
+            color: var(--lighter);
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .certification-card:hover .cert-title h3 {
+            color: var(--primary);
+        }
+
+        .cert-issuer {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .cert-date {
+            color: var(--light);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .cert-description {
+            color: var(--light);
+            line-height: 1.7;
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        .cert-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .skill-tag {
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+            transition: var(--transition);
+        }
+
+        .skill-tag:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-2px);
+        }
+
+        .cert-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .cert-btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .cert-btn-primary {
+            background: var(--primary);
+            color: var(--dark);
+            border: 1px solid var(--primary);
+        }
+
+        .cert-btn-primary:hover {
+            background: transparent;
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .stats-section {
+            background: var(--darker);
+            padding: 60px 40px;
+            border-radius: 15px;
+            margin-top: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .stats-section.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stats-section h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            color: var(--lighter);
+            margin-bottom: 50px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--dark);
+            border-radius: 10px;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .stat-item.animate {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            transition: all 0.4s ease;
+        }
+
+        .stat-item:hover .stat-icon {
+            transform: scale(1.2);
+            color: var(--primary-dark);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--lighter);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--light);
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        /* Certificate Image Popup Styles */
+        .certificate-popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 12, 27, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .certificate-popup-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .certificate-popup {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            margin: auto;
+            background: var(--darker);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .certificate-popup.active {
+            transform: scale(1);
+        }
+
+        .certificate-popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background: var(--dark);
+            border-bottom: 1px solid rgba(52, 152, 219, 0.2);
+        }
+
+        .certificate-popup-title {
+            color: var(--lighter);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .certificate-popup-close {
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .certificate-popup-close:hover {
+            color: var(--primary);
+            background: rgba(52, 152, 219, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .certificate-image-container {
+            position: relative;
+            max-width: 900px;
+            max-height: 600px;
+            overflow: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .certificate-image {
+            max-width: 100%;
+            max-height: 500px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(52, 152, 219, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .certificate-image:hover {
+            transform: scale(1.01);
+        }
+
+        .certificate-popup-footer {
+            padding: 20px 30px;
+            background: var(--dark);
+            border-top: 1px solid rgba(52, 152, 219, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .certificate-popup-info {
+            color: var(--light);
+            font-size: 0.9rem;
+        }
+
+        .certificate-popup-info strong {
+            color: var(--primary);
+        }
+
+        .certificate-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .certificate-nav-btn {
+            background: rgba(52, 152, 219, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .certificate-nav-btn:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: scale(1.1);
+        }
+
+        .certificate-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            background: rgba(52, 152, 219, 0.05);
+        }
+
+        .certificate-nav-btn:disabled:hover {
+            background: rgba(52, 152, 219, 0.05);
+            color: var(--primary);
+            transform: none;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .certifications-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .certifications-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cert-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cert-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .cert-actions {
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .certificate-popup {
+                max-width: 95%;
+                max-height: 85%;
+            }
+
+            .certificate-popup-header,
+            .certificate-popup-footer {
+                padding: 15px 20px;
+            }
+
+            .certificate-image-container {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cert-actions {
+                flex-direction: column;
+            }
+
+            .cert-btn {
+                text-align: center;
+                justify-content: center;
+            }
+
+            .certificate-nav {
+                margin-top: 10px;
+            }
+
+            .certificate-popup-footer {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Fidele</a>
+                
+                <div class="hamburger">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                </div>
+
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="aboutus.html">About</a></li>
+                    <li><a href="skills.html">Skills</a></li>
+                    <li><a href="certifications.html" class="active">Certifications</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="contact.html" class="btn btn-outline" style="padding: 10px 15px; margin-left: 20px;">Contact Me</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Certificate Popup Overlay -->
+    <div class="certificate-popup-overlay" id="certificatePopup">
+        <div class="certificate-popup" id="popupContent">
+            <div class="certificate-popup-header">
+                <div class="certificate-popup-title" id="popupTitle">Certificate Title</div>
+                <button class="certificate-popup-close" id="closePopup">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="certificate-image-container">
+                <img src="" alt="Certificate" class="certificate-image" id="popupImage">
+            </div>
+            <div class="certificate-popup-footer">
+                <div class="certificate-popup-info">
+                    Issuer: <strong id="popupIssuer">Issuer Name</strong> • 
+                    Date: <strong id="popupDate">Issued Date</strong>
+                </div>
+                <div class="certificate-nav">
+                    <button class="certificate-nav-btn" id="prevCert">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="certificate-nav-btn" id="nextCert">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="certifications-page">
+        <div class="container">
+            <div class="certifications-hero">
+                <h1>My Certifications</h1>
+                <p>Validated expertise and continuous learning journey in technology and development</p>
+            </div>
+
+            <div class="certifications-grid">
+                <div class="certification-card" id="cert-1" data-cert-id="1">
+                    <div class="cert-header">
+                        <div class="cert-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="cert-title">
+                            <h3>HTML & CSS Certificate</h3>
+                            <div class="cert-issuer">WSCX/EDX</div>
+                            <div class="cert-date">Issued April 2025 • No Expiration</div>
+                        </div>
+                    </div>
+                    <div class="cert-description">
+                        Comprehensive certification covering front-end principles including  HTML and CSS.
+                    </div>
+                    <div class="cert-skills">
+                        <span class="skill-tag">HTML</span>
+                        <span class="skill-tag">CSS</span>
+                        <!-- <span class="skill-tag">MongoDB</span>
+                        <span class="skill-tag">API Development</span>
+                        <span class="skill-tag">DevOps</span> -->
+                    </div>
+                    <div class="cert-actions">
+                        <a href="images/HTML AND CSS CERTIFICATE EDX-1.png" class="cert-btn cert-btn-primary" data-view-cert="fullstack.jpg" data-title="Full Stack Web Development" data-issuer="Meta" data-date="May 2023">
+                            <i class="fas fa-image"></i>
+                            View Certificate
+                        </a>
+                    </div>
+                </div>
+
+                <div class="certification-card" id="cert-4" data-cert-id="4">
+                    <div class="cert-header">
+                        <div class="cert-icon">
+                            <i class="fab fa-python"></i>
+                        </div>
+                        <div class="cert-title">
+                            <h3>PYTHON</h3>
+                            <div class="cert-issuer">HARVARDX/EDX</div>
+                            <div class="cert-date">Issued August 2025 • No Expiration</div>
+                        </div>
+                    </div>
+                    <div class="cert-description">
+                        Comprehensive certification covering  python programming fundamentals.
+                    </div>
+                    <div class="cert-skills">
+                        <span class="skill-tag">object-oriented programming</span>
+                        <span class="skill-tag">Fundamentals</span>
+                        
+                    </div>
+                    <div class="cert-actions">
+                        <a href="images/Harvard_certificate_for_python-1.png" class="cert-btn cert-btn-primary" data-view-cert="uiux.jpg" data-title="UI/UX Design Specialization" data-issuer="Google" data-date="November 2022">
+                            <i class="fas fa-image"></i>
+                            View Certificate
+                        </a>
+                    </div>
+                </div>
+
+                <div class="certification-card" id="cert-5" data-cert-id="5">
+                    <div class="cert-header">
+                        <div class="cert-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="cert-title">
+                            <h3>AI FUNDAMENTALS </h3>
+                            <div class="cert-issuer">ALX</div>
+                            <div class="cert-date">Issued August 2025 • No Expiration</div>
+                        </div>
+                    </div>
+                    <div class="cert-description">
+                        Learned to use AI tools like ChatGPT and Copilot for coding, productivity, and creative projects
+                    </div>
+                    <div class="cert-skills">
+                        <span class="skill-tag">AI Tools & Programming Support</span>
+                        <span class="skill-tag">Creative AI Applications</span>
+                        <span class="skill-tag">Problem Solving & Project Work</span>
+                        
+                    </div>
+                    <div class="cert-actions">
+                        <a href="images/HTML AND CSS CERTIFICATE EDX-1.png" class="cert-btn cert-btn-primary" data-view-cert="sql.jpg" data-title="SQL & Database Management" data-issuer="University of Michigan" data-date="August 2022">
+                            <i class="fas fa-image"></i>
+                            View Certificate
+                        </a>
+                    </div>
+                </div>
+
+                <div class="certification-card" id="cert-6" data-cert-id="6">
+                    <div class="cert-header">
+                        <div class="cert-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="cert-title">
+                            <h3>Cybersecurity Fundamentals</h3>
+                            <div class="cert-issuer">CISCO NETWORKING </div>
+                            <div class="cert-date">Issued July 2025 • Valid until June 2024</div>
+                        </div>
+                    </div>
+                    <div class="cert-description">
+                        Foundational cybersecurity certification covering network security, cryptography, threat intelligence, and security best practices.
+                    </div>
+                    <div class="cert-skills">
+                        <span class="skill-tag">Network Security</span>
+                        <span class="skill-tag">Cryptography</span>
+                        <span class="skill-tag">Threat Analysis</span>
+                        <span class="skill-tag">Security Protocols</span>
+                        <span class="skill-tag">Risk Management</span>
+                    </div>
+                    <div class="cert-actions">
+                        <a href="images/Ethical_Hacker Cisco-1.png" class="cert-btn cert-btn-primary" data-view-cert="cybersecurity.jpg" data-title="Cybersecurity Fundamentals" data-issuer="IBM" data-date="June 2022">
+                            <i class="fas fa-image"></i>
+                            View Certificate
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-section" id="cert-stats">
+                <h2>Certification Achievements</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Total Certifications</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-number">120+</div>
+                        <div class="stat-label">Learning Hours</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Different Issuers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-number">4.5/5</div>
+                        <div class="stat-label">Average Rating</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="social-icons">
+                <a href="https://www.instagram.com/techwizard285/" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://github.com/INEZA-24" target="_blank" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                 <a href="https://discord.com/users/1280955016928297013" target="_blank" aria-label="Discord" class="discord-icon">
+                    <i class="fab fa-discord"></i>
+                </a>
+            </div>
+            <p>© <span id="year"></span> Fidele. All rights reserved.</p>
+            <div class="copyright">
+                <p>Built with passion and innovation</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        function animateOnScroll() {
+            const certCards = document.querySelectorAll('.certification-card');
+            const statItems = document.querySelectorAll('.stat-item');
+            const statsSection = document.querySelector('.stats-section');
+            
+            certCards.forEach((card, index) => {
+                const cardTop = card.getBoundingClientRect().top;
+                const cardVisible = 150;
+                
+                if (cardTop < window.innerHeight - cardVisible) {
+                    setTimeout(() => {
+                        card.classList.add('animate');
+                    }, index * 200);
+                }
+            });
+            
+            if (statsSection) {
+                const statsTop = statsSection.getBoundingClientRect().top;
+                const statsVisible = 100;
+                
+                if (statsTop < window.innerHeight - statsVisible) {
+                    setTimeout(() => {
+                        statsSection.classList.add('animate');
+                        
+                        statItems.forEach((stat, index) => {
+                            setTimeout(() => {
+                                stat.classList.add('animate');
+                            }, index * 150);
+                        });
+                    }, 300);
+                }
+            }
+        }
+
+        // Certificate Popup Functionality
+        const certificatePopup = document.getElementById('certificatePopup');
+        const popupContent = document.getElementById('popupContent');
+        const closePopup = document.getElementById('closePopup');
+        const popupImage = document.getElementById('popupImage');
+        const popupTitle = document.getElementById('popupTitle');
+        const popupIssuer = document.getElementById('popupIssuer');
+        const popupDate = document.getElementById('popupDate');
+        const prevCertBtn = document.getElementById('prevCert');
+        const nextCertBtn = document.getElementById('nextCert');
+
+        let currentCertIndex = 0;
+        let certificates = [];
+
+        // Collect all certificate data
+        function collectCertificates() {
+            const certButtons = document.querySelectorAll('[data-view-cert]');
+            certificates = Array.from(certButtons).map(btn => ({
+                image: btn.getAttribute('href'),
+                title: btn.getAttribute('data-title'),
+                issuer: btn.getAttribute('data-issuer'),
+                date: btn.getAttribute('data-date')
+            }));
+        }
+
+        // Show certificate popup
+        function showCertificate(index) {
+            if (certificates.length === 0) collectCertificates();
+            if (index < 0 || index >= certificates.length) return;
+            
+            currentCertIndex = index;
+            const cert = certificates[index];
+            
+            popupImage.src = cert.image;
+            popupTitle.textContent = cert.title;
+            popupIssuer.textContent = cert.issuer;
+            popupDate.textContent = cert.date;
+            
+            // Update navigation buttons
+            prevCertBtn.disabled = index === 0;
+            nextCertBtn.disabled = index === certificates.length - 1;
+            
+            // Show popup
+            certificatePopup.classList.add('active');
+            setTimeout(() => {
+                popupContent.classList.add('active');
+            }, 50);
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close popup
+        function closeCertificatePopup() {
+            popupContent.classList.remove('active');
+            setTimeout(() => {
+                certificatePopup.classList.remove('active');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // Event Listeners for View Certificate buttons
+        document.querySelectorAll('[data-view-cert]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const certId = this.getAttribute('data-view-cert');
+                const index = certificates.findIndex(cert => 
+                    cert.image.includes(certId) || 
+                    cert.title === this.getAttribute('data-title')
+                );
+                if (index !== -1) {
+                    showCertificate(index);
+                } else {
+                    // Fallback if not found in collected certificates
+                    popupImage.src = this.getAttribute('href');
+                    popupTitle.textContent = this.getAttribute('data-title');
+                    popupIssuer.textContent = this.getAttribute('data-issuer');
+                    popupDate.textContent = this.getAttribute('data-date');
+                    
+                    certificatePopup.classList.add('active');
+                    setTimeout(() => {
+                        popupContent.classList.add('active');
+                    }, 50);
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // Navigation between certificates
+        prevCertBtn.addEventListener('click', () => {
+            if (currentCertIndex > 0) {
+                showCertificate(currentCertIndex - 1);
+            }
+        });
+
+        nextCertBtn.addEventListener('click', () => {
+            if (currentCertIndex < certificates.length - 1) {
+                showCertificate(currentCertIndex + 1);
+            }
+        });
+
+        // Close popup events
+        closePopup.addEventListener('click', closeCertificatePopup);
+        certificatePopup.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCertificatePopup();
+            }
+        });
+
+        // Close popup with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && certificatePopup.classList.contains('active')) {
+                closeCertificatePopup();
+            }
+            // Navigate with arrow keys
+            if (certificatePopup.classList.contains('active')) {
+                if (e.key === 'ArrowLeft' && currentCertIndex > 0) {
+                    showCertificate(currentCertIndex - 1);
+                } else if (e.key === 'ArrowRight' && currentCertIndex < certificates.length - 1) {
+                    showCertificate(currentCertIndex + 1);
+                }
+            }
+        });
+
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            setTimeout(animateOnScroll, 500);
+            collectCertificates();
+        });
+
+        window.addEventListener('scroll', animateOnScroll);
+    </script>
+</body>
+
+</html>

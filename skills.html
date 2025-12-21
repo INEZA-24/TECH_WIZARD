@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills | FIDELE Portfolio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        .skills-page {
+            padding: 120px 0 80px;
+            min-height: auto;
+        }
+
+        .skills-hero {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .skills-hero h1 {
+            font-size: 3.5rem;
+            color: var(--lighter);
+            margin-bottom: 20px;
+        }
+
+        .skills-hero p {
+            font-size: 1.3rem;
+            color: var(--light);
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .skills-categories {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .skill-category {
+            background: var(--darker);
+            padding: 40px 30px;
+            border-radius: 15px;
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+            height: fit-content;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+        }
+
+        .category-icon i {
+            font-size: 24px;
+            color: var(--darker);
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            color: var(--lighter);
+            margin: 0;
+        }
+
+        .skills-list {
+            list-style: none;
+        }
+
+        .skill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(204, 214, 246, 0.1);
+        }
+
+        .skill-name {
+            color: var(--light);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .skill-level {
+            display: flex;
+            align-items: center;
+        }
+
+        .skill-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(204, 214, 246, 0.2);
+            transition: var(--transition);
+        }
+
+        .dot.active {
+            background: var(--primary);
+        }
+
+        .skill-percentage {
+            color: var(--primary);
+            font-weight: 600;
+            margin-left: 10px;
+            font-size: 0.9rem;
+        }
+
+        .tools-section {
+            background: var(--darker);
+            padding: 60px 40px;
+            border-radius: 15px;
+            margin-top: 60px;
+        }
+
+        .tools-section h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            color: var(--lighter);
+            margin-bottom: 50px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 25px;
+        }
+
+        .tool-item {
+            text-align: center;
+            padding: 25px 15px;
+            background: var(--dark);
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .tool-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .tool-name {
+            color: var(--lighter);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Custom icons for Blender and Unity */
+        .fa-blender {
+            background: linear-gradient(45deg, #E87D0D, #F57921);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .fa-unity {
+            background: linear-gradient(45deg, #000000, #696969);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media (max-width: 1024px) {
+            .skills-categories {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .skills-categories {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .category-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .category-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .tools-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .skill-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .skill-level {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Fidele</a>
+                
+                <div class="hamburger">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                </div>
+
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="aboutus.html">About</a></li>
+                    <li><a href="skills.html" class="active">Skills</a></li>
+                    <li><a href="certifications.html">Certifications</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="contact.html" class="btn btn-outline" style="padding: 10px 15px; margin-left: 20px;">Contact Me</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="skills-page">
+        <div class="container">
+            <div class="skills-hero fade-in">
+                <h1>My Skills</h1>
+                <p>Technical expertise and professional capabilities that drive innovative solutions</p>
+            </div>
+
+            <div class="skills-categories">
+                <!-- Web Development Skills - DIV 1 -->
+                <div class="skill-category fade-in">
+                    <div class="category-header">
+                        <div class="category-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="category-title">Web Development</h3>
+                    </div>
+                    <ul class="skills-list">
+                        <li class="skill-item">
+                            <span class="skill-name">HTML/CSS</span>
+                            <div class="skill-level">
+                                <div class="skill-dots">
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                </div>
+                                <span class="skill-percentage">95%</span>
+                            </div>
+                        </li>
+                        <li class="skill-item">
+                            <span class="skill-name">JavaScript</span>
+                            <div class="skill-level">
+                                <div class="skill-dots">
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot"></div>
+                                </div>
+                                <span class="skill-percentage">80%</span>
+                            </div>
+                        </li>
+                        <li class="skill-item">
+                            <span class="skill-name">React</span>
+                            <div class="skill-level">
+                                <div class="skill-dots">
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                </div>
+                                <span class="skill-percentage">70%</span>
+                            </div>
+                        </li>
+                        <li class="skill-item">
+                            <span class="skill-name">Node.js</span>
+                            <div class="skill-level">
+                                <div class="skill-dots">
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                </div>
+                                <span class="skill-percentage">70%</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- UI/UX Design Skills - DIV 2 -->
+                <div class="skill-category fade-in" style="transition-delay: 0.1s;">
+                    <div class="category-header">
+                        <div class="category-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3 class="category-title">UI/UX Design</h3>
+                    </div>
+                    <ul class="skills-list">
+                        <li class="skill-item">
+                            <span class="skill-name">Figma</span>
+                            <div class="skill-level">
+                                <div class="skill-dots">
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                </div>
+                                <span class="skill-percentage">95%</span>
+                            </div>
+                        </li>
+                        <li class="skill-item">
+                            <span class="skill-name">Adobe XD</span>
+                            <div class="skill-level">
+                                <div class="skill-dots">
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot"></div>
+                                </div>
+                                <span class="skill-percentage">85%</span>
+                            </div>
+                        </li>
+                        <li class="skill-item">
+                            <span class="skill-name">Wireframing</span>
+                            <div class="skill-level">
+                                <div class="skill-dots">
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                </div>
+                                <span class="skill-percentage">95%</span>
+                            </div>
+                        </li>
+                        <li class="skill-item">
+                            <span class="skill-name">Prototyping</span>
+                            <div class="skill-level">
+                                <div class="skill-dots">
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot"></div>
+                                </div>
+                                <span class="skill-percentage">85%</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- App Development Skills - DIV 3 -->
+                <div class="skill-category fade-in" style="transition-delay: 0.2s;">
+                    <div class="category-header">
+                        <div class="category-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="category-title">App Development</h3>
+                    </div>
+                    <ul class="skills-list">
+                        <li class="skill-item">
+                            <span class="skill-name">React Native</span>
+                            <div class="skill-level">
+                                <div class="skill-dots">
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                </div>
+                                <span class="skill-percentage">70%</span>
+                            </div>
+                        </li>
+                        <li class="skill-item">
+                            <span class="skill-name">Flutter</span>
+                            <div class="skill-level">
+                                <div class="skill-dots">
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                </div>
+                                <span class="skill-percentage">50%</span>
+                            </div>
+                        </li>
+                        <li class="skill-item">
+                            <span class="skill-name">Android Studio</span>
+                            <div class="skill-level">
+                                <div class="skill-dots">
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                </div>
+                                <span class="skill-percentage">65%</span>
+                            </div>
+                        </li>
+                        <li class="skill-item">
+                            <span class="skill-name">API Integration</span>
+                            <div class="skill-level">
+                                <div class="skill-dots">
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot active"></div>
+                                    <div class="dot"></div>
+                                </div>
+                                <span class="skill-percentage">85%</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tools-section fade-in" style="transition-delay: 0.3s;">
+                <h2>Tools & Technologies</h2>
+                <div class="tools-grid">
+                    <div class="tool-item">
+                        <div class="tool-icon">
+                            <i class="fab fa-git-alt"></i>
+                        </div>
+                        <div class="tool-name">Git</div>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon">
+                            <i class="fab fa-figma"></i>
+                        </div>
+                        <div class="tool-name">Figma</div>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon">
+                            <i class="fab fa-js"></i>
+                        </div>
+                        <div class="tool-name">JavaScript</div>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon">
+                            <i class="fab fa-python"></i>
+                        </div>
+                        <div class="tool-name">Python</div>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="tool-name">MySQL</div>
+                    </div>
+                    
+                    
+                   
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="social-icons">
+                <a href="https://www.instagram.com/techwizard285/" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://github.com/INEZA-24" target="_blank" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                 <a href="https://discord.com/users/1280955016928297013" target="_blank" aria-label="Discord" class="discord-icon">
+    <i class="fab fa-discord"></i>
+</a>
+            </div>
+            <p>© <span id="year"></span> Fidele. All rights reserved.</p>
+            <div class="copyright">
+                <p>Built with passion and innovation</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="portifolio.js"></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const fadeInOnScroll = () => {
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        
+        fadeElements.forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        });
+        
+        window.addEventListener('scroll', fadeInOnScroll);
+        window.addEventListener('load', fadeInOnScroll);
+    </script>
+</body>
+
+</html>

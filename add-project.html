@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Project | Fidele</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    
+    <style>
+        /* Form Styles */
+        .admin-container {
+            max-width: 800px;
+            margin: 100px auto 50px;
+            padding: 40px;
+            background: var(--darker);
+            border-radius: 10px;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        
+        .admin-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .admin-header h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .form-grid {
+            display: grid;
+            gap: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--lighter);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(204, 214, 246, 0.2);
+            border-radius: 5px;
+            color: var(--light);
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .tags-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .tag {
+            background: rgba(52, 152, 219, 0.2);
+            color: var(--primary);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .tag .remove-tag {
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .preview-section {
+            background: rgba(2, 12, 27, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 1px dashed rgba(52, 152, 219, 0.3);
+        }
+        
+        .preview-card {
+            background: var(--dark);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn-save {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-save:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-back {
+            background: transparent;
+            color: var(--light);
+            border: 1px solid rgba(204, 214, 246, 0.3);
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .btn-back:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .status-message {
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .success {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            display: block;
+        }
+        
+        .error {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            display: block;
+        }
+        
+        /* Icon Selector */
+        .icon-selector {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .icon-option {
+            padding: 10px;
+            text-align: center;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--light);
+        }
+        
+        .icon-option:hover {
+            border-color: var(--primary);
+            background: rgba(52, 152, 219, 0.1);
+        }
+        
+        .icon-option.selected {
+            border-color: var(--primary);
+            background: rgba(52, 152, 219, 0.2);
+            color: var(--primary);
+        }
+        
+        .icon-option i {
+            font-size: 20px;
+            margin-bottom: 5px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+   <script src="script/admin-auth.js"></script>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Fidele</a>
+                <div class="hamburger">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                </div>
+               
+
+                <ul class="nav-links">
+    <li><a href="projects.html">← Back to Projects</a></li>
+    <li>
+    <a href="javascript:void(0)" onclick="forceLogout()" 
+       style="color: #e74c3c; padding: 8px 15px; border: 1px solid #e74c3c; border-radius: 5px;">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+</li>
+
+<script>
+// Add this script to BOTH admin pages
+function forceLogout() {
+    // Clear ALL storage
+    sessionStorage.clear();
+    localStorage.removeItem('adminAuthenticated');
+    sessionStorage.removeItem('adminAuthenticated');
+    
+    // Force redirect with timestamp to prevent cache
+    window.location.href = 'projects.html?logout=' + Date.now();
+}
+</script>
+</ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="admin-container">
+            <div class="admin-header">
+                <h1><i class="fas fa-plus-circle"></i> Add New Project</h1>
+                <p>Fill out the form below to add a new project to your portfolio</p>
+            </div>
+            
+            <div id="statusMessage" class="status-message"></div>
+            
+            <form id="projectForm" class="form-grid">
+                <!-- Basic Info -->
+                <div class="form-group">
+                    <label for="title"><i class="fas fa-heading"></i> Project Title *</label>
+                    <input type="text" id="title" placeholder="e.g., Smart Irrigation System" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description"><i class="fas fa-align-left"></i> Description *</label>
+                    <textarea id="description" placeholder="Describe your project in 2-3 sentences..." required></textarea>
+                </div>
+                
+                <!-- Image URL -->
+                <div class="form-group">
+                    <label for="imageUrl"><i class="fas fa-image"></i> Image URL *</label>
+                    <input type="url" id="imageUrl" placeholder="https://images.unsplash.com/photo-..." required>
+                    <small style="color: var(--light); opacity: 0.7;">Use Unsplash, Cloudinary, or upload to imgur</small>
+                </div>
+                
+                <!-- Tags -->
+                <div class="form-group">
+                    <label for="tags"><i class="fas fa-tags"></i> Technologies Used</label>
+                    <input type="text" id="tagInput" placeholder="Type a tag and press Enter (e.g., React, Python)">
+                    <div id="tagsContainer" class="tags-input">
+                        <!-- Tags will appear here -->
+                    </div>
+                </div>
+                
+                <!-- Links -->
+                <div class="form-group">
+                    <label for="githubUrl"><i class="fab fa-github"></i> GitHub URL</label>
+                    <input type="url" id="githubUrl" placeholder="https://github.com/INEZA-24/project">
+                </div>
+                
+                <div class="form-group">
+                    <label for="demoUrl"><i class="fas fa-external-link-alt"></i> Live Demo URL</label>
+                    <input type="url" id="demoUrl" placeholder="https://your-project.vercel.app">
+                </div>
+                
+                <!-- Icon Selector -->
+                <div class="form-group">
+                    <label><i class="fas fa-icons"></i> Select Icon</label>
+                    <div class="icon-selector">
+                        <div class="icon-option" data-icon="fa-code">
+                            <i class="fas fa-code"></i>
+                            <span>Code</span>
+                        </div>
+                        <div class="icon-option" data-icon="fa-robot">
+                            <i class="fas fa-robot"></i>
+                            <span>Robot</span>
+                        </div>
+                        <div class="icon-option" data-icon="fa-seedling">
+                            <i class="fas fa-seedling"></i>
+                            <span>Plant</span>
+                        </div>
+                        <div class="icon-option" data-icon="fa-shopping-cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Shop</span>
+                        </div>
+                        <div class="icon-option" data-icon="fa-chart-line">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Chart</span>
+                        </div>
+                        <div class="icon-option" data-icon="fa-mobile-alt">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>Mobile</span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="selectedIcon" value="fa-code">
+                </div>
+                
+                <!-- Preview -->
+                <div class="preview-section">
+                    <h3 style="color: var(--lighter); margin-bottom: 15px;">
+                        <i class="fas fa-eye"></i> Live Preview
+                    </h3>
+                    <div id="projectPreview" class="preview-card">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <h4 style="color: var(--lighter); margin: 0;">Project Title</h4>
+                            <i class="fas fa-code" style="color: var(--primary);"></i>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <span style="background: rgba(52, 152, 219, 0.1); color: var(--primary); 
+                                       padding: 3px 8px; border-radius: 10px; font-size: 12px;">
+                                Tag
+                            </span>
+                        </div>
+                        <p style="color: rgba(204, 214, 246, 0.7); margin: 10px 0; font-size: 14px;">
+                            Project description will appear here...
+                        </p>
+                        <div style="display: flex; gap: 15px; margin-top: 15px;">
+                            <a href="#" style="color: var(--primary); text-decoration: none; font-size: 14px;">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                            <a href="#" style="color: var(--primary); text-decoration: none; font-size: 14px;">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Submit Buttons -->
+                <div class="btn-group">
+                    <a href="projects.html" class="btn-back">Cancel</a>
+                    <button type="submit" class="btn-save">
+                        <i class="fas fa-save"></i> Save Project
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('projectForm');
+        const tagInput = document.getElementById('tagInput');
+        const tagsContainer = document.getElementById('tagsContainer');
+        const selectedIconInput = document.getElementById('selectedIcon');
+        const statusMessage = document.getElementById('statusMessage');
+        const preview = document.getElementById('projectPreview');
+        
+        let tags = [];
+        
+        // Update preview in real-time
+        function updatePreview() {
+            const title = document.getElementById('title').value || 'Project Title';
+            const description = document.getElementById('description').value || 'Project description will appear here...';
+            const icon = selectedIconInput.value;
+            
+            preview.innerHTML = `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <h4 style="color: var(--lighter); margin: 0;">${title}</h4>
+                    <i class="fas ${icon}" style="color: var(--primary);"></i>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    ${tags.map(tag => `
+                        <span style="background: rgba(52, 152, 219, 0.1); color: var(--primary); 
+                                   padding: 3px 8px; border-radius: 10px; font-size: 12px; margin-right: 5px;">
+                            ${tag}
+                        </span>
+                    `).join('')}
+                    ${tags.length === 0 ? '<span style="color: rgba(204, 214, 246, 0.5); font-size: 12px;">No tags added</span>' : ''}
+                </div>
+                <p style="color: rgba(204, 214, 246, 0.7); margin: 10px 0; font-size: 14px; line-height: 1.5;">
+                    ${description}
+                </p>
+                <div style="display: flex; gap: 15px; margin-top: 15px;">
+                    ${document.getElementById('githubUrl').value ? `
+                        <a href="#" style="color: var(--primary); text-decoration: none; font-size: 14px;">
+                            <i class="fab fa-github"></i> Code
+                        </a>
+                    ` : ''}
+                    ${document.getElementById('demoUrl').value ? `
+                        <a href="#" style="color: var(--primary); text-decoration: none; font-size: 14px;">
+                            <i class="fas fa-external-link-alt"></i> Live Demo
+                        </a>
+                    ` : ''}
+                    ${!document.getElementById('githubUrl').value && !document.getElementById('demoUrl').value ? 
+                        '<span style="color: rgba(204, 214, 246, 0.5); font-size: 14px;">No links added</span>' : ''}
+                </div>
+            `;
+        }
+        
+        // Listen for input changes
+        document.querySelectorAll('#title, #description, #githubUrl, #demoUrl').forEach(input => {
+            input.addEventListener('input', updatePreview);
+        });
+        
+        // Tag system
+        tagInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const tag = this.value.trim();
+                if (tag && !tags.includes(tag)) {
+                    tags.push(tag);
+                    renderTags();
+                    this.value = '';
+                    updatePreview();
+                }
+            }
+        });
+        
+        function renderTags() {
+            tagsContainer.innerHTML = tags.map((tag, index) => `
+                <div class="tag">
+                    ${tag}
+                    <span class="remove-tag" onclick="removeTag(${index})">×</span>
+                </div>
+            `).join('');
+        }
+        
+        window.removeTag = function(index) {
+            tags.splice(index, 1);
+            renderTags();
+            updatePreview();
+        };
+        
+        // Icon selection
+        document.querySelectorAll('.icon-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.icon-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                selectedIconInput.value = this.dataset.icon;
+                updatePreview();
+            });
+        });
+        
+        // Form submission
+                // Form submission - REPLACE THIS SECTION
+        form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Create project object
+    const project = {
+        id: Date.now(), // Unique ID
+        title: document.getElementById('title').value,
+        description: document.getElementById('description').value,
+        image: document.getElementById('imageUrl').value,
+        tags: tags,
+        github: document.getElementById('githubUrl').value || '#',
+        demo: document.getElementById('demoUrl').value || '#',
+        icon: selectedIconInput.value
+    };
+    
+    try {
+        // 1. Get existing projects from BOTH localStorage AND JSON
+        let allProjects = [];
+        
+        // First try localStorage
+        const localProjects = localStorage.getItem('portfolioProjects');
+        if (localProjects) {
+            allProjects = JSON.parse(localProjects);
+            console.log('Found', allProjects.length, 'projects in localStorage');
+        }
+        
+        // If localStorage empty, try JSON file
+        if (allProjects.length === 0) {
+            try {
+                const response = await fetch('data/projects.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    allProjects = data.projects || [];
+                    console.log('Loaded', allProjects.length, 'projects from JSON file');
+                }
+            } catch (error) {
+                console.log('No existing projects found, starting fresh');
+            }
+        }
+        
+        // 2. Add new project to the BEGINNING (so newest shows first)
+        allProjects.unshift(project);
+        
+        // 3. Save to localStorage
+        localStorage.setItem('portfolioProjects', JSON.stringify(allProjects));
+        
+        // 4. Also try to save to JSON file (optional)
+        try {
+            await fetch('data/save-project.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ projects: allProjects })
+            });
+        } catch (error) {
+            console.log('Saved to localStorage only (works offline!)');
+        }
+        
+        // Show success message
+        showMessage('✅ Project added successfully!', 'success');
+        
+        // Clear form
+        form.reset();
+        tags = [];
+        renderTags();
+        updatePreview();
+        
+        // Redirect after 2 seconds
+        setTimeout(() => {
+            window.location.href = 'projects.html';
+        }, 2000);
+        
+    } catch (error) {
+        showMessage('❌ Error: ' + error.message, 'error');
+    }
+});
+        
+        function showMessage(text, type) {
+            statusMessage.textContent = text;
+            statusMessage.className = `status-message ${type}`;
+            statusMessage.style.display = 'block';
+            
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Initialize preview
+        updatePreview();
+    });
+    </script>
+</body>
+</html>

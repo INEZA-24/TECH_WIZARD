@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | FIDELE Portfolio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        /* Contact Page Specific Styles */
+        #contact {
+            padding: 100px 0;
+            min-height: 100vh;
+        }
+        
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-top: 30px;
+        }
+        
+        .contact-info {
+            background-color: var(--darker);
+            padding: 40px;
+            border-radius: 10px;
+            border: 1px solid rgba(204, 214, 246, 0.1);
+        }
+        
+        .contact-info h2 {
+            color: var(--lighter);
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(204, 214, 246, 0.1);
+        }
+        
+        .contact-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .contact-item i {
+            font-size: 24px;
+            color: var(--primary);
+            background-color: rgba(52, 152, 219, 0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .contact-item h3 {
+            color: var(--lighter);
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+        
+        .contact-item p {
+            color: var(--light);
+            opacity: 0.8;
+        }
+        
+        .social-links-contact {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+        }
+        
+        .social-links-contact a {
+            color: var(--light);
+            font-size: 20px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: rgba(52, 152, 219, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .social-links-contact a:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+            background-color: rgba(52, 152, 219, 0.2);
+        }
+        
+        .contact-form-container {
+            background-color: var(--darker);
+            padding: 40px;
+            border-radius: 10px;
+            border: 1px solid rgba(204, 214, 246, 0.1);
+        }
+        
+        .contact-form-container h2 {
+            color: var(--lighter);
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--lighter);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(10, 25, 47, 0.5);
+            border: 1px solid rgba(204, 214, 246, 0.1);
+            border-radius: 5px;
+            color: var(--light);
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .required {
+            color: var(--primary);
+        }
+        
+        .submit-btn-contact {
+            background-color: var(--primary);
+            color: var(--dark);
+            border: none;
+            padding: 15px 35px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .submit-btn-contact:hover:not(.loading) {
+            background-color: transparent;
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        
+        .submit-btn-contact.loading {
+            opacity: 0.7;
+            cursor: not-allowed;
+            background-color: #666;
+        }
+        
+        .form-message {
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .form-message.success {
+            background-color: rgba(52, 211, 153, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        
+        .form-message.error {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive styles for contact page */
+        @media (max-width: 992px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .contact-info,
+            .contact-form-container {
+                padding: 30px 20px;
+            }
+            
+            #contact {
+                padding: 80px 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .contact-item i {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .social-links-contact {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header> 
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Fidele</a>
+                
+                <div class="hamburger">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                </div>
+
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="aboutus.html">About</a></li>
+                    <li><a href="skills.html">Skills</a></li>
+                    <li><a href="certifications.html">Certifications</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="contact.html" class="btn btn-outline active" style="padding: 10px 15px; margin-left: 20px;">Contact Me</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="contact">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Get In Touch</h2>
+            </div>
+            
+            <div class="contact-container">
+                <!-- Contact Information -->
+                <div class="contact-info fade-in" style="transition-delay: 0.1s;">
+                    <h2>Contact Information</h2>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Location</h3>
+                            <p>Kigali, Rwanda</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>Email Address</h3>
+                            <p>inezafidele126@gmail.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>Phone Number</h3>
+                            <p>+250 796 485 717</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>Availability</h3>
+                            <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                            <p>Response Time: Within 48 hours</p>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links-contact">
+                        <a href="https://www.instagram.com/techwizard285/" target="_blank" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://github.com/INEZA-24" target="_blank" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+                <!-- Contact Form -->
+                <div class="contact-form-container fade-in" style="transition-delay: 0.2s;">
+                    <h2>Send a Message</h2>
+                    
+                    <!-- 
+                        STEP 1: Replace "YOUR_FORM_ID" with your actual Formspree Form ID
+                        Get it from: https://formspree.io/forms
+                    -->
+                    <form 
+                        id="contactForm" 
+                        action="https://formspree.io/f/xvzpqpyg" 
+                        method="POST"
+                    >
+                        <!-- Formspree hidden inputs -->
+                        <div style="display: none;">
+                            <input type="hidden" name="_next" value="#">
+                            <input type="hidden" name="_subject" value="New Contact Form Submission - Fidele Portfolio">
+                            <input type="hidden" name="_gotcha" style="display:none">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="name">Full Name <span class="required">*</span></label>
+                            <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" placeholder="What is this regarding?">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Your Message <span class="required">*</span></label>
+                            <textarea id="message" name="message" required placeholder="Tell me about your project, inquiry, or collaboration opportunity..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn-contact" id="submitBtn">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Send Message</span>
+                        </button>
+                    </form>
+                    
+                    <div class="form-message success" id="successMessage">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="successText">Message sent successfully! I'll get back to you within 24 hours.</span>
+                    </div>
+                    
+                    <div class="form-message error" id="errorMessage">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span id="errorText">Something went wrong. Please try again or contact me directly via email.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="social-icons">
+                <a href="https://www.instagram.com/techwizard285/" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://github.com/INEZA-24" target="_blank" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                 <a href="https://discord.com/users/1280955016928297013" target="_blank" aria-label="Discord" class="discord-icon">
+    <i class="fab fa-discord"></i>
+</a>
+            </div>
+            <p>© <span id="year"></span> Fidele. All rights reserved.</p>
+            <div class="copyright">
+                <p>Built with passion and innovation</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="portifolio.js"></script> 
+    <script>
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Contact form handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contactForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            const successText = document.getElementById('successText');
+            const errorText = document.getElementById('errorText');
+            
+            // Handle form submission
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                submitBtn.classList.add('loading');
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Sending...</span>';
+                
+                // Hide any previous messages
+                successMessage.style.display = 'none';
+                errorMessage.style.display = 'none';
+                
+                // Collect form data
+                const formData = new FormData(form);
+                
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        // Success!
+                        successText.textContent = 'Message sent successfully! I\'ll get back to you within 48 hours.';
+                        successMessage.style.display = 'block';
+                        errorMessage.style.display = 'none';
+                        
+                        // Reset form
+                        form.reset();
+                        
+                        // Hide success message after 5 seconds
+                        setTimeout(() => {
+                            successMessage.style.display = 'none';
+                        }, 5000);
+                    } else {
+                        // Handle Formspree errors
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || 'Form submission failed');
+                    }
+                } catch (error) {
+                    console.error('Form submission error:', error);
+                    
+                    // Show error message
+                    errorText.textContent = error.message || 'Something went wrong. Please try again or contact me directly via email.';
+                    errorMessage.style.display = 'block';
+                    successMessage.style.display = 'none';
+                    
+                    // Hide error message after 5 seconds
+                    setTimeout(() => {
+                        errorMessage.style.display = 'none';
+                    }, 5000);
+                } finally {
+                    // Reset button state
+                    submitBtn.classList.remove('loading');
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i><span>Send Message</span>';
+                }
+            });
+            
+            // Real-time form validation
+            const inputs = form.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                // Add visual feedback on focus
+                input.addEventListener('focus', function() {
+                    this.style.borderColor = 'var(--primary)';
+                });
+                
+                // Add validation on blur
+                input.addEventListener('blur', function() {
+                    if (this.hasAttribute('required') && this.value.trim() === '') {
+                        this.style.borderColor = '#ef4444';
+                    } else {
+                        this.style.borderColor = this.value.trim() ? 'var(--primary)' : 'rgba(204, 214, 246, 0.1)';
+                    }
+                });
+                
+                // Clear error when user starts typing
+                input.addEventListener('input', function() {
+                    if (this.value.trim()) {
+                        this.style.borderColor = 'var(--primary)';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
