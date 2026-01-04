@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skills | FIDELE Portfolio</title>
     <link rel="icon" type="image/png" href="images/flash.png">
-<meta name="theme-color" content="#0a192f">
+    <meta name="theme-color" content="#0a192f">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
@@ -224,6 +224,10 @@
             .tools-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
+            
+            .skills-page {
+                padding: 100px 0 60px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -246,24 +250,26 @@
 </head>
 
 <body>
-    <header>
+    <header> 
         <div class="container">
             <nav>
                 <a href="index.html" class="logo">Fidele</a>
                 
-                <div class="hamburger">
+                <!-- Hamburger Menu - Only shows on mobile -->
+                <div class="hamburger" id="hamburger">
                     <span class="line"></span>
                     <span class="line"></span>
                     <span class="line"></span>
                 </div>
 
-                <ul class="nav-links">
+                <!-- Navigation Links - Shows on desktop, hidden on mobile until hamburger clicked -->
+                <ul class="nav-links" id="navLinks">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="aboutus.html">About</a></li>
                     <li><a href="skills.html" class="active">Skills</a></li>
                     <li><a href="certifications.html">Certifications</a></li>
                     <li><a href="projects.html">Projects</a></li>
-                    <li><a href="contact.html" class="btn btn-outline" style="padding: 10px 15px; margin-left: 20px;">Contact Me</a></li>
+                    <li><a href="contact.html" class="btn btn-outline contact-btn">Contact Me</a></li>
                 </ul>
             </nav>
         </div>
@@ -503,9 +509,6 @@
                         </div>
                         <div class="tool-name">MySQL</div>
                     </div>
-                    
-                    
-                   
                 </div>
             </div>
         </div>
@@ -517,15 +520,14 @@
                 <a href="https://www.instagram.com/techwizard285/" target="_blank" aria-label="Instagram">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://github.com/INEZA-24" target="_blank" aria-label="GitHub">
-                    <i class="fab fa-github"></i>
+                
                 </a>
                 <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" aria-label="LinkedIn">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
-                 <a href="https://discord.com/users/1280955016928297013" target="_blank" aria-label="Discord" class="discord-icon">
-    <i class="fab fa-discord"></i>
-</a>
+                <a href="https://discord.com/users/1280955016928297013" target="_blank" aria-label="Discord" class="discord-icon">
+                    <i class="fab fa-discord"></i>
+                </a>
             </div>
             <p>© <span id="year"></span> Fidele. All rights reserved.</p>
             <div class="copyright">
@@ -534,32 +536,130 @@
         </div>
     </footer>
 
-    <script src="portifolio.js"></script>
     <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
+        // Mobile Navigation Toggle - SAME AS INDEX.HTML
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        const body = document.body;
         
-        const fadeElements = document.querySelectorAll('.fade-in');
-        
-        const fadeInOnScroll = () => {
-            fadeElements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 150;
-                
-                if (elementTop < window.innerHeight - elementVisible) {
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                body.classList.toggle('no-scroll');
+            });
+            
+            // Close menu when clicking a link
+            const navItems = document.querySelectorAll('.nav-links a');
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    body.classList.remove('no-scroll');
+                });
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    body.classList.remove('no-scroll');
                 }
             });
-        };
+            
+            // Close menu with ESC key
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    body.classList.remove('no-scroll');
+                }
+            });
+        }
         
-        fadeElements.forEach(element => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(20px)';
-            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        // Handle window resize - close menu if resized to desktop
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                if (hamburger) hamburger.classList.remove('active');
+                if (navLinks) navLinks.classList.remove('active');
+                body.classList.remove('no-scroll');
+            }
         });
         
-        window.addEventListener('scroll', fadeInOnScroll);
-        window.addEventListener('load', fadeInOnScroll);
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Fade in animation for new sections
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const fadeInObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                        fadeInObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                fadeInObserver.observe(el);
+            });
+        });
+        
+        // Add this for smooth page transitions (optional enhancement)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add smooth transition when navigating between pages
+            document.querySelectorAll('a').forEach(link => {
+                if (link.href && !link.href.includes('#')) {
+                    link.addEventListener('click', function(e) {
+                        // Only apply to internal links
+                        if (this.hostname === window.location.hostname) {
+                            e.preventDefault();
+                            document.body.style.opacity = '0.7';
+                            document.body.style.transition = 'opacity 0.3s ease';
+                            
+                            setTimeout(() => {
+                                window.location.href = this.href;
+                            }, 300);
+                        }
+                    });
+                }
+            });
+            
+            // Fade in page on load
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+            
+            // Add skill animation on scroll
+            const skillCategories = document.querySelectorAll('.skill-category');
+            const skillObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.transform = 'translateY(0)';
+                        entry.target.style.opacity = '1';
+                        skillObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            skillCategories.forEach(category => {
+                category.style.transform = 'translateY(30px)';
+                category.style.opacity = '0';
+                category.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
+                skillObserver.observe(category);
+            });
+        });
     </script>
 </body>
 

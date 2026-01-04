@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certifications | FIDELE Portfolio</title>
     <link rel="icon" type="image/png" href="images/flash.png">
-<meta name="theme-color" content="#0a192f">
+    <meta name="theme-color" content="#0a192f">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
@@ -483,6 +483,10 @@
             .certificate-image-container {
                 padding: 15px;
             }
+            
+            .certifications-page {
+                padding: 100px 0 60px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -512,24 +516,26 @@
 </head>
 
 <body>
-    <header>
+    <header> 
         <div class="container">
             <nav>
                 <a href="index.html" class="logo">Fidele</a>
                 
-                <div class="hamburger">
+                <!-- Hamburger Menu - Only shows on mobile -->
+                <div class="hamburger" id="hamburger">
                     <span class="line"></span>
                     <span class="line"></span>
                     <span class="line"></span>
                 </div>
 
-                <ul class="nav-links">
+                <!-- Navigation Links - Shows on desktop, hidden on mobile until hamburger clicked -->
+                <ul class="nav-links" id="navLinks">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="aboutus.html">About</a></li>
                     <li><a href="skills.html">Skills</a></li>
                     <li><a href="certifications.html" class="active">Certifications</a></li>
                     <li><a href="projects.html">Projects</a></li>
-                    <li><a href="contact.html" class="btn btn-outline" style="padding: 10px 15px; margin-left: 20px;">Contact Me</a></li>
+                    <li><a href="contact.html" class="btn btn-outline contact-btn">Contact Me</a></li>
                 </ul>
             </nav>
         </div>
@@ -589,12 +595,9 @@
                     <div class="cert-skills">
                         <span class="skill-tag">HTML</span>
                         <span class="skill-tag">CSS</span>
-                        <!-- <span class="skill-tag">MongoDB</span>
-                        <span class="skill-tag">API Development</span>
-                        <span class="skill-tag">DevOps</span> -->
                     </div>
                     <div class="cert-actions">
-                        <a href="images/HTML AND CSS CERTIFICATE EDX-1.png" class="cert-btn cert-btn-primary" data-view-cert="fullstack.jpg" data-title="Full Stack Web Development" data-issuer="Meta" data-date="May 2023">
+                        <a href="images/HTML AND CSS CERTIFICATE EDX-1.png" class="cert-btn cert-btn-primary" data-view-cert="fullstack.jpg" data-title="HTML & CSS Certificate" data-issuer="WSCX/EDX" data-date="April 2025">
                             <i class="fas fa-image"></i>
                             View Certificate
                         </a>
@@ -618,10 +621,9 @@
                     <div class="cert-skills">
                         <span class="skill-tag">object-oriented programming</span>
                         <span class="skill-tag">Fundamentals</span>
-                        
                     </div>
                     <div class="cert-actions">
-                        <a href="images/Harvard_certificate_for_python-1.png" class="cert-btn cert-btn-primary" data-view-cert="uiux.jpg" data-title="UI/UX Design Specialization" data-issuer="Google" data-date="November 2022">
+                        <a href="images/Harvard_certificate_for_python-1.png" class="cert-btn cert-btn-primary" data-view-cert="uiux.jpg" data-title="Python Certificate" data-issuer="HARVARDX/EDX" data-date="August 2025">
                             <i class="fas fa-image"></i>
                             View Certificate
                         </a>
@@ -646,10 +648,9 @@
                         <span class="skill-tag">AI Tools & Programming Support</span>
                         <span class="skill-tag">Creative AI Applications</span>
                         <span class="skill-tag">Problem Solving & Project Work</span>
-                        
                     </div>
                     <div class="cert-actions">
-                        <a href="images/HTML AND CSS CERTIFICATE EDX-1.png" class="cert-btn cert-btn-primary" data-view-cert="sql.jpg" data-title="SQL & Database Management" data-issuer="University of Michigan" data-date="August 2022">
+                        <a href="images/HTML AND CSS CERTIFICATE EDX-1.png" class="cert-btn cert-btn-primary" data-view-cert="sql.jpg" data-title="AI Fundamentals" data-issuer="ALX" data-date="August 2025">
                             <i class="fas fa-image"></i>
                             View Certificate
                         </a>
@@ -678,7 +679,7 @@
                         <span class="skill-tag">Risk Management</span>
                     </div>
                     <div class="cert-actions">
-                        <a href="images/Ethical_Hacker Cisco-1.png" class="cert-btn cert-btn-primary" data-view-cert="cybersecurity.jpg" data-title="Cybersecurity Fundamentals" data-issuer="IBM" data-date="June 2022">
+                        <a href="images/Ethical_Hacker Cisco-1.png" class="cert-btn cert-btn-primary" data-view-cert="cybersecurity.jpg" data-title="Cybersecurity Fundamentals" data-issuer="CISCO NETWORKING" data-date="July 2025">
                             <i class="fas fa-image"></i>
                             View Certificate
                         </a>
@@ -728,13 +729,12 @@
                 <a href="https://www.instagram.com/techwizard285/" target="_blank" aria-label="Instagram">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://github.com/INEZA-24" target="_blank" aria-label="GitHub">
-                    <i class="fab fa-github"></i>
+                
                 </a>
                 <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" aria-label="LinkedIn">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
-                 <a href="https://discord.com/users/1280955016928297013" target="_blank" aria-label="Discord" class="discord-icon">
+                <a href="https://discord.com/users/1280955016928297013" target="_blank" aria-label="Discord" class="discord-icon">
                     <i class="fab fa-discord"></i>
                 </a>
             </div>
@@ -746,8 +746,61 @@
     </footer>
 
     <script>
+        // Mobile Navigation Toggle - SAME AS INDEX.HTML
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        const body = document.body;
+        
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                body.classList.toggle('no-scroll');
+            });
+            
+            // Close menu when clicking a link
+            const navItems = document.querySelectorAll('.nav-links a');
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    body.classList.remove('no-scroll');
+                });
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    body.classList.remove('no-scroll');
+                }
+            });
+            
+            // Close menu with ESC key
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    body.classList.remove('no-scroll');
+                }
+            });
+        }
+        
+        // Handle window resize - close menu if resized to desktop
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                if (hamburger) hamburger.classList.remove('active');
+                if (navLinks) navLinks.classList.remove('active');
+                body.classList.remove('no-scroll');
+            }
+        });
+        
+        // Set current year in footer
         document.getElementById('year').textContent = new Date().getFullYear();
-
+        
+        // Animation and certificate popup functionality
         function animateOnScroll() {
             const certCards = document.querySelectorAll('.certification-card');
             const statItems = document.querySelectorAll('.stat-item');
@@ -910,6 +963,35 @@
         window.addEventListener('load', function() {
             setTimeout(animateOnScroll, 500);
             collectCertificates();
+            
+            // Fade in page on load
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Add smooth page transitions (optional enhancement)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add smooth transition when navigating between pages
+            document.querySelectorAll('a').forEach(link => {
+                if (link.href && !link.href.includes('#') && link.hostname === window.location.hostname) {
+                    link.addEventListener('click', function(e) {
+                        // Only apply to internal links
+                        if (this.hostname === window.location.hostname) {
+                            e.preventDefault();
+                            document.body.style.opacity = '0.7';
+                            document.body.style.transition = 'opacity 0.3s ease';
+                            
+                            setTimeout(() => {
+                                window.location.href = this.href;
+                            }, 300);
+                        }
+                    });
+                }
+            });
         });
 
         window.addEventListener('scroll', animateOnScroll);

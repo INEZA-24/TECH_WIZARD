@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FIDELE | Projects</title>
     <link rel="icon" type="image/png" href="images/flash.png">
-<meta name="theme-color" content="#0a192f">
+    <meta name="theme-color" content="#0a192f">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
@@ -43,19 +43,21 @@
             <nav>
                 <a href="index.html" class="logo">Fidele</a>
                 
-                <div class="hamburger">
+                <!-- Hamburger Menu - Only shows on mobile -->
+                <div class="hamburger" id="hamburger">
                     <span class="line"></span>
                     <span class="line"></span>
                     <span class="line"></span>
                 </div>
 
-                <ul class="nav-links">
+                <!-- Navigation Links - Shows on desktop, hidden on mobile until hamburger clicked -->
+                <ul class="nav-links" id="navLinks">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="aboutus.html">About</a></li>
                     <li><a href="skills.html">Skills</a></li>
                     <li><a href="certifications.html">Certifications</a></li>
                     <li><a href="projects.html" class="active">Projects</a></li>
-                    <li><a href="contact.html" class="btn btn-outline" style="padding: 10px 15px; margin-left: 20px;">Contact Me</a></li>
+                    <li><a href="contact.html" class="btn btn-outline contact-btn">Contact Me</a></li>
                 </ul>
             </nav>
         </div>
@@ -77,10 +79,7 @@
                     <span class="projects-intro-highlight">creative problem-solving</span> to build impactful solutions. 
                     Each project represents a unique challenge I've tackled, from hardware prototypes to sophisticated web applications.
                 </p>
-                <p>
-                    The grid below is designed to automatically adjust - when there's an odd number of projects, 
-                    the last one will elegantly span across all three columns for perfect visual balance.
-                </p>
+                
                 <!-- Add this inside the projects-intro div -->
                  
 <div style="text-align: center; margin-top: 40px;">
@@ -99,12 +98,6 @@
     </p>
 </div>
 
-<script>
-function clearAdminSession() {
-    sessionStorage.removeItem('adminAuthenticated');
-    alert('Admin session cleared. Need password again.');
-}
-</script>
             </div>
 
             <!-- Projects Grid -->
@@ -300,15 +293,14 @@ function clearAdminSession() {
                 <a href="https://www.instagram.com/techwizard285/" target="_blank" aria-label="Instagram">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://github.com/INEZA-24" target="_blank" aria-label="GitHub">
-                    <i class="fab fa-github"></i>
+                
                 </a>
                 <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" aria-label="LinkedIn">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
-                 <a href="https://discord.com/users/1280955016928297013" target="_blank" aria-label="Discord" class="discord-icon">
-    <i class="fab fa-discord"></i>
-</a>
+                <a href="https://discord.com/users/1280955016928297013" target="_blank" aria-label="Discord" class="discord-icon">
+                    <i class="fab fa-discord"></i>
+                </a>
             </div>
             <p>© <span id="year"></span> Fidele. All rights reserved.</p>
             <div class="copyright">
@@ -317,206 +309,264 @@ function clearAdminSession() {
         </div>
     </footer>
 
-    <!-- JavaScript files -->
-    <!-- CHANGE YOUR projects.js TO THIS SIMPLE VERSION: -->
-       <script>
-// ===== PROJECTS LOADER & ANIMATIONS =====
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // 1. LOAD AND DISPLAY PROJECTS
-    async function loadProjects() {
-        const grid = document.getElementById('projectsGrid');
+    <!-- JavaScript -->
+    <script>
+        // ===== HAMBURGER MENU FUNCTIONALITY =====
+        // This will NOT conflict with your existing code
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        const body = document.body;
         
-        try {
-            // ALWAYS check localStorage first (where form saves)
-            const localProjects = localStorage.getItem('portfolioProjects');
-            let projects = [];
+        // Only add hamburger functionality if elements exist
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                body.classList.toggle('no-scroll');
+            });
             
-            if (localProjects) {
-                projects = JSON.parse(localProjects);
-                console.log('✅ Loaded', projects.length, 'projects from browser storage');
-            }
+            // Close menu when clicking links
+            const navItems = document.querySelectorAll('.nav-links a');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    body.classList.remove('no-scroll');
+                });
+            });
             
-            // If no projects in localStorage, check JSON file
-            if (projects.length === 0) {
-                try {
-                    const response = await fetch('data/projects.json');
-                    if (response.ok) {
-                        const data = await response.json();
-                        projects = data.projects || [];
-                        console.log('📁 Loaded', projects.length, 'projects from JSON file');
-                        
-                        // Also save to localStorage for next time
-                        localStorage.setItem('portfolioProjects', JSON.stringify(projects));
-                    }
-                } catch (error) {
-                    console.log('No projects found anywhere');
-                }
-            }
-            
-            // CALL DISPLAY FUNCTION WITH THE LOADED PROJECTS
-            displayProjects(projects);
-            
-        } catch (error) {
-            console.error('Error loading projects:', error);
-            // Show empty state
-            grid.innerHTML = `
-                <div style="grid-column: 1/-1; text-align: center; padding: 50px;">
-                    <h3 style="color: var(--lighter); margin-bottom: 20px;">No projects yet</h3>
-                    <p style="color: rgba(204, 214, 246, 0.7); margin-bottom: 30px;">
-                        Add your first project using the form above
-                    </p>
-                    <a href="add-project.html" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Add Your First Project
-                    </a>
-                </div>
-            `;
-        }
-    } // <-- THIS CLOSES THE loadProjects() FUNCTION
-    
-    // 2. DISPLAY PROJECTS IN GRID
-    function displayProjects(projects) {
-        const grid = document.getElementById('projectsGrid');
-        
-        if (projects.length === 0) {
-            grid.innerHTML = `
-                <div style="grid-column: 1/-1; text-align: center; padding: 50px;">
-                    <h3 style="color: var(--lighter); margin-bottom: 20px;">No projects yet</h3>
-                    <a href="add-project.html" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Add Your First Project
-                    </a>
-                </div>
-            `;
-            return;
-        }
-        
-        // Clear grid
-        grid.innerHTML = '';
-        
-        // Add each project
-        projects.forEach((project, index) => {
-            const projectCard = `
-                <div class="project-card scroll-animate stagger-item">
-                    <div class="project-image">
-                        <img src="${project.image}?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
-                             alt="${project.title}" 
-                             onerror="this.src='https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
-                    </div>
-                    <div class="project-content">
-                        <div class="project-header">
-                            <h3 class="project-title">${project.title}</h3>
-                            <i class="fas ${project.icon || 'fa-code'} project-icon"></i>
-                        </div>
-                        <div class="project-tech">
-                            ${(project.tags || []).map(tag => 
-                                `<span class="tech-tag">${tag}</span>`
-                            ).join('')}
-                        </div>
-                        <p class="project-description">
-                            ${project.description}
-                        </p>
-                        <div class="project-links">
-                            ${project.github && project.github !== '#' ? 
-                                `<a href="${project.github}" target="_blank" class="project-link">
-                                    <i class="fab fa-github"></i> Code
-                                </a>` : ''}
-                            ${project.demo && project.demo !== '#' ? 
-                                `<a href="${project.demo}" target="_blank" class="project-link">
-                                    <i class="fas fa-external-link-alt"></i> Live Demo
-                                </a>` : ''}
-                        </div>
-                    </div>
-                </div>
-            `;
-            grid.innerHTML += projectCard;
-        });
-        
-        // 3. BALANCE GRID (make last project full-width if odd number)
-        balanceProjectsGrid();
-        
-        // 4. INITIALIZE ANIMATIONS
-        initAnimations();
-    }
-    
-    // 3. GRID BALANCING FUNCTION
-    function balanceProjectsGrid() {
-        const grid = document.getElementById('projectsGrid');
-        if (!grid) return;
-        
-        const projectCards = grid.querySelectorAll('.project-card');
-        const cardCount = projectCards.length;
-        
-        // Remove any existing full-width classes
-        projectCards.forEach(card => {
-            card.classList.remove('project-card-full');
-        });
-        
-        // If odd number of projects, make last one full-width
-        if (cardCount > 1 && cardCount % 2 !== 0) {
-            projectCards[cardCount - 1].classList.add('project-card-full');
-        }
-    }
-    
-    // 4. SCROLL ANIMATIONS
-    function initAnimations() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                    
-                    // Stagger animation for items in container
-                    if (entry.target.classList.contains('stagger-container')) {
-                        const items = entry.target.querySelectorAll('.stagger-item');
-                        items.forEach((item, index) => {
-                            setTimeout(() => {
-                                item.classList.add('show');
-                            }, index * 100);
-                        });
-                    }
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!navLinks.contains(event.target) && !hamburger.contains(event.target) && navLinks.classList.contains('active')) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    body.classList.remove('no-scroll');
                 }
             });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            
+            // Close menu with ESC key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && navLinks.classList.contains('active')) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    body.classList.remove('no-scroll');
+                }
+            });
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    body.classList.remove('no-scroll');
+                }
+            });
+        }
+        
+        // ===== YOUR EXISTING PROJECTS CODE =====
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. LOAD AND DISPLAY PROJECTS
+            async function loadProjects() {
+                const grid = document.getElementById('projectsGrid');
+                
+                try {
+                    // ALWAYS check localStorage first (where form saves)
+                    const localProjects = localStorage.getItem('portfolioProjects');
+                    let projects = [];
+                    
+                    if (localProjects) {
+                        projects = JSON.parse(localProjects);
+                        console.log('✅ Loaded', projects.length, 'projects from browser storage');
+                    }
+                    
+                    // If no projects in localStorage, check JSON file
+                    if (projects.length === 0) {
+                        try {
+                            const response = await fetch('data/projects.json');
+                            if (response.ok) {
+                                const data = await response.json();
+                                projects = data.projects || [];
+                                console.log('📁 Loaded', projects.length, 'projects from JSON file');
+                                
+                                // Also save to localStorage for next time
+                                localStorage.setItem('portfolioProjects', JSON.stringify(projects));
+                            }
+                        } catch (error) {
+                            console.log('No projects found anywhere');
+                        }
+                    }
+                    
+                    // CALL DISPLAY FUNCTION WITH THE LOADED PROJECTS
+                    displayProjects(projects);
+                    
+                } catch (error) {
+                    console.error('Error loading projects:', error);
+                    // Show empty state
+                    grid.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 50px;">
+                            <h3 style="color: var(--lighter); margin-bottom: 20px;">No projects yet</h3>
+                            <p style="color: rgba(204, 214, 246, 0.7); margin-bottom: 30px;">
+                                Add your first project using the form above
+                            </p>
+                            <a href="add-project.html" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Add Your First Project
+                            </a>
+                        </div>
+                    `;
+                }
+            } // <-- THIS CLOSES THE loadProjects() FUNCTION
+            
+            // 2. DISPLAY PROJECTS IN GRID
+            function displayProjects(projects) {
+                const grid = document.getElementById('projectsGrid');
+                
+                if (projects.length === 0) {
+                    grid.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 50px;">
+                            <h3 style="color: var(--lighter); margin-bottom: 20px;">No projects yet</h3>
+                            <a href="add-project.html" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Add Your First Project
+                            </a>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Clear grid
+                grid.innerHTML = '';
+                
+                // Add each project
+                projects.forEach((project, index) => {
+                    const projectCard = `
+                        <div class="project-card scroll-animate stagger-item">
+                            <div class="project-image">
+                                <img src="${project.image}?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                                     alt="${project.title}" 
+                                     onerror="this.src='https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                            </div>
+                            <div class="project-content">
+                                <div class="project-header">
+                                    <h3 class="project-title">${project.title}</h3>
+                                    <i class="fas ${project.icon || 'fa-code'} project-icon"></i>
+                                </div>
+                                <div class="project-tech">
+                                    ${(project.tags || []).map(tag => 
+                                        `<span class="tech-tag">${tag}</span>`
+                                    ).join('')}
+                                </div>
+                                <p class="project-description">
+                                    ${project.description}
+                                </p>
+                                <div class="project-links">
+                                    ${project.github && project.github !== '#' ? 
+                                        `<a href="${project.github}" target="_blank" class="project-link">
+                                            <i class="fab fa-github"></i> Code
+                                        </a>` : ''}
+                                    ${project.demo && project.demo !== '#' ? 
+                                        `<a href="${project.demo}" target="_blank" class="project-link">
+                                            <i class="fas fa-external-link-alt"></i> Live Demo
+                                        </a>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    grid.innerHTML += projectCard;
+                });
+                
+                // 3. BALANCE GRID (make last project full-width if odd number)
+                balanceProjectsGrid();
+                
+                // 4. INITIALIZE ANIMATIONS
+                initAnimations();
+            }
+            
+            // 3. GRID BALANCING FUNCTION
+            function balanceProjectsGrid() {
+                const grid = document.getElementById('projectsGrid');
+                if (!grid) return;
+                
+                const projectCards = grid.querySelectorAll('.project-card');
+                const cardCount = projectCards.length;
+                
+                // Remove any existing full-width classes
+                projectCards.forEach(card => {
+                    card.classList.remove('project-card-full');
+                });
+                
+                // If odd number of projects, make last one full-width
+                if (cardCount > 1 && cardCount % 2 !== 0) {
+                    projectCards[cardCount - 1].classList.add('project-card-full');
+                }
+            }
+            
+            // 4. SCROLL ANIMATIONS
+            function initAnimations() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('show');
+                            
+                            // Stagger animation for items in container
+                            if (entry.target.classList.contains('stagger-container')) {
+                                const items = entry.target.querySelectorAll('.stagger-item');
+                                items.forEach((item, index) => {
+                                    setTimeout(() => {
+                                        item.classList.add('show');
+                                    }, index * 100);
+                                });
+                            }
+                        }
+                    });
+                }, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                });
+                
+                // Observe all animated elements
+                document.querySelectorAll('.scroll-animate').forEach(el => {
+                    observer.observe(el);
+                });
+            }
+            
+            // 5. CSS FOR ANIMATIONS (Add dynamically)
+            const animationStyles = `
+                .scroll-animate {
+                    opacity: 0;
+                    transform: translateY(30px);
+                    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+                }
+                .scroll-animate.show {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                .project-card-full {
+                    grid-column: 1 / -1;
+                    max-width: 800px;
+                    justify-self: center;
+                    margin-top: 20px;
+                }
+            `;
+            
+            const styleSheet = document.createElement('style');
+            styleSheet.textContent = animationStyles;
+            document.head.appendChild(styleSheet);
+            
+            // 6. LOAD PROJECTS WHEN PAGE LOADS
+            loadProjects();
+            
+            // 7. UPDATE YEAR IN FOOTER
+            document.getElementById('year').textContent = new Date().getFullYear();
+            
+            console.log('✅ Projects page loaded successfully!');
         });
         
-        // Observe all animated elements
-        document.querySelectorAll('.scroll-animate').forEach(el => {
-            observer.observe(el);
-        });
-    }
-    
-    // 5. CSS FOR ANIMATIONS (Add dynamically)
-    const animationStyles = `
-        .scroll-animate {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        // Admin session function
+        function clearAdminSession() {
+            sessionStorage.removeItem('adminAuthenticated');
+            alert('Admin session cleared. Need password again.');
         }
-        .scroll-animate.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .project-card-full {
-            grid-column: 1 / -1;
-            max-width: 800px;
-            justify-self: center;
-            margin-top: 20px;
-        }
-    `;
-    
-    const styleSheet = document.createElement('style');
-    styleSheet.textContent = animationStyles;
-    document.head.appendChild(styleSheet);
-    
-    // 6. LOAD PROJECTS WHEN PAGE LOADS
-    loadProjects();
-    
-    // 7. UPDATE YEAR IN FOOTER
-    document.getElementById('year').textContent = new Date().getFullYear();
-    
-    console.log('✅ Projects page loaded successfully!');
-});
-</script>
+    </script>
 </body>
 </html>
