@@ -44,7 +44,7 @@
 
         .certifications-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 40px;
             margin-bottom: 80px;
         }
@@ -438,6 +438,13 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        @media (max-width: 1024px) {
+            .certifications-grid {
+                grid-template-columns: 1fr;
+            }
+
         }
 
         @media (max-width: 768px) {
