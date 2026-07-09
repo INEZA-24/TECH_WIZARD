@@ -1394,3 +1394,238 @@ footer {
         gap: 20px;
     }
 }
+/* === Refined homepage hero and about sections === */
+.home-hero,
+.about-showcase {
+    background: #1f2430;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.home-hero {
+    padding-top: 150px;
+}
+
+.home-hero::before,
+.about-showcase::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 78% 35%, rgba(36, 238, 255, 0.13), transparent 26%),
+        radial-gradient(circle at 18% 76%, rgba(52, 152, 219, 0.11), transparent 24%);
+    pointer-events: none;
+}
+
+.hero-showcase,
+.about-panel {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-showcase {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 520px);
+    align-items: center;
+    gap: 70px;
+}
+
+.hero-copy .eyebrow {
+    color: var(--lighter);
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.hero-copy h1 {
+    color: #fff;
+    font-size: clamp(48px, 7vw, 78px);
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.hero-copy h2,
+.about-copy h3 {
+    color: #fff;
+    font-size: clamp(24px, 3vw, 36px);
+    line-height: 1.15;
+    margin-bottom: 24px;
+}
+
+.hero-copy h2 span,
+.about-copy h2 span {
+    color: #24e8f3;
+    text-shadow: 0 0 22px rgba(36, 232, 243, 0.45);
+}
+
+.hero-description,
+.about-copy p,
+.about-highlights {
+    max-width: 650px;
+    color: rgba(230, 241, 255, 0.82);
+    font-size: 18px;
+}
+
+.hero-socials {
+    display: flex;
+    gap: 14px;
+    margin: 28px 0 34px;
+}
+
+.hero-socials a {
+    width: 38px;
+    height: 38px;
+    border: 2px solid #24e8f3;
+    border-radius: 50%;
+    color: #24e8f3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    box-shadow: 0 0 16px rgba(36, 232, 243, 0.2);
+}
+
+.hero-socials a:hover {
+    background: #24e8f3;
+    color: #1f2430;
+    transform: translateY(-4px);
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.hero-portrait,
+.about-portrait {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 480px;
+}
+
+.lettermark {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.06);
+    font-size: clamp(150px, 19vw, 290px);
+    font-weight: 900;
+    letter-spacing: -0.12em;
+    line-height: 1;
+    transform: translate(-3%, -2%);
+    user-select: none;
+    z-index: 0;
+}
+
+.hex-frame {
+    width: min(82vw, 430px);
+    aspect-ratio: 1;
+    position: relative;
+    clip-path: polygon(25% 7%, 75% 7%, 100% 50%, 75% 93%, 25% 93%, 0 50%);
+    background: linear-gradient(135deg, #24e8f3, #15bac8 45%, #0b7581);
+    padding: 9px;
+    filter: drop-shadow(0 0 18px rgba(36, 232, 243, 0.75)) drop-shadow(0 0 42px rgba(36, 232, 243, 0.35));
+    z-index: 1;
+}
+
+.hex-frame img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center top;
+    clip-path: inherit;
+    background: #2e3440;
+}
+
+.about-showcase {
+    background: #303744;
+}
+
+.about-panel {
+    display: grid;
+    grid-template-columns: minmax(320px, 520px) minmax(0, 1fr);
+    align-items: center;
+    gap: 80px;
+}
+
+.about-portrait {
+    min-height: 560px;
+}
+
+.hex-frame-large {
+    width: min(82vw, 500px);
+}
+
+.about-copy h2 {
+    color: #fff;
+    font-size: clamp(42px, 6vw, 68px);
+    line-height: 1;
+    margin-bottom: 12px;
+}
+
+.about-highlights {
+    list-style: none;
+    margin: 24px 0 34px;
+}
+
+.about-highlights li {
+    margin-bottom: 10px;
+    padding-left: 24px;
+    position: relative;
+}
+
+.about-highlights li::before {
+    content: '▹';
+    color: #24e8f3;
+    position: absolute;
+    left: 0;
+}
+
+@media (max-width: 900px) {
+    .hero-showcase,
+    .about-panel {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 36px;
+    }
+
+    .hero-copy,
+    .about-copy {
+        order: 1;
+    }
+
+    .hero-portrait,
+    .about-portrait {
+        min-height: 390px;
+        order: 2;
+    }
+
+    .hero-socials,
+    .hero-actions {
+        justify-content: center;
+    }
+
+    .about-highlights {
+        text-align: left;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 520px) {
+    .home-hero {
+        padding-top: 120px;
+    }
+
+    .hero-portrait,
+    .about-portrait {
+        min-height: 320px;
+    }
+
+    .lettermark {
+        font-size: 130px;
+    }
+}
