@@ -89,6 +89,19 @@
         </div>
     </section>
 
+    <!-- Featured Projects Section -->
+    <section class="featured-projects" id="featured-projects">
+        <div class="container featured-projects-content">
+            <div class="featured-projects-header fade-in">
+                <h2>Featured <span>Projects</span></h2>
+                <p>Curated selection of my most impactful work, showcasing innovative solutions and premium craftsmanship.</p>
+            </div>
+            <div class="featured-projects-grid" id="featuredProjectsGrid">
+                <!-- Featured projects will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
     <footer>
         <div class="container">
             <div class="social-icons">
@@ -185,6 +198,108 @@
                 el.style.transform = 'translateY(20px)';
                 el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
                 fadeInObserver.observe(el);
+            });
+        });
+
+        /* ============================================
+           FEATURED PROJECTS - LOAD FROM JSON & PARALLAX
+           ============================================ */
+
+        // Load Featured Projects
+        async function loadFeaturedProjects() {
+            try {
+                const response = await fetch('data/projects.json');
+                const data = await response.json();
+                
+                // Filter for featured projects and limit to 2
+                const featuredProjects = data.projects
+                    .filter(project => project.featured && project.published)
+                    .slice(0, 2);
+                
+                const grid = document.getElementById('featuredProjectsGrid');
+                
+                featuredProjects.forEach((project, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'featured-project-card';
+                    card.style.animationDelay = `${index * 0.2}s`;
+                    
+                    const tagsHTML = project.tags
+                        .map(tag => `<span>${tag}</span>`)
+                        .join('');
+                    
+                    const demoLink = project.demo 
+                        ? `<a href="${project.demo}" target="_blank" rel="noopener noreferrer" class="live-demo"><i class="fas fa-external-link-alt"></i>Live Demo</a>`
+                        : '';
+                    
+                    card.innerHTML = `
+                        <div class="featured-project-image">
+                            <img src="${project.image}" alt="${project.title}" loading="lazy">
+                            <div class="featured-project-overlay"></div>
+                        </div>
+                        <div class="featured-project-body">
+                            <h3 class="featured-project-title">${project.title}</h3>
+                            <p class="featured-project-description">${project.description}</p>
+                            <div class="featured-project-tech">
+                                ${tagsHTML}
+                            </div>
+                            <div class="featured-project-actions">
+                                ${demoLink}
+                                <a href="${project.github}" target="_blank" rel="noopener noreferrer" class="github-link"><i class="fab fa-github"></i>GitHub</a>
+                            </div>
+                        </div>
+                    `;
+                    
+                    grid.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error loading featured projects:', error);
+            }
+        }
+
+        // Load featured projects on page load
+        document.addEventListener('DOMContentLoaded', loadFeaturedProjects);
+
+        /* ============================================
+           MODERN PARALLAX SCROLLING EFFECT
+           ============================================ */
+
+        const initParallax = () => {
+            const parallaxElements = document.querySelectorAll('[data-parallax]');
+            
+            const handleParallax = () => {
+                parallaxElements.forEach(element => {
+                    const scrollY = window.scrollY;
+                    const elementOffset = element.offsetTop;
+                    const distance = scrollY - elementOffset;
+                    const speed = element.dataset.parallax || 0.5;
+                    
+                    if (distance > -window.innerHeight && distance < window.innerHeight) {
+                        element.style.transform = `translateY(${distance * speed}px)`;
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', handleParallax, { passive: true });
+        };
+
+        // Initialize parallax on DOM ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initParallax);
+        } else {
+            initParallax();
+        }
+
+        // Smooth scroll behavior for anchor links with parallax consideration
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && document.querySelector(href)) {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             });
         });
     </script>
