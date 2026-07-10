@@ -8,8 +8,6 @@ import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
-import { deleteContent, listContent, saveContent } from '../../lib/content-service';
-import { isSupabaseConfigured } from '../../lib/supabase-client';
 import type { CertificateAsset } from '../../lib/certificate-assets';
 import type { Certificate, Project } from '../../lib/types';
 import { useAuth } from './auth-provider';
@@ -49,7 +47,6 @@ const emptyCertificate: Certificate = {
 };
 
 export function ContentManager({ mode, initialItems, certificateAssets = [] }: { mode: Mode; initialItems: Item[]; certificateAssets?: CertificateAsset[] }) {
-  const { isAuthenticated } = useAuth();
   const [items, setItems] = useState<Item[]>(initialItems);
   const [query, setQuery] = useState('');
   const [editing, setEditing] = useState<Item | null>(null);
@@ -251,7 +248,7 @@ function ContentTable({ items, title, onEdit, onDelete }: { items: Item[]; title
   );
 }
 
-function EditorDialog({ item, isProjects, certificateAssets, errors, isSaving, onClose, onSubmit }: { item: Item; isProjects: boolean; certificateAssets: CertificateAsset[]; errors: FormErrors; isSaving: boolean; onClose: () => void; onSubmit: (event: FormEvent<HTMLFormElement>) => void }) {
+function EditorDialog({ item, isProjects, certificateAssets, errors, onClose, onSubmit }: { item: Item; isProjects: boolean; certificateAssets: CertificateAsset[]; errors: FormErrors; onClose: () => void; onSubmit: (event: FormEvent<HTMLFormElement>) => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" role="dialog" aria-modal="true" aria-labelledby="content-editor-title">
       <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-border bg-card p-6 shadow-2xl">
