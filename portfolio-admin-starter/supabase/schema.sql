@@ -8,6 +8,7 @@ create table if not exists public.projects (
   slug text not null unique,
   title text not null,
   description text not null,
+  image text not null default '',
   tags text[] not null default '{}',
   github text not null default '',
   demo text not null default '',
