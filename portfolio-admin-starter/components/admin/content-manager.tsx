@@ -1,7 +1,7 @@
 'use client';
 
-import { FormEvent, useMemo, useState } from 'react';
-import { Edit3, Plus, Search, Trash2 } from 'lucide-react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { AlertTriangle, CheckCircle2, Edit3, Plus, Search, Trash2, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { AdminShell } from './admin-shell';
 import { Button } from '../ui/button';
@@ -12,65 +12,395 @@ import type { Certificate, Project } from '../../lib/types';
 
 type Mode = 'projects' | 'certificates';
 type Item = Project | Certificate;
+type Toast = { type: 'success' | 'error'; message: string } | null;
+type FormErrors = Record<string, string>;
 
-const emptyProject: Project = { id: '', name: '', description: '', coverImage: '', githubUrl: '', liveDemoUrl: '', techStack: [], featured: false, published: true };
-const emptyCertificate: Certificate = { id: '', title: '', issuer: '', description: '', issueDate: '', thumbnailImage: '', certificateFile: '', verificationUrl: '' };
+const emptyProject: Project = {
+  id: '',
+  slug: '',
+  title: '',
+  description: '',
+  tags: [],
+  github: '',
+  demo: '',
+  icon: 'fa-code',
+  published: true,
+  sortOrder: 0,
+};
+
+const emptyCertificate: Certificate = {
+  id: '',
+  slug: '',
+  title: '',
+  issuer: '',
+  issuedAt: '',
+  issuedAtLabel: '',
+  description: '',
+  skills: [],
+  image: '',
+  icon: 'fa-certificate',
+  published: true,
+  sortOrder: 0,
+};
 
 export function ContentManager({ mode, initialItems }: { mode: Mode; initialItems: Item[] }) {
   const [items, setItems] = useState<Item[]>(initialItems);
   const [query, setQuery] = useState('');
   const [editing, setEditing] = useState<Item | null>(null);
-  const [open, setOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<Item | null>(null);
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [toast, setToast] = useState<Toast>(null);
+
   const isProjects = mode === 'projects';
   const title = isProjects ? 'Projects' : 'Certificates';
 
-  const filtered = useMemo(() => items.filter((item) => JSON.stringify(item).toLowerCase().includes(query.toLowerCase())), [items, query]);
+  const filtered = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    if (!normalizedQuery) return items;
+    return items.filter((item) => JSON.stringify(item).toLowerCase().includes(normalizedQuery));
+  }, [items, query]);
+
+  useEffect(() => {
+    if (!toast) return;
+    const timeout = window.setTimeout(() => setToast(null), 3000);
+    return () => window.clearTimeout(timeout);
+  }, [toast]);
 
   function addNew() {
-    setEditing({ ...(isProjects ? emptyProject : emptyCertificate), id: crypto.randomUUID() });
-    setOpen(true);
+    const nextSortOrder = items.length + 1;
+    setErrors({});
+    setEditing({ ...(isProjects ? emptyProject : emptyCertificate), id: crypto.randomUUID(), sortOrder: nextSortOrder });
   }
 
-  function removeItem(id: string) {
-    setItems((current) => current.filter((item) => item.id !== id));
+  function confirmDelete() {
+    if (!deleteTarget) return;
+    setItems((current) => current.filter((item) => item.id !== deleteTarget.id));
+    setToast({ type: 'success', message: `${getItemTitle(deleteTarget)} deleted.` });
+    setDeleteTarget(null);
   }
 
-  function submit(event: FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!editing) return;
+
     const form = new FormData(event.currentTarget);
-    const next: Item = isProjects ? {
-      id: editing.id,
-      name: String(form.get('name')),
-      description: String(form.get('description')),
-      coverImage: String(form.get('coverImage')),
-      githubUrl: String(form.get('githubUrl')),
-      liveDemoUrl: String(form.get('liveDemoUrl')),
-      techStack: String(form.get('techStack')).split(',').map((item) => item.trim()).filter(Boolean),
-      featured: form.get('featured') === 'on',
-      published: form.get('published') === 'on',
-    } : {
-      id: editing.id,
-      title: String(form.get('title')),
-      issuer: String(form.get('issuer')),
-      description: String(form.get('description')),
-      issueDate: String(form.get('issueDate')),
-      thumbnailImage: String(form.get('thumbnailImage')),
-      certificateFile: String(form.get('certificateFile')),
-      verificationUrl: String(form.get('verificationUrl')),
-    };
-    setItems((current) => current.some((item) => item.id === next.id) ? current.map((item) => item.id === next.id ? next : item) : [next, ...current]);
-    setOpen(false);
+    const next = isProjects ? buildProject(editing as Project, form) : await buildCertificate(editing as Certificate, form);
+    const validation = validateItem(next, isProjects, items);
+
+    if (Object.keys(validation).length > 0) {
+      setErrors(validation);
+      setToast({ type: 'error', message: 'Please fix the highlighted fields.' });
+      return;
+    }
+
+    const exists = items.some((item) => item.id === next.id);
+    setItems((current) => (exists ? current.map((item) => (item.id === next.id ? next : item)) : [next, ...current]));
     setEditing(null);
+    setErrors({});
+    setToast({ type: 'success', message: `${getItemTitle(next)} ${exists ? 'updated' : 'created'}.` });
   }
 
-  return <AdminShell><div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end"><div><p className="text-sm font-bold uppercase tracking-[0.25em] text-primary">Manage</p><h1 className="mt-2 text-4xl font-black">{title}</h1><p className="mt-2 text-muted-foreground">Mock data today, Supabase-ready structure tomorrow.</p></div><Button onClick={addNew}><Plus className="mr-2" size={18} /> Add {isProjects ? 'Project' : 'Certificate'}</Button></div><Card className="mb-5"><div className="relative"><Search className="absolute left-3 top-3 text-muted-foreground" size={18} /><Input className="pl-10" placeholder={`Search ${title.toLowerCase()}...`} value={query} onChange={(e) => setQuery(e.target.value)} /></div></Card><Card className="overflow-hidden p-0"><div className="overflow-x-auto"><table className="w-full min-w-[760px] text-left text-sm"><thead className="border-b border-border bg-secondary/40 text-muted-foreground"><tr><th className="px-5 py-4">Name</th><th className="px-5 py-4">Description</th><th className="px-5 py-4">Status</th><th className="px-5 py-4 text-right">Actions</th></tr></thead><tbody>{filtered.map((item) => <tr key={item.id} className="border-b border-border/70"><td className="px-5 py-4 font-semibold">{'name' in item ? item.name : item.title}<p className="mt-1 text-xs text-muted-foreground">{'issuer' in item ? item.issuer : item.techStack.join(', ')}</p></td><td className="max-w-md px-5 py-4 text-muted-foreground">{item.description}</td><td className="px-5 py-4">{'published' in item ? <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">{item.published ? 'Published' : 'Draft'}</span> : <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">Uploaded</span>}</td><td className="px-5 py-4"><div className="flex justify-end gap-2"><Button variant="outline" onClick={() => { setEditing(item); setOpen(true); }}><Edit3 size={16} /></Button><Button variant="destructive" onClick={() => removeItem(item.id)}><Trash2 size={16} /></Button></div></td></tr>)}</tbody></table></div>{filtered.length === 0 && <div className="p-8 text-center text-muted-foreground">No {title.toLowerCase()} found.</div>}</Card>{open && editing && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"><motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-border bg-card p-6 shadow-2xl"><div className="mb-5"><h2 className="text-2xl font-black">{editing.id && items.some((item) => item.id === editing.id) ? 'Edit' : 'Add'} {isProjects ? 'Project' : 'Certificate'}</h2><p className="text-sm text-muted-foreground">Keep it clean and complete.</p></div><form className="space-y-4" onSubmit={submit}>{isProjects ? <ProjectFields item={editing as Project} /> : <CertificateFields item={editing as Certificate} />}<div className="flex justify-end gap-3 pt-2"><Button type="button" variant="ghost" onClick={() => setOpen(false)}>Cancel</Button><Button type="submit">Save</Button></div></form></motion.div></div>}</AdminShell>;
+  return (
+    <AdminShell>
+      <ContentHeader title={title} isProjects={isProjects} onAdd={addNew} />
+      {toast && <ToastMessage toast={toast} />}
+      <Card className="mb-5">
+        <div className="relative">
+          <Search className="absolute left-3 top-3 text-muted-foreground" size={18} />
+          <Input className="pl-10" placeholder={`Search ${title.toLowerCase()}...`} value={query} onChange={(event) => setQuery(event.target.value)} />
+        </div>
+      </Card>
+      <ContentTable items={filtered} title={title} onEdit={(item) => { setErrors({}); setEditing(item); }} onDelete={setDeleteTarget} />
+      {editing && (
+        <EditorDialog
+          item={editing}
+          isProjects={isProjects}
+          errors={errors}
+          onClose={() => { setEditing(null); setErrors({}); }}
+          onSubmit={submit}
+        />
+      )}
+      {deleteTarget && <DeleteDialog item={deleteTarget} onCancel={() => setDeleteTarget(null)} onConfirm={confirmDelete} />}
+    </AdminShell>
+  );
 }
 
-function ProjectFields({ item }: { item: Project }) {
-  return <><Field name="name" label="Project Name" defaultValue={item.name} /><Area name="description" label="Description" defaultValue={item.description} /><Field name="coverImage" label="Cover Image" defaultValue={item.coverImage} /><Field name="githubUrl" label="GitHub URL" defaultValue={item.githubUrl} /><Field name="liveDemoUrl" label="Live Demo URL" defaultValue={item.liveDemoUrl} /><Field name="techStack" label="Tech Stack" defaultValue={item.techStack.join(', ')} /><div className="grid gap-3 md:grid-cols-2"><Check name="featured" label="Featured" defaultChecked={item.featured} /><Check name="published" label="Published" defaultChecked={item.published} /></div></>;
+function ContentHeader({ title, isProjects, onAdd }: { title: string; isProjects: boolean; onAdd: () => void }) {
+  return (
+    <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+      <div>
+        <p className="text-sm font-bold uppercase tracking-[0.25em] text-primary">Manage</p>
+        <h1 className="mt-2 text-4xl font-black">{title}</h1>
+        <p className="mt-2 text-muted-foreground">Admin content UI is ready for live Supabase storage in the next step.</p>
+      </div>
+      <Button onClick={onAdd}><Plus className="mr-2" size={18} /> Add {isProjects ? 'Project' : 'Certificate'}</Button>
+    </div>
+  );
 }
-function CertificateFields({ item }: { item: Certificate }) { return <><Field name="title" label="Title" defaultValue={item.title} /><Field name="issuer" label="Issuer" defaultValue={item.issuer} /><Area name="description" label="Description" defaultValue={item.description} /><Field name="issueDate" label="Issue Date" type="date" defaultValue={item.issueDate} /><Field name="thumbnailImage" label="Thumbnail Image" defaultValue={item.thumbnailImage} /><Field name="certificateFile" label="Certificate File (PDF or Image)" defaultValue={item.certificateFile} /><Field name="verificationUrl" label="Optional Verification URL" defaultValue={item.verificationUrl} required={false} /></>; }
-function Field({ label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) { return <label className="block text-sm font-semibold">{label}<Input className="mt-2" required {...props} /></label>; }
-function Area({ label, ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string }) { return <label className="block text-sm font-semibold">{label}<Textarea className="mt-2" required {...props} /></label>; }
-function Check({ label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) { return <label className="flex items-center justify-between rounded-xl border border-border bg-secondary/40 p-3 text-sm font-semibold">{label}<input type="checkbox" className="h-5 w-5 accent-cyanide" {...props} /></label>; }
+
+function ToastMessage({ toast }: { toast: NonNullable<Toast> }) {
+  const Icon = toast.type === 'success' ? CheckCircle2 : AlertTriangle;
+  return (
+    <div className={`mb-5 flex items-center gap-3 rounded-2xl border p-4 text-sm font-semibold ${toast.type === 'success' ? 'border-primary/30 bg-primary/10 text-primary' : 'border-destructive/30 bg-destructive/10 text-destructive'}`}>
+      <Icon size={18} /> {toast.message}
+    </div>
+  );
+}
+
+function ContentTable({ items, title, onEdit, onDelete }: { items: Item[]; title: string; onEdit: (item: Item) => void; onDelete: (item: Item) => void }) {
+  return (
+    <Card className="overflow-hidden p-0">
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[820px] text-left text-sm">
+          <thead className="border-b border-border bg-secondary/40 text-muted-foreground">
+            <tr>
+              <th className="px-5 py-4">Title</th>
+              <th className="px-5 py-4">Description</th>
+              <th className="px-5 py-4">Status</th>
+              <th className="px-5 py-4">Sort</th>
+              <th className="px-5 py-4 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item) => (
+              <tr key={item.id} className="border-b border-border/70 last:border-b-0">
+                <td className="px-5 py-4 font-semibold">
+                  {getItemTitle(item)}
+                  <p className="mt-1 text-xs text-muted-foreground">/{item.slug}</p>
+                </td>
+                <td className="max-w-md px-5 py-4 text-muted-foreground">
+                  <div className="flex items-start gap-3">
+                    {'image' in item && item.image && <CertificateThumb src={item.image} title={item.title} />}
+                    <div>
+                      {item.description}
+                      <p className="mt-2 text-xs">{'tags' in item ? item.tags.join(', ') : item.skills.join(', ')}</p>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-5 py-4">
+                  <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">{item.published ? 'Published' : 'Draft'}</span>
+                </td>
+                <td className="px-5 py-4 text-muted-foreground">{item.sortOrder}</td>
+                <td className="px-5 py-4">
+                  <div className="flex justify-end gap-2">
+                    <Button variant="outline" onClick={() => onEdit(item)} aria-label={`Edit ${getItemTitle(item)}`}><Edit3 size={16} /></Button>
+                    <Button variant="destructive" onClick={() => onDelete(item)} aria-label={`Delete ${getItemTitle(item)}`}><Trash2 size={16} /></Button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {items.length === 0 && <div className="p-8 text-center text-muted-foreground">No {title.toLowerCase()} found. Try another search or add new content.</div>}
+    </Card>
+  );
+}
+
+function EditorDialog({ item, isProjects, errors, onClose, onSubmit }: { item: Item; isProjects: boolean; errors: FormErrors; onClose: () => void; onSubmit: (event: FormEvent<HTMLFormElement>) => void }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" role="dialog" aria-modal="true" aria-labelledby="content-editor-title">
+      <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-border bg-card p-6 shadow-2xl">
+        <div className="mb-5 flex items-start justify-between gap-4">
+          <div>
+            <h2 id="content-editor-title" className="text-2xl font-black">Edit {isProjects ? 'Project' : 'Certificate'}</h2>
+            <p className="text-sm text-muted-foreground">Keep portfolio content clean, complete, and ready for Supabase.</p>
+          </div>
+          <Button type="button" variant="ghost" onClick={onClose} aria-label="Close editor"><X size={18} /></Button>
+        </div>
+        <form className="space-y-4" onSubmit={onSubmit} noValidate>
+          {isProjects ? <ProjectFields item={item as Project} errors={errors} /> : <CertificateFields item={item as Certificate} errors={errors} />}
+          <div className="flex justify-end gap-3 pt-2">
+            <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
+            <Button type="submit">Save</Button>
+          </div>
+        </form>
+      </motion.div>
+    </div>
+  );
+}
+
+function DeleteDialog({ item, onCancel, onConfirm }: { item: Item; onCancel: () => void; onConfirm: () => void }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" role="dialog" aria-modal="true" aria-labelledby="delete-title">
+      <Card className="w-full max-w-md">
+        <h2 id="delete-title" className="text-2xl font-black">Delete {getItemTitle(item)}?</h2>
+        <p className="mt-3 text-sm text-muted-foreground">This confirmation keeps certificate and project deletes intentional before they are connected to live Supabase data.</p>
+        <div className="mt-6 flex justify-end gap-3">
+          <Button variant="ghost" onClick={onCancel}>Cancel</Button>
+          <Button variant="destructive" onClick={onConfirm}>Delete</Button>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+function ProjectFields({ item, errors }: { item: Project; errors: FormErrors }) {
+  return (
+    <>
+      <Field name="title" label="Title" defaultValue={item.title} error={errors.title} />
+      <Field name="slug" label="Slug" defaultValue={item.slug} error={errors.slug} />
+      <Area name="description" label="Description" defaultValue={item.description} error={errors.description} />
+      <Field name="tags" label="Tags" defaultValue={item.tags.join(', ')} error={errors.tags} />
+      <Field name="github" label="GitHub URL" defaultValue={item.github} error={errors.github} required={false} />
+      <Field name="demo" label="Demo URL" defaultValue={item.demo} error={errors.demo} required={false} />
+      <Field name="icon" label="Icon" defaultValue={item.icon} error={errors.icon} />
+      <Field name="sortOrder" label="Sort Order" type="number" defaultValue={item.sortOrder} error={errors.sortOrder} />
+      <Check name="published" label="Published" defaultChecked={item.published} />
+    </>
+  );
+}
+
+function CertificateFields({ item, errors }: { item: Certificate; errors: FormErrors }) {
+  return (
+    <>
+      <Field name="title" label="Title" defaultValue={item.title} error={errors.title} />
+      <Field name="slug" label="Slug" defaultValue={item.slug} error={errors.slug} />
+      <Field name="issuer" label="Issuer" defaultValue={item.issuer} error={errors.issuer} />
+      <Field name="issuedAt" label="Issue Date" type="date" defaultValue={item.issuedAt} error={errors.issuedAt} />
+      <Field name="issuedAtLabel" label="Issue Label" defaultValue={item.issuedAtLabel} error={errors.issuedAtLabel} />
+      <Area name="description" label="Description" defaultValue={item.description} error={errors.description} />
+      <Field name="skills" label="Skills" defaultValue={item.skills.join(', ')} error={errors.skills} />
+      <CertificateUpload item={item} error={errors.image} />
+      <Field name="icon" label="Icon" defaultValue={item.icon} error={errors.icon} />
+      <Field name="sortOrder" label="Sort Order" type="number" defaultValue={item.sortOrder} error={errors.sortOrder} />
+      <Check name="published" label="Published" defaultChecked={item.published} />
+    </>
+  );
+}
+
+function CertificateUpload({ item, error }: { item: Certificate; error?: string }) {
+  return (
+    <div className="rounded-2xl border border-border bg-secondary/30 p-4">
+      <input type="hidden" name="image" value={item.image} />
+      <label className="block text-sm font-semibold" htmlFor="certificate-image">Certificate file</label>
+      <p className="mt-1 text-xs text-muted-foreground">Upload a certificate image or PDF. The selected file is attached to the certificate preview now and will use Supabase Storage in the next backend step.</p>
+      {item.image && (
+        <div className="mt-3 flex items-center gap-3 rounded-xl border border-border bg-background/40 p-3">
+          <CertificateThumb src={item.image} title={item.title || 'Certificate preview'} />
+          <span className="text-xs text-muted-foreground">Current upload preview</span>
+        </div>
+      )}
+      <input
+        id="certificate-image"
+        name="imageFile"
+        type="file"
+        accept="image/png,image/jpeg,image/webp,application/pdf"
+        className="mt-3 w-full rounded-xl border border-input bg-secondary/60 px-3 py-3 text-sm text-foreground file:mr-4 file:rounded-lg file:border-0 file:bg-primary file:px-4 file:py-2 file:text-sm file:font-bold file:text-primary-foreground"
+        aria-invalid={Boolean(error)}
+      />
+      {error && <span className="mt-2 block text-xs text-destructive">{error}</span>}
+    </div>
+  );
+}
+
+function CertificateThumb({ src, title }: { src: string; title: string }) {
+  if (src.startsWith('data:application/pdf')) {
+    return <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-primary/30 bg-primary/10 text-xs font-black text-primary">PDF</div>;
+  }
+
+  return <img src={src} alt={`${title} certificate preview`} className="h-14 w-14 rounded-xl object-cover ring-1 ring-border" />;
+}
+
+function Field({ label, error, required = true, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string; error?: string }) {
+  return <label className="block text-sm font-semibold">{label}<Input className="mt-2" aria-invalid={Boolean(error)} required={required} {...props} />{error && <span className="mt-1 block text-xs text-destructive">{error}</span>}</label>;
+}
+
+function Area({ label, error, ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string; error?: string }) {
+  return <label className="block text-sm font-semibold">{label}<Textarea className="mt-2" aria-invalid={Boolean(error)} required {...props} />{error && <span className="mt-1 block text-xs text-destructive">{error}</span>}</label>;
+}
+
+function Check({ label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
+  return <label className="flex items-center justify-between rounded-xl border border-border bg-secondary/40 p-3 text-sm font-semibold">{label}<input type="checkbox" className="h-5 w-5 accent-cyanide" {...props} /></label>;
+}
+
+function buildProject(editing: Project, form: FormData): Project {
+  return {
+    id: editing.id,
+    slug: text(form, 'slug'),
+    title: text(form, 'title'),
+    description: text(form, 'description'),
+    tags: list(form, 'tags'),
+    github: text(form, 'github'),
+    demo: text(form, 'demo'),
+    icon: text(form, 'icon') || 'fa-code',
+    published: form.get('published') === 'on',
+    sortOrder: number(form, 'sortOrder'),
+  };
+}
+
+async function buildCertificate(editing: Certificate, form: FormData): Promise<Certificate> {
+  return {
+    id: editing.id,
+    slug: text(form, 'slug'),
+    title: text(form, 'title'),
+    issuer: text(form, 'issuer'),
+    issuedAt: text(form, 'issuedAt'),
+    issuedAtLabel: text(form, 'issuedAtLabel'),
+    description: text(form, 'description'),
+    skills: list(form, 'skills'),
+    image: await certificateFileValue(editing, form),
+    icon: text(form, 'icon') || 'fa-certificate',
+    published: form.get('published') === 'on',
+    sortOrder: number(form, 'sortOrder'),
+  };
+}
+
+async function certificateFileValue(editing: Certificate, form: FormData) {
+  const file = form.get('imageFile');
+  if (file instanceof File && file.size > 0) return readFileAsDataUrl(file);
+  return text(form, 'image') || editing.image;
+}
+
+function readFileAsDataUrl(file: File) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result ?? ''));
+    reader.onerror = () => reject(reader.error ?? new Error('Could not read certificate file.'));
+    reader.readAsDataURL(file);
+  });
+}
+
+function validateItem(item: Item, isProjects: boolean, existing: Item[]) {
+  const errors: FormErrors = {};
+  if (!item.title.trim()) errors.title = 'Title is required.';
+  if (!item.slug.trim()) errors.slug = 'Slug is required.';
+  if (item.slug && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.slug)) errors.slug = 'Use lowercase letters, numbers, and hyphens.';
+  if (existing.some((current) => current.id !== item.id && current.slug === item.slug)) errors.slug = 'This slug is already used.';
+  if (!item.description.trim()) errors.description = 'Description is required.';
+  if (item.sortOrder < 0) errors.sortOrder = 'Sort order cannot be negative.';
+  if (isProjects && 'tags' in item && item.tags.length === 0) errors.tags = 'Add at least one tag.';
+  if (!isProjects && 'skills' in item && item.skills.length === 0) errors.skills = 'Add at least one skill.';
+  if (!isProjects && 'issuer' in item && !item.issuer.trim()) errors.issuer = 'Issuer is required.';
+  if (!isProjects && 'issuedAt' in item && !item.issuedAt) errors.issuedAt = 'Issue date is required.';
+  if (!isProjects && 'issuedAtLabel' in item && !item.issuedAtLabel.trim()) errors.issuedAtLabel = 'Issue label is required.';
+  if (!isProjects && 'image' in item && !item.image.trim()) errors.image = 'Image path or URL is required.';
+  if ('github' in item && item.github && !isValidUrl(item.github)) errors.github = 'Enter a valid URL.';
+  if ('demo' in item && item.demo && !isValidUrl(item.demo)) errors.demo = 'Enter a valid URL.';
+  return errors;
+}
+
+function getItemTitle(item: Item) {
+  return item.title;
+}
+
+function text(form: FormData, key: string) {
+  return String(form.get(key) ?? '').trim();
+}
+
+function list(form: FormData, key: string) {
+  return text(form, key).split(',').map((item) => item.trim()).filter(Boolean);
+}
+
+function number(form: FormData, key: string) {
+  return Number(form.get(key) || 0);
+}
+
+function isValidUrl(value: string) {
+  try {
+    new URL(value);
+    return true;
+  } catch {
+    return false;
+  }
+}
