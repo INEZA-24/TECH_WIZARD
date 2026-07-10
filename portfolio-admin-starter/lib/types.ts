@@ -1,22 +1,27 @@
 export type Project = {
   id: string;
-  name: string;
+  slug: string;
+  title: string;
   description: string;
-  coverImage: string;
-  githubUrl: string;
-  liveDemoUrl: string;
-  techStack: string[];
-  featured: boolean;
+  tags: string[];
+  github: string;
+  demo: string;
+  icon: string;
   published: boolean;
+  sortOrder: number;
 };
 
 export type Certificate = {
   id: string;
+  slug: string;
   title: string;
   issuer: string;
+  issuedAt: string;
+  issuedAtLabel: string;
   description: string;
-  issueDate: string;
-  thumbnailImage: string;
-  certificateFile: string;
-  verificationUrl?: string;
+  skills: string[];
+  image: string;
+  icon: string;
+  published: boolean;
+  sortOrder: number;
 };
