@@ -79,7 +79,7 @@ export function ContentManager({ mode, initialItems }: { mode: Mode; initialItem
     setDeleteTarget(null);
   }
 
-  function submit(event: FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!editing) return;
 
