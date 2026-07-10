@@ -20,7 +20,7 @@ export type Certificate = {
   issuedAtLabel: string;
   description: string;
   skills: string[];
-  image: string;
+  certificateFile: string;
   icon: string;
   published: boolean;
   sortOrder: number;

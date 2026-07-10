@@ -102,6 +102,21 @@
         </div>
     </section>
 
+    <section class="featured-certificates" id="featured-certificates">
+        <div class="container featured-certificates-content">
+            <div class="featured-certificates-header fade-in">
+                <h2>Featured <span>Certificates</span></h2>
+                <p>Selected credentials that validate my technical growth, practical learning, and commitment to building better digital solutions.</p>
+            </div>
+            <div class="featured-certificates-grid" id="featuredCertificatesGrid">
+                <!-- Featured certificates will be dynamically inserted here -->
+            </div>
+            <div class="featured-certificates-actions fade-in">
+                <a href="certifications.html" class="btn btn-outline">View All Certificates</a>
+            </div>
+        </div>
+    </section>
+
     <footer>
         <div class="container">
             <div class="social-icons">
@@ -124,6 +139,7 @@
         </div>
     </footer>
 
+    <script src="script/content-store.js"></script>
     <script>
         // Mobile Navigation Toggle
         const hamburger = document.getElementById('hamburger');
@@ -258,6 +274,70 @@
 
         // Load featured projects on page load
         document.addEventListener('DOMContentLoaded', loadFeaturedProjects);
+
+        async function loadFeaturedCertificates() {
+            const grid = document.getElementById('featuredCertificatesGrid');
+            if (!grid || !window.PortfolioContentStore) {
+                return;
+            }
+
+            try {
+                const certificates = await window.PortfolioContentStore.loadCertifications();
+                const featuredCertificates = certificates.slice(0, 3);
+
+                if (!featuredCertificates.length) {
+                    grid.innerHTML = '<p class="featured-certificates-empty">Certificates will appear here soon.</p>';
+                    return;
+                }
+
+                featuredCertificates.forEach((certificate, index) => {
+                    const card = document.createElement('article');
+                    card.className = 'featured-certificate-card fade-in';
+                    card.style.animationDelay = `${index * 0.15}s`;
+
+                    const icon = document.createElement('i');
+                    icon.className = `fas ${certificate.icon || 'fa-certificate'} featured-certificate-icon`;
+
+                    const title = document.createElement('h3');
+                    title.textContent = certificate.title;
+
+                    const issuer = document.createElement('p');
+                    issuer.className = 'featured-certificate-issuer';
+                    issuer.textContent = certificate.issuer;
+
+                    const date = document.createElement('p');
+                    date.className = 'featured-certificate-date';
+                    date.textContent = `Issued ${certificate.issuedAt}`;
+
+                    const description = document.createElement('p');
+                    description.className = 'featured-certificate-description';
+                    description.textContent = certificate.description;
+
+                    const skills = document.createElement('div');
+                    skills.className = 'featured-certificate-skills';
+                    (certificate.skills || []).slice(0, 3).forEach((skill) => {
+                        const tag = document.createElement('span');
+                        tag.textContent = skill;
+                        skills.appendChild(tag);
+                    });
+
+                    const link = document.createElement('a');
+                    link.className = 'featured-certificate-link';
+                    link.href = certificate.image;
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    link.innerHTML = '<i class="fas fa-award"></i> View Certificate';
+
+                    card.append(icon, title, issuer, date, description, skills, link);
+                    grid.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error loading featured certificates:', error);
+                grid.innerHTML = '<p class="featured-certificates-empty">Unable to load certificates right now.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadFeaturedCertificates);
 
         /* ============================================
            MODERN PARALLAX SCROLLING EFFECT

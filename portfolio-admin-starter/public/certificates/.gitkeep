@@ -1,0 +1,2 @@
+# Manually place certificate files in this folder.
+# Supported extensions are configured in lib/certificate-assets.ts.
