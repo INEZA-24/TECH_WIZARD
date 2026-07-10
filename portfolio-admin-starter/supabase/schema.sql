@@ -27,7 +27,7 @@ create table if not exists public.certifications (
   issued_at_label text not null default '',
   description text not null,
   skills text[] not null default '{}',
-  image text not null,
+  certificate_file text not null,
   icon text not null default 'fa-certificate',
   published boolean not null default false,
   sort_order integer not null default 0,

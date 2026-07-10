@@ -8,6 +8,7 @@ import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
+import type { CertificateAsset } from '../../lib/certificate-assets';
 import type { Certificate, Project } from '../../lib/types';
 
 type Mode = 'projects' | 'certificates';
@@ -37,13 +38,13 @@ const emptyCertificate: Certificate = {
   issuedAtLabel: '',
   description: '',
   skills: [],
-  image: '',
+  certificateFile: '',
   icon: 'fa-certificate',
   published: true,
   sortOrder: 0,
 };
 
-export function ContentManager({ mode, initialItems }: { mode: Mode; initialItems: Item[] }) {
+export function ContentManager({ mode, initialItems, certificateAssets = [] }: { mode: Mode; initialItems: Item[]; certificateAssets?: CertificateAsset[] }) {
   const [items, setItems] = useState<Item[]>(initialItems);
   const [query, setQuery] = useState('');
   const [editing, setEditing] = useState<Item | null>(null);
@@ -115,6 +116,7 @@ export function ContentManager({ mode, initialItems }: { mode: Mode; initialItem
         <EditorDialog
           item={editing}
           isProjects={isProjects}
+          certificateAssets={certificateAssets}
           errors={errors}
           onClose={() => { setEditing(null); setErrors({}); }}
           onSubmit={submit}
@@ -192,7 +194,7 @@ function ContentTable({ items, title, onEdit, onDelete }: { items: Item[]; title
   );
 }
 
-function EditorDialog({ item, isProjects, errors, onClose, onSubmit }: { item: Item; isProjects: boolean; errors: FormErrors; onClose: () => void; onSubmit: (event: FormEvent<HTMLFormElement>) => void }) {
+function EditorDialog({ item, isProjects, certificateAssets, errors, onClose, onSubmit }: { item: Item; isProjects: boolean; certificateAssets: CertificateAsset[]; errors: FormErrors; onClose: () => void; onSubmit: (event: FormEvent<HTMLFormElement>) => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" role="dialog" aria-modal="true" aria-labelledby="content-editor-title">
       <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-border bg-card p-6 shadow-2xl">
@@ -204,7 +206,7 @@ function EditorDialog({ item, isProjects, errors, onClose, onSubmit }: { item: I
           <Button type="button" variant="ghost" onClick={onClose} aria-label="Close editor"><X size={18} /></Button>
         </div>
         <form className="space-y-4" onSubmit={onSubmit} noValidate>
-          {isProjects ? <ProjectFields item={item as Project} errors={errors} /> : <CertificateFields item={item as Certificate} errors={errors} />}
+          {isProjects ? <ProjectFields item={item as Project} errors={errors} /> : <CertificateFields item={item as Certificate} certificateAssets={certificateAssets} errors={errors} />}
           <div className="flex justify-end gap-3 pt-2">
             <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
             <Button type="submit">Save</Button>
@@ -246,7 +248,7 @@ function ProjectFields({ item, errors }: { item: Project; errors: FormErrors }) 
   );
 }
 
-function CertificateFields({ item, errors }: { item: Certificate; errors: FormErrors }) {
+function CertificateFields({ item, certificateAssets, errors }: { item: Certificate; certificateAssets: CertificateAsset[]; errors: FormErrors }) {
   return (
     <>
       <Field name="title" label="Title" defaultValue={item.title} error={errors.title} />
@@ -256,11 +258,42 @@ function CertificateFields({ item, errors }: { item: Certificate; errors: FormEr
       <Field name="issuedAtLabel" label="Issue Label" defaultValue={item.issuedAtLabel} error={errors.issuedAtLabel} />
       <Area name="description" label="Description" defaultValue={item.description} error={errors.description} />
       <Field name="skills" label="Skills" defaultValue={item.skills.join(', ')} error={errors.skills} />
-      <Field name="image" label="Image Path or URL" defaultValue={item.image} error={errors.image} />
+      <CertificateAssetSelect assets={certificateAssets} defaultValue={item.certificateFile} error={errors.certificateFile} />
       <Field name="icon" label="Icon" defaultValue={item.icon} error={errors.icon} />
       <Field name="sortOrder" label="Sort Order" type="number" defaultValue={item.sortOrder} error={errors.sortOrder} />
       <Check name="published" label="Published" defaultChecked={item.published} />
     </>
+  );
+}
+
+function CertificateAssetSelect({ assets, defaultValue, error }: { assets: CertificateAsset[]; defaultValue: string; error?: string }) {
+  return (
+    <label className="block text-sm font-semibold">
+      Certificate file
+      <select
+        name="certificateFile"
+        className="mt-2 h-11 w-full rounded-xl border border-input bg-secondary/60 px-3 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+        aria-invalid={Boolean(error)}
+        defaultValue={defaultValue}
+        required
+      >
+        <option value="">Select an existing certificate file</option>
+        {assets.map((asset) => (
+          <option key={asset.assetKey} value={asset.assetKey}>{asset.filename}</option>
+        ))}
+      </select>
+      {assets.length === 0 && (
+        <span className="mt-1 block text-xs text-muted-foreground">
+          Add files manually to portfolio-admin-starter/public/certificates to make them selectable.
+        </span>
+      )}
+      {defaultValue && !assets.some((asset) => asset.assetKey === defaultValue) && (
+        <span className="mt-1 block text-xs text-muted-foreground">
+          The saved file is not currently present in the local certificates folder.
+        </span>
+      )}
+      {error && <span className="mt-1 block text-xs text-destructive">{error}</span>}
+    </label>
   );
 }
 
@@ -301,7 +334,7 @@ function buildCertificate(editing: Certificate, form: FormData): Certificate {
     issuedAtLabel: text(form, 'issuedAtLabel'),
     description: text(form, 'description'),
     skills: list(form, 'skills'),
-    image: text(form, 'image'),
+    certificateFile: text(form, 'certificateFile'),
     icon: text(form, 'icon') || 'fa-certificate',
     published: form.get('published') === 'on',
     sortOrder: number(form, 'sortOrder'),
@@ -321,7 +354,7 @@ function validateItem(item: Item, isProjects: boolean, existing: Item[]) {
   if (!isProjects && 'issuer' in item && !item.issuer.trim()) errors.issuer = 'Issuer is required.';
   if (!isProjects && 'issuedAt' in item && !item.issuedAt) errors.issuedAt = 'Issue date is required.';
   if (!isProjects && 'issuedAtLabel' in item && !item.issuedAtLabel.trim()) errors.issuedAtLabel = 'Issue label is required.';
-  if (!isProjects && 'image' in item && !item.image.trim()) errors.image = 'Image path or URL is required.';
+  if (!isProjects && 'certificateFile' in item && !item.certificateFile.trim()) errors.certificateFile = 'Choose an existing certificate file.';
   if ('github' in item && item.github && !isValidUrl(item.github)) errors.github = 'Enter a valid URL.';
   if ('demo' in item && item.demo && !isValidUrl(item.demo)) errors.demo = 'Enter a valid URL.';
   return errors;

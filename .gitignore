@@ -1,2 +1,4 @@
 node_modules/
 portfolio-admin-starter/node_modules/
+portfolio-admin-starter/.next/
+portfolio-admin-starter/tsconfig.tsbuildinfo
