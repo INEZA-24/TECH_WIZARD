@@ -27,7 +27,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       <aside className="fixed inset-y-0 left-0 hidden w-72 border-r border-border bg-background/85 p-6 backdrop-blur lg:block">
         <Brand />
         <NavList pathname={pathname} className="mt-10 space-y-2" />
-        <Button variant="ghost" className="absolute bottom-12 left-6 right-6 justify-start" onClick={() => signOut()}>
+        <Button variant="ghost" className="absolute bottom-6 left-6 right-6 justify-start" onClick={() => signOut()}>
           <LogOut className="mr-2" size={18} /> Sign out
         </Button>
       </aside>

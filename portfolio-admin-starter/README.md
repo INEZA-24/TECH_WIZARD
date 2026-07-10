@@ -48,7 +48,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_for_secure_server_actions
 ```
 
-For Phase I UI testing, real values are optional. Placeholder values are treated as mock mode so the login page will not crash before your Supabase project exists. For Phase II, real Supabase values are required.
+For Phase I UI testing, real values are optional. For Phase II, real Supabase values are required.
 
 ## Commands
 

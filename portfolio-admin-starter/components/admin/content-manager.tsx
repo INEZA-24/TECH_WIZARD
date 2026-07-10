@@ -84,7 +84,7 @@ export function ContentManager({ mode, initialItems }: { mode: Mode; initialItem
     if (!editing) return;
 
     const form = new FormData(event.currentTarget);
-    const next = isProjects ? buildProject(editing as Project, form) : await buildCertificate(editing as Certificate, form);
+    const next = isProjects ? buildProject(editing as Project, form) : buildCertificate(editing as Certificate, form);
     const validation = validateItem(next, isProjects, items);
 
     if (Object.keys(validation).length > 0) {
@@ -131,7 +131,7 @@ function ContentHeader({ title, isProjects, onAdd }: { title: string; isProjects
       <div>
         <p className="text-sm font-bold uppercase tracking-[0.25em] text-primary">Manage</p>
         <h1 className="mt-2 text-4xl font-black">{title}</h1>
-        <p className="mt-2 text-muted-foreground">Admin content UI is ready for live Supabase storage in the next step.</p>
+        <p className="mt-2 text-muted-foreground">Phase I mock content UI is ready for Supabase wiring in Phase II.</p>
       </div>
       <Button onClick={onAdd}><Plus className="mr-2" size={18} /> Add {isProjects ? 'Project' : 'Certificate'}</Button>
     </div>
@@ -169,13 +169,8 @@ function ContentTable({ items, title, onEdit, onDelete }: { items: Item[]; title
                   <p className="mt-1 text-xs text-muted-foreground">/{item.slug}</p>
                 </td>
                 <td className="max-w-md px-5 py-4 text-muted-foreground">
-                  <div className="flex items-start gap-3">
-                    {'image' in item && item.image && <CertificateThumb src={item.image} title={item.title} />}
-                    <div>
-                      {item.description}
-                      <p className="mt-2 text-xs">{'tags' in item ? item.tags.join(', ') : item.skills.join(', ')}</p>
-                    </div>
-                  </div>
+                  {item.description}
+                  <p className="mt-2 text-xs">{'tags' in item ? item.tags.join(', ') : item.skills.join(', ')}</p>
                 </td>
                 <td className="px-5 py-4">
                   <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">{item.published ? 'Published' : 'Draft'}</span>
@@ -225,7 +220,7 @@ function DeleteDialog({ item, onCancel, onConfirm }: { item: Item; onCancel: () 
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" role="dialog" aria-modal="true" aria-labelledby="delete-title">
       <Card className="w-full max-w-md">
         <h2 id="delete-title" className="text-2xl font-black">Delete {getItemTitle(item)}?</h2>
-        <p className="mt-3 text-sm text-muted-foreground">This confirmation keeps certificate and project deletes intentional before they are connected to live Supabase data.</p>
+        <p className="mt-3 text-sm text-muted-foreground">This is a Phase I mock delete, but the confirmation is in place so real Supabase deletes are safer in Phase II.</p>
         <div className="mt-6 flex justify-end gap-3">
           <Button variant="ghost" onClick={onCancel}>Cancel</Button>
           <Button variant="destructive" onClick={onConfirm}>Delete</Button>
@@ -261,45 +256,12 @@ function CertificateFields({ item, errors }: { item: Certificate; errors: FormEr
       <Field name="issuedAtLabel" label="Issue Label" defaultValue={item.issuedAtLabel} error={errors.issuedAtLabel} />
       <Area name="description" label="Description" defaultValue={item.description} error={errors.description} />
       <Field name="skills" label="Skills" defaultValue={item.skills.join(', ')} error={errors.skills} />
-      <CertificateUpload item={item} error={errors.image} />
+      <Field name="image" label="Image Path or URL" defaultValue={item.image} error={errors.image} />
       <Field name="icon" label="Icon" defaultValue={item.icon} error={errors.icon} />
       <Field name="sortOrder" label="Sort Order" type="number" defaultValue={item.sortOrder} error={errors.sortOrder} />
       <Check name="published" label="Published" defaultChecked={item.published} />
     </>
   );
-}
-
-function CertificateUpload({ item, error }: { item: Certificate; error?: string }) {
-  return (
-    <div className="rounded-2xl border border-border bg-secondary/30 p-4">
-      <input type="hidden" name="image" value={item.image} />
-      <label className="block text-sm font-semibold" htmlFor="certificate-image">Certificate file</label>
-      <p className="mt-1 text-xs text-muted-foreground">Upload a certificate image or PDF. The selected file is attached to the certificate preview now and will use Supabase Storage in the next backend step.</p>
-      {item.image && (
-        <div className="mt-3 flex items-center gap-3 rounded-xl border border-border bg-background/40 p-3">
-          <CertificateThumb src={item.image} title={item.title || 'Certificate preview'} />
-          <span className="text-xs text-muted-foreground">Current upload preview</span>
-        </div>
-      )}
-      <input
-        id="certificate-image"
-        name="imageFile"
-        type="file"
-        accept="image/png,image/jpeg,image/webp,application/pdf"
-        className="mt-3 w-full rounded-xl border border-input bg-secondary/60 px-3 py-3 text-sm text-foreground file:mr-4 file:rounded-lg file:border-0 file:bg-primary file:px-4 file:py-2 file:text-sm file:font-bold file:text-primary-foreground"
-        aria-invalid={Boolean(error)}
-      />
-      {error && <span className="mt-2 block text-xs text-destructive">{error}</span>}
-    </div>
-  );
-}
-
-function CertificateThumb({ src, title }: { src: string; title: string }) {
-  if (src.startsWith('data:application/pdf')) {
-    return <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-primary/30 bg-primary/10 text-xs font-black text-primary">PDF</div>;
-  }
-
-  return <img src={src} alt={`${title} certificate preview`} className="h-14 w-14 rounded-xl object-cover ring-1 ring-border" />;
 }
 
 function Field({ label, error, required = true, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string; error?: string }) {
@@ -329,7 +291,7 @@ function buildProject(editing: Project, form: FormData): Project {
   };
 }
 
-async function buildCertificate(editing: Certificate, form: FormData): Promise<Certificate> {
+function buildCertificate(editing: Certificate, form: FormData): Certificate {
   return {
     id: editing.id,
     slug: text(form, 'slug'),
@@ -339,26 +301,11 @@ async function buildCertificate(editing: Certificate, form: FormData): Promise<C
     issuedAtLabel: text(form, 'issuedAtLabel'),
     description: text(form, 'description'),
     skills: list(form, 'skills'),
-    image: await certificateFileValue(editing, form),
+    image: text(form, 'image'),
     icon: text(form, 'icon') || 'fa-certificate',
     published: form.get('published') === 'on',
     sortOrder: number(form, 'sortOrder'),
   };
-}
-
-async function certificateFileValue(editing: Certificate, form: FormData) {
-  const file = form.get('imageFile');
-  if (file instanceof File && file.size > 0) return readFileAsDataUrl(file);
-  return text(form, 'image') || editing.image;
-}
-
-function readFileAsDataUrl(file: File) {
-  return new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result ?? ''));
-    reader.onerror = () => reject(reader.error ?? new Error('Could not read certificate file.'));
-    reader.readAsDataURL(file);
-  });
 }
 
 function validateItem(item: Item, isProjects: boolean, existing: Item[]) {
