@@ -6,6 +6,7 @@ Admin storage fields:
 - `slug` (string, unique)
 - `title` (string)
 - `description` (string)
+- `image` (string)
 - `tags` (string[])
 - `github` (string)
 - `demo` (string)
@@ -19,6 +20,7 @@ Portfolio expected fields at render time:
 - `id` (string)
 - `title` (string)
 - `description` (string)
+- `image` (string)
 - `tags` (string[])
 - `github` (string, optional)
 - `demo` (string, optional)
@@ -35,7 +37,7 @@ Admin storage fields:
 - `issued_at_label` (string for UI display; example: "March 2026")
 - `description` (string)
 - `skills` (string[])
-- `image` (string)
+- `certificate_file` (string; selected local certificate asset key/filename)
 - `icon` (string)
 - `published` (boolean)
 - `sort_order` (number)
@@ -49,9 +51,10 @@ Portfolio expected fields at render time:
 - `issuedAt` (string)
 - `description` (string)
 - `skills` (string[])
-- `image` (string)
+- `image` (string; resolved public certificate URL/path)
 - `icon` (string, optional)
 
 ## Mapping notes
 - Map `issued_at_label` -> `issuedAt` in portfolio payloads.
+- Map `certificate_file` through the configured certificate asset resolver -> `image` for portfolio payloads.
 - Keep public field names stable for easy integration.

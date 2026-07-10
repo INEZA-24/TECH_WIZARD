@@ -1,22 +1,24 @@
 # Portfolio Admin Starter
 
-This folder is the Phase I frontend foundation for the future private `portfolio_admin` project. It is a standalone Next.js admin dashboard that will later connect to Supabase for authentication, database content, and storage.
+This folder contains the private Next.js admin dashboard for managing Tech Wizard portfolio content. It connects to Supabase for authentication and persistent project/certificate CRUD when Supabase environment variables are configured.
 
-## Phase I status
+## Current status
 
-Phase I is focused on the frontend/admin UI only. The current app includes:
+The admin app includes:
 
-- Mock admin authentication when Supabase environment variables are not configured.
+- Supabase email/password authentication when environment variables are configured.
+- Local mock authentication only when Supabase is not configured, for development previews.
 - Protected admin layout for mock/real sessions.
-- Dashboard overview page.
-- Projects content manager using Phase I mock data.
-- Certificates content manager using Phase I mock data.
+- Dashboard overview with Supabase-backed totals when connected.
+- Projects content manager with Supabase create, read, update, and delete.
+- Certificates content manager with Supabase create, read, update, and delete.
+- Manual certificate file selection from `portfolio-admin-starter/public/certificates`.
 - Responsive desktop sidebar and mobile navigation.
 - Reusable UI primitives.
-- Delete confirmations, inline validation, toast feedback, and empty/search states.
-- Supabase-ready content types aligned with the included SQL/content contract.
+- Delete confirmations, inline validation, toast feedback, empty states, and search.
+- Supabase SQL/schema files aligned with the admin content contract.
 
-The CRUD screens currently use local component state only. Supabase persistence is intentionally reserved for Phase II.
+If Supabase is not configured, the CRUD screens fall back to local demo data so the UI can still be previewed. Local demo changes are not persistent.
 
 ## Admin routes
 
@@ -36,8 +38,6 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-If Supabase is not configured, the login page uses a local mock session for UI testing. Enter any email and password to access the dashboard.
-
 ## Environment variables
 
 Create `.env.local` from `.env.example`:
@@ -48,7 +48,17 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_for_secure_server_actions
 ```
 
-For Phase I UI testing, real values are optional. For Phase II, real Supabase values are required.
+Real Supabase values are required for persistent database CRUD. Without them, the app uses local demo data only.
+
+## Manual certificate files
+
+Place certificate images/documents manually in:
+
+```text
+portfolio-admin-starter/public/certificates/
+```
+
+Supported file extensions are configured in `lib/certificate-assets.ts`. The admin panel lists existing files from this folder and stores the selected filename/key in Supabase as `certificate_file`.
 
 ## Commands
 
@@ -61,13 +71,11 @@ npm run typecheck
 
 ## Supabase preparation
 
-The `supabase` folder contains initial SQL for the future backend:
+The `supabase` folder contains SQL for the backend:
 
 - `supabase/schema.sql` creates foundational `projects` and `certifications` tables.
 - `supabase/rls.sql` enables Row Level Security and basic policies.
+- `supabase/certificate-file-migration.sql` renames the old certificate `image` column to `certificate_file` for existing deployments.
+- `supabase/project-image-migration.sql` adds the project `image` column for existing deployments.
 
-Before Phase II implementation, create the Supabase project, review the policies, and tighten admin-only write access as needed.
-
-## Phase II reminder
-
-Do not add live Supabase CRUD until Phase I checks pass. Phase II should add real Supabase authentication, protected server-side routes, storage buckets, RLS hardening, and persistent CRUD.
+Before production, review and tighten RLS so only approved admin users can write content.
