@@ -51,7 +51,7 @@
 
     const basePath =
       window.CERTIFICATE_ASSET_BASE_URL ||
-      "portfolio-admin-starter/public/certificates";
+      "https://wizadmin.vercel.app/certificates";
 
     const filename = value.replace(/^certificates\//, "");
 
