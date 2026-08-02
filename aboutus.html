@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About | FIDELE Portfolio</title>
+    <title>About | Fidele Portfolio</title>
     <link rel="icon" type="image/png" href="images/flash.png">
     <meta name="theme-color" content="#0a192f">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,414 +15,1134 @@
     
     <link rel="stylesheet" href="css/index.css">
     <style>
-        .about-page-rewrite {
-            padding: 140px 0 90px;
-            background: #303744;
-            position: relative;
+        body.about-page {
+            background: var(--background);
+            color: var(--text-secondary);
+        }
+
+        body.about-page main {
             overflow: hidden;
         }
 
-        .about-page-rewrite::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(circle at 25% 35%, rgba(36, 232, 243, 0.14), transparent 26%),
-                radial-gradient(circle at 82% 70%, rgba(52, 152, 219, 0.12), transparent 28%);
-            pointer-events: none;
+        body.about-page button.hamburger {
+            padding: 0;
+            border: 0;
+            background: transparent;
         }
 
-        .about-page-grid,
-        .about-value-grid,
-        .about-toolkit {
+        .about-hero {
+            min-height: 660px;
+            padding: 112px 0 64px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: #0b121d;
+        }
+
+        .about-hero-image,
+        .about-hero-overlay {
+            position: absolute;
+            inset: 0;
+        }
+
+        .about-hero-image {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1100ms ease;
+        }
+
+        .about-hero-image.is-active {
+            opacity: 1;
+        }
+
+        .about-hero-image-fll {
+            object-position: center 45%;
+        }
+
+        .about-hero-image-camp {
+            object-position: center 22%;
+        }
+
+        .about-hero-overlay {
+            background: linear-gradient(
+                180deg,
+                rgba(7, 11, 18, 0.42) 0%,
+                rgba(7, 11, 18, 0.56) 55%,
+                rgba(7, 11, 18, 0.74) 100%
+            );
+        }
+
+        .about-hero > .container {
             position: relative;
             z-index: 1;
         }
 
-        .about-page-grid {
-            display: grid;
-            grid-template-columns: minmax(320px, 520px) minmax(0, 1fr);
-            gap: 80px;
-            align-items: center;
-            min-height: calc(100vh - 230px);
+        .about-hero-content {
+            width: 100%;
+            margin-inline: auto;
+            text-align: center;
         }
 
-        .about-page-portrait {
-            min-height: 560px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .about-page-copy .eyebrow {
-            color: #24e8f3;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            margin-bottom: 14px;
-        }
-
-        .about-page-copy h1 {
-            color: #fff;
-            font-size: clamp(46px, 7vw, 78px);
-            line-height: 1;
+        .about-label {
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
             margin-bottom: 12px;
+            text-transform: uppercase;
         }
 
-        .about-page-copy h1 span,
-        .about-page-copy h2 span {
-            color: #24e8f3;
-            text-shadow: 0 0 22px rgba(36, 232, 243, 0.45);
-        }
-
-        .about-page-copy h2 {
-            color: #fff;
-            font-size: clamp(24px, 3vw, 36px);
-            margin-bottom: 24px;
-        }
-
-        .about-page-copy p {
-            color: rgba(230, 241, 255, 0.84);
-            font-size: 18px;
-            line-height: 1.8;
+        .about-hero h1 {
+            max-width: 900px;
+            margin-inline: auto;
+            color: #f3f7fb;
+            font-size: clamp(42px, 4.2vw, 60px);
+            font-weight: 730;
+            letter-spacing: -0.045em;
+            line-height: 1.1;
             margin-bottom: 22px;
         }
 
-        .about-page-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-top: 34px;
+        .about-hero-copy {
+            max-width: 800px;
+            margin-inline: auto;
+            color: #d2dae4;
+            font-size: 18px;
+            line-height: 1.65;
         }
 
-        .about-value-grid {
+        .journey-section,
+        .robotics-section {
+            min-height: auto;
+            display: block;
+        }
+
+        .journey-section {
+            padding: 72px 0 76px;
+            background: var(--background);
+        }
+
+        .section-heading {
+            max-width: 760px;
+            margin: 0 auto 48px;
+            text-align: center;
+        }
+
+        .section-heading h2 {
+            color: var(--text-primary);
+            font-size: clamp(32px, 4.3vw, 50px);
+            letter-spacing: -0.035em;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .section-heading > p:last-child {
+            max-width: 680px;
+            margin-inline: auto;
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .journey-map {
+            position: relative;
+        }
+
+        .journey-route {
+            position: absolute;
+            z-index: 0;
+            top: 39px;
+            right: 10%;
+            left: 10%;
+            height: 1px;
+            background: rgba(65, 148, 208, 0.38);
+            pointer-events: none;
+        }
+
+        .journey-list {
+            margin: 0;
+            padding: 0;
+            position: relative;
+            z-index: 1;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 22px;
-            margin-top: 70px;
-        }
-
-        .about-value-card,
-        .about-toolkit {
-            background: rgba(31, 36, 48, 0.78);
-            border: 1px solid rgba(36, 232, 243, 0.18);
-            border-radius: 18px;
-            box-shadow: 0 18px 45px rgba(2, 12, 27, 0.24);
-            transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
-        }
-
-        .about-value-card:hover {
-            border-color: rgba(36, 232, 243, 0.35);
-            box-shadow: 0 18px 50px rgba(36, 232, 243, 0.15);
-            transform: translateY(-5px);
-        }
-
-        .about-value-card {
-            padding: 28px;
-        }
-
-        .about-value-card i {
-            color: #24e8f3;
-            font-size: 30px;
-            margin-bottom: 18px;
-        }
-
-        .about-value-card h3 {
-            color: #fff;
-            font-size: 22px;
-            margin-bottom: 12px;
-        }
-
-        .about-value-card p {
-            color: rgba(230, 241, 255, 0.76);
-        }
-
-        .about-toolkit {
-            margin-top: 24px;
-            padding: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
             gap: 24px;
+            list-style: none;
         }
 
-        .about-toolkit h3 {
-            color: #fff;
-            font-size: 24px;
-            margin-bottom: 8px;
+        .journey-stage {
+            min-width: 0;
+            position: relative;
+            padding: 0 8px;
+            text-align: center;
         }
 
-        .about-toolkit p {
-            color: rgba(230, 241, 255, 0.76);
+        .journey-stage::after {
+            width: 11px;
+            height: 11px;
+            display: block;
+            position: absolute;
+            top: 34px;
+            left: 50%;
+            z-index: 1;
+            border: 2px solid #070b12;
+            border-radius: 50%;
+            background: #4194d0;
+            content: "";
+            transform: translateX(-50%);
         }
 
-        .about-tools {
+        .journey-number {
+            display: block;
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            margin-bottom: 0;
+        }
+
+        .journey-stage h3 {
+            color: var(--text-primary);
+            font-size: 17px;
+            line-height: 1.35;
+            margin: 36px auto 0;
+        }
+
+        .robotics-section {
+            padding: 70px 0;
+            background: var(--surface);
+            border-top: 1px solid rgba(65, 148, 208, 0.10);
+        }
+
+        .robotics-layout {
+            width: min(1120px, calc(100% - 48px));
+            margin-inline: auto;
+            display: grid;
+            grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+            gap: 16px;
+            align-items: stretch;
+        }
+
+        .robotics-column {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .robotics-copy {
+            min-height: 325px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .editorial-label {
+            width: min(1120px, calc(100% - 48px));
+            margin: 0 auto 24px;
+            color: #4194d0;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            line-height: 1.2;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .robotics-copy h2 {
+            max-width: 560px;
+            margin: 0 0 18px;
+            color: var(--text-primary);
+            font-size: clamp(36px, 3.5vw, 44px);
+            letter-spacing: -0.035em;
+            line-height: 1.08;
+            text-align: left;
+        }
+
+        .robotics-copy > p:not(.editorial-label) {
+            max-width: 550px;
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.65;
+            text-align: left;
+        }
+
+        .robotics-small-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .robotics-image {
+            min-width: 0;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: #0a111c;
+        }
+
+        .robotics-image-dominant {
+            height: 325px;
+        }
+
+        .robotics-image-supporting {
+            height: 160px;
+        }
+
+        .robotics-image img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .robotics-image-dominant img {
+            object-position: center 48%;
+        }
+
+        .robotics-image-ftc-me img {
+            object-position: center 58%;
+        }
+
+        .robotics-image-ftc-two img {
+            object-position: center 54%;
+        }
+
+        .robotics-image-ftc-three img {
+            object-position: center 50%;
+        }
+
+        .robotics-image-performance img {
+            object-position: center 48%;
+        }
+
+        .leadership-section {
+            min-height: auto;
+            padding: 70px 0;
+            display: block;
+            background: var(--background);
+            border-top: 1px solid rgba(65, 148, 208, 0.10);
+        }
+
+        .leadership-layout {
+            width: min(1120px, calc(100% - 48px));
+            margin-inline: auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+            gap: 16px;
+            align-items: stretch;
+        }
+
+        .leadership-column {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .leadership-copy {
+            min-height: 325px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .leadership-copy h2 {
+            max-width: 540px;
+            margin: 0 auto 18px;
+            color: var(--text-primary);
+            font-size: clamp(36px, 3.5vw, 44px);
+            font-weight: 700;
+            letter-spacing: -0.035em;
+            line-height: 1.08;
+        }
+
+        .leadership-copy > p:not(.editorial-label) {
+            max-width: 540px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.65;
+        }
+
+        .leadership-small-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .leadership-image {
+            min-width: 0;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: #0a111c;
+        }
+
+        .leadership-image-feature {
+            height: 325px;
+        }
+
+        .leadership-image-supporting {
+            height: 160px;
+        }
+
+        .leadership-image img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .leadership-image-profile img {
+            object-position: center 42%;
+        }
+
+        .leadership-image-scratch-two img {
+            object-position: center 44%;
+        }
+
+        .leadership-image-scratch-competition img {
+            object-position: center 46%;
+        }
+
+        .leadership-image-ai-two img,
+        .leadership-image-ai img {
+            object-position: center 45%;
+        }
+
+        .beyond-section {
+            min-height: auto;
+            padding: 84px 24px 0;
+            display: block;
+            overflow: hidden;
+            background: #0a111c;
+            border-top: 1px solid rgba(65, 148, 208, 0.10);
+            text-align: center;
+        }
+
+        .beyond-content {
+            max-width: 760px;
+            margin-inline: auto;
+        }
+
+        .beyond-content .editorial-label {
+            width: 100%;
+            margin-bottom: 16px;
+        }
+
+        .beyond-content h2 {
+            margin-bottom: 18px;
+            color: var(--text-primary);
+            font-size: clamp(36px, 3.5vw, 46px);
+            letter-spacing: -0.035em;
+            line-height: 1.1;
+        }
+
+        .beyond-copy {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .interests-list {
+            margin: 30px 0 0;
+            padding: 0;
             display: flex;
             flex-wrap: wrap;
-            justify-content: flex-end;
-            gap: 12px;
+            justify-content: center;
+            gap: 10px 18px;
+            color: #d7e0ea;
+            font-size: 15px;
+            font-weight: 600;
+            list-style: none;
         }
 
-        .about-tools span {
-            color: #24e8f3;
-            border: 1px solid rgba(36, 232, 243, 0.55);
-            border-radius: 999px;
-            padding: 9px 16px;
-            background: rgba(36, 232, 243, 0.08);
-            font-weight: 700;
-            transition: all 0.3s ease;
+        .interests-list li:not(:last-child)::after {
+            margin-left: 18px;
+            color: #4194d0;
+            content: "\2022";
         }
 
-        .about-tools span:hover {
-            background: rgba(36, 232, 243, 0.15);
-            border-color: rgba(36, 232, 243, 0.8);
-            transform: translateY(-2px);
+        .about-quote {
+            max-width: 880px;
+            margin: 56px auto 0;
+            padding: 42px 24px 44px;
+            position: relative;
+        }
+
+        .about-quote::after {
+            width: 96px;
+            height: 1px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            background: rgba(65, 148, 208, 0.65);
+            content: "";
+            transform: translateX(-50%);
+        }
+
+        .about-quote::before {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            color: rgba(65, 148, 208, 0.10);
+            font-family: Georgia, serif;
+            font-size: 112px;
+            line-height: 1;
+            content: "\201C";
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        .about-quote p {
+            position: relative;
+            color: #eef3f8;
+            font-size: clamp(24px, 2.7vw, 36px);
+            font-style: italic;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .about-quote footer {
+            margin-top: 22px;
+            padding: 0;
+            background: transparent;
+            border: 0;
+        }
+
+        .about-quote cite {
+            display: block;
+            color: #4194d0;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .quote-work {
+            margin-top: 6px;
+            display: block;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .page-ending {
+            width: min(720px, 80vw);
+            height: 18px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .page-ending::before {
+            height: 1px;
+            position: absolute;
+            top: 8px;
+            right: 0;
+            left: 0;
+            background: linear-gradient(90deg, transparent, rgba(65, 148, 208, 0.28), transparent);
+            content: "";
+        }
+
+        .page-ending::after {
+            width: 7px;
+            height: 7px;
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            background: #4194d0;
+            content: "";
+            transform: translateX(-50%) rotate(45deg);
+        }
+
+        .js-reveal .reveal-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 680ms ease-out, transform 680ms ease-out;
+        }
+
+        .js-reveal .reveal-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .js-reveal .reveal-delay-1 {
+            transition-delay: 100ms;
+        }
+
+        .js-reveal .reveal-delay-2 {
+            transition-delay: 210ms;
         }
 
         @media (max-width: 900px) {
-            .about-page-grid,
-            .about-value-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
+            .about-hero {
+                min-height: 620px;
+                padding-top: 108px;
             }
 
-            .about-page-copy {
+            .about-hero h1 {
+                font-size: clamp(38px, 6vw, 48px);
+            }
+
+            .journey-list {
+                gap: 12px;
+            }
+
+            .journey-stage {
+                padding-inline: 4px;
+            }
+
+            .journey-stage h3 {
+                font-size: 15px;
+            }
+
+            .robotics-layout {
+                width: min(100% - 40px, 760px);
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .robotics-column {
+                display: contents;
+            }
+
+            .robotics-copy {
+                min-height: auto;
+                margin-bottom: 18px;
                 order: 1;
             }
 
-            .about-page-portrait {
-                min-height: 390px;
+            .robotics-image-dominant {
+                height: auto;
+                aspect-ratio: 3 / 2;
                 order: 2;
             }
 
-            .about-page-actions {
-                justify-content: center;
+            .robotics-left-images {
+                order: 3;
             }
 
-            .about-toolkit {
+            .robotics-right-images {
+                order: 4;
+            }
+
+            .robotics-copy h2 {
+                font-size: clamp(34px, 5.2vw, 40px);
+            }
+
+            .robotics-image-supporting {
+                height: auto;
+                aspect-ratio: 4 / 3;
+            }
+
+            .leadership-layout {
+                width: min(100% - 40px, 760px);
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .leadership-column {
+                display: contents;
+            }
+
+            .leadership-copy {
+                min-height: auto;
+                margin-bottom: 18px;
+                order: 1;
+            }
+
+            .leadership-image-feature {
+                height: auto;
+                aspect-ratio: 3 / 2;
+                order: 2;
+            }
+
+            .leadership-left-images {
+                order: 3;
+            }
+
+            .leadership-right-images {
+                order: 4;
+            }
+
+            .leadership-copy h2 {
+                font-size: clamp(34px, 5.2vw, 40px);
+            }
+
+            .leadership-image-supporting {
+                height: auto;
+                aspect-ratio: 4 / 3;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .about-hero {
+                min-height: 600px;
+                height: auto;
+                padding: 112px 0 64px;
+            }
+
+            .about-hero-content {
+                padding: 0;
+            }
+
+            .about-hero h1 {
+                font-size: clamp(31px, 8.5vw, 41px);
+                line-height: 1.12;
+            }
+
+            .about-hero-copy {
+                font-size: 16px;
+                line-height: 1.65;
+            }
+
+            .journey-section {
+                padding: 56px 0 60px;
+            }
+
+            .robotics-section,
+            .leadership-section {
+                padding: 56px 0;
+            }
+
+            .section-heading {
+                margin-bottom: 34px;
+            }
+
+            .journey-route {
+                inset: 8px auto 8px 10px;
+                width: 1px;
+                height: auto;
+                background: rgba(65, 148, 208, 0.38);
+            }
+
+            .journey-list {
+                display: flex;
                 flex-direction: column;
-                text-align: center;
+                gap: 22px;
+                padding-left: 0;
             }
 
-            .about-tools {
-                justify-content: center;
+            .journey-stage {
+                width: 100%;
+                min-height: 38px;
+                padding: 0 0 0 38px;
+                display: grid;
+                grid-template-columns: 36px minmax(0, 1fr);
+                align-items: center;
+                text-align: left;
+            }
+
+            .journey-stage::after {
+                width: 11px;
+                height: 11px;
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                left: 5px;
+                transform: translateY(-50%);
+            }
+
+            .journey-number {
+                margin: 0;
+            }
+
+            .journey-stage h3 {
+                margin: 0;
+                font-size: 16px;
+            }
+
+            .robotics-copy h2 {
+                font-size: clamp(29px, 8vw, 36px);
+            }
+
+            .robotics-copy > p:not(.editorial-label) {
+                font-size: 16px;
+            }
+
+            .robotics-layout,
+            .robotics-small-grid,
+            .leadership-layout,
+            .leadership-small-grid {
+                gap: 10px;
+            }
+
+            .leadership-copy h2 {
+                font-size: clamp(29px, 8vw, 36px);
+            }
+
+            .leadership-copy > p:not(.editorial-label) {
+                font-size: 16px;
+            }
+
+            .beyond-section {
+                padding: 60px 18px 0;
+            }
+
+            .beyond-content h2 {
+                font-size: clamp(30px, 8vw, 38px);
+            }
+
+            .interests-list {
+                gap: 9px 12px;
+            }
+
+            .interests-list li:not(:last-child)::after {
+                margin-left: 12px;
+            }
+
+            .about-quote {
+                margin-top: 44px;
+                padding: 36px 0 38px;
+            }
+
+            .about-quote p {
+                font-size: clamp(21px, 6vw, 28px);
+            }
+        }
+
+        @media (max-width: 430px) {
+            .robotics-layout {
+                width: calc(100% - 32px);
+            }
+
+            .robotics-small-grid,
+            .leadership-small-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .robotics-image-supporting {
+                aspect-ratio: 4 / 3;
+            }
+
+            .leadership-layout {
+                width: calc(100% - 32px);
+            }
+
+            .leadership-image-supporting {
+                aspect-ratio: 4 / 3;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .about-hero-image {
+                transition: none;
+            }
+
+            .about-hero-image-fll {
+                opacity: 1;
+            }
+
+            .about-hero-image-camp {
+                display: none;
+            }
+
+            .js-reveal .reveal-item,
+            .js-reveal .reveal-item.is-visible {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+
+            body.about-page *,
+            body.about-page *::before,
+            body.about-page *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
 </head>
 
-<body>
+<body class="about-page">
     <header> 
         <div class="container">
             <nav>
-                <a href="index.html" class="logo">Fidele</a>
+                <a href="index.html" class="logo">Fidele<span aria-hidden="true">.</span></a>
                 
                 <!-- Hamburger Menu - Only shows on mobile -->
-                <div class="hamburger" id="hamburger">
+                <button class="hamburger" id="hamburger" type="button" aria-label="Open navigation menu" aria-controls="navLinks" aria-expanded="false">
                     <span class="line"></span>
                     <span class="line"></span>
                     <span class="line"></span>
-                </div>
+                </button>
 
                 <!-- Navigation Links - Shows on desktop, hidden on mobile until hamburger clicked -->
                 <ul class="nav-links" id="navLinks">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="aboutus.html" class="active">About</a></li>
-                     <!--<li><a href="skills.html">Skills</a></li>-->
-                    <li><a href="certifications.html">Certifications</a></li>
                     <li><a href="projects.html">Projects</a></li>
-                    <li><a href="contact.html" class="btn btn-outline contact-btn">Contact Me</a></li>
+                    <li><a href="certifications.html">Certificates</a></li>
+                    <li><a href="contact.html" class="btn btn-outline contact-btn">Contact</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <section class="about-page-rewrite">
-        <div class="container">
-            <div class="about-page-grid fade-in">
-                <div class="about-page-portrait" aria-label="Fidele portrait with Tech Wizard letter mark">
-                    <span class="lettermark">TW</span>
-                    <div class="hex-frame hex-frame-large">
-                        <img src="images/new-profile.png" alt="Fidele Profile">
+    <main>
+        <section class="about-hero" aria-labelledby="about-hero-title">
+            <img class="about-hero-image about-hero-image-fll is-active" src="images/ME_IN_FLL_KCC.png"
+                alt="" aria-hidden="true" width="3646" height="2234" decoding="async" fetchpriority="high">
+            <img class="about-hero-image about-hero-image-camp" src="images/Us_In_Camp.jpg"
+                alt="" aria-hidden="true" width="7150" height="4022" decoding="async">
+            <div class="about-hero-overlay" aria-hidden="true"></div>
+            <div class="container">
+                <div class="about-hero-content">
+                    <h1 id="about-hero-title">A journey fueled by innovation, passion and leadership.</h1>
+                    <p class="about-hero-copy">I&rsquo;m Fidele, a Rwandan student growing through programming, robotics, creative problem-solving and youth leadership. From participating in national-level robotics competitions such as FLL to organizing technology events and building practical projects, each experience is helping me grow toward software engineering, applied artificial intelligence and creating technology initiatives that solve real challenges.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="journey-section" aria-labelledby="journey-title">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="about-label">My Journey</p>
+                    <h2 id="journey-title">How the journey is unfolding</h2>
+                    <p>The experiences that shape me did not happen all at once. Each stage grew naturally from the one before it, moving from curiosity to learning, competition, leadership and a larger vision for the future.</p>
+                </div>
+
+                <div class="journey-map">
+                    <div class="journey-route" aria-hidden="true"></div>
+                    <ol class="journey-list">
+                        <li class="journey-stage">
+                            <span class="journey-number">01</span>
+                            <h3>Curiosity became action</h3>
+                        </li>
+                        <li class="journey-stage">
+                            <span class="journey-number">02</span>
+                            <h3>Learning became building</h3>
+                        </li>
+                        <li class="journey-stage">
+                            <span class="journey-number">03</span>
+                            <h3>Building became competition</h3>
+                        </li>
+                        <li class="journey-stage">
+                            <span class="journey-number">04</span>
+                            <h3>Competition became leadership</h3>
+                        </li>
+                        <li class="journey-stage">
+                            <span class="journey-number">05</span>
+                            <h3>Leadership became a vision</h3>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section class="robotics-section" aria-labelledby="robotics-title">
+            <p class="editorial-label reveal-item">Robotics</p>
+            <div class="robotics-layout">
+                <div class="robotics-column robotics-column-left">
+                    <div class="robotics-copy reveal-item reveal-delay-1">
+                        <h2 id="robotics-title">My Robotics Journey</h2>
+                        <p>Robotics gave me the opportunity to move beyond learning concepts and apply them in real challenges. Through national-level competitions such as FLL , FTC and other team experiences, I learned how to design, test, adapt and communicate ideas while working toward a shared goal.</p>
+                    </div>
+
+                    <div class="robotics-small-grid robotics-left-images reveal-item reveal-delay-2">
+                        <div class="robotics-image robotics-image-supporting robotics-image-ftc-me">
+                            <img src="images/FTC_me.png" alt="Fidele and a teammate presenting their competition robot" width="1111" height="833" loading="lazy" decoding="async">
+                        </div>
+                        <div class="robotics-image robotics-image-supporting robotics-image-ftc-three">
+                            <img src="images/FTC_3.png" alt="Team members preparing and adjusting their competition robot" width="1440" height="1066" loading="lazy" decoding="async">
+                        </div>
                     </div>
                 </div>
 
-                <div class="about-page-copy">
-                    <p class="eyebrow">About Tech Wizard</p>
-                    <h1>About <span>Me</span></h1>
-                    <h2>Full-Stack Developer & Creative Builder</h2>
-                    <p>I am Fidele Ineza, a focused developer building clean websites, practical software, and digital experiences that feel modern, fast, and useful.</p>
-                    <p>My work blends code, design, automation, and problem-solving. I care about simple interfaces, reliable systems, and products that help people move from idea to execution.</p>
-                    <div class="about-page-actions">
-                        <a href="projects.html" class="btn btn-primary">View Projects</a>
-                        <a href="contact.html" class="btn btn-outline">Work With Me</a>
+                <div class="robotics-column robotics-column-right">
+                    <div class="robotics-image robotics-image-dominant reveal-item reveal-delay-1">
+                        <img src="images/ME_IN_FTC_INTARE.PNG" alt="Fidele and teammates participating in an FTC robotics competition" width="1317" height="988" loading="lazy" decoding="async">
+                    </div>
+
+                    <div class="robotics-small-grid robotics-right-images reveal-item reveal-delay-2">
+                        <div class="robotics-image robotics-image-supporting robotics-image-ftc-two">
+                            <img src="images/FTC_2.png" alt="Robotics team presenting their work during a competition" width="1440" height="1796" loading="lazy" decoding="async">
+                        </div>
+                        <div class="robotics-image robotics-image-supporting robotics-image-performance">
+                            <img src="images/ROBOT_PERFORMANCE_INTARE.PNG" alt="Robot performing on the competition field during an FTC event" width="1440" height="1080" loading="lazy" decoding="async">
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="about-value-grid fade-in" style="transition-delay: 0.1s;">
-                <article class="about-value-card">
-                    <i class="fas fa-code"></i>
-                    <h3>Web Development</h3>
-                    <p>Responsive front ends and full-stack features shaped around clean structure, speed, and usability.</p>
-                </article>
-                <article class="about-value-card">
-                    <i class="fas fa-robot"></i>
-                    <h3>AI & Automation</h3>
-                    <p>Smart workflows, chatbot ideas, and practical automation that reduce repetitive work.</p>
-                </article>
-                <article class="about-value-card">
-                    <i class="fas fa-pen-nib"></i>
-                    <h3>Design Thinking</h3>
-                    <p>Visual direction, interface polish, and branding details that make products feel professional.</p>
-                </article>
+        <section class="leadership-section" aria-labelledby="leadership-title">
+            <p class="editorial-label reveal-item">Leadership</p>
+            <div class="leadership-layout">
+                <div class="leadership-column leadership-column-left">
+                    <div class="leadership-image leadership-image-feature leadership-image-profile reveal-item reveal-delay-1">
+                        <img src="images/my profile.png" alt="Fidele speaking during the Scratch Competition finals" width="2245" height="1587" loading="lazy" decoding="async">
+                    </div>
+
+                    <div class="leadership-small-grid leadership-left-images reveal-item reveal-delay-2">
+                        <div class="leadership-image leadership-image-supporting leadership-image-scratch-two">
+                            <img src="images/Scratch2.png" alt="Students taking part in the Scratch Competition" width="2245" height="1587" loading="lazy" decoding="async">
+                        </div>
+                        <div class="leadership-image leadership-image-supporting leadership-image-scratch-competition">
+                            <img src="images/Scratch Competition.png" alt="Participants presenting projects during the Scratch Competition" width="2245" height="1587" loading="lazy" decoding="async">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="leadership-column leadership-column-right">
+                    <div class="leadership-copy reveal-item reveal-delay-1">
+                        <h2 id="leadership-title">Creating opportunities for others.</h2>
+                        <p>As I grew through technology and robotics, I began creating opportunities where students who share an interest in technology could bring together different skills, ideas and perspectives. Through the ICT and Innovation Club, I helped organize initiatives such as the Scratch Competition and AI for Good Week, giving young people space to learn, compete, collaborate and turn their ideas into practical solutions.</p>
+                    </div>
+
+                    <div class="leadership-small-grid leadership-right-images reveal-item reveal-delay-2">
+                        <div class="leadership-image leadership-image-supporting leadership-image-ai-two">
+                            <img src="images/AI_for_good2.png" alt="Students receiving recognition during an AI for Good event" width="2245" height="1587" loading="lazy" decoding="async">
+                        </div>
+                        <div class="leadership-image leadership-image-supporting leadership-image-ai">
+                            <img src="images/AI_for_good.png" alt="Young participants displaying certificates from the AI for Good initiative" width="2245" height="1587" loading="lazy" decoding="async">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="beyond-section" aria-labelledby="beyond-title">
+            <div class="beyond-content reveal-item">
+                <p class="editorial-label">Beyond the Work</p>
+                <h2 id="beyond-title">The person behind the work.</h2>
+                <p class="beyond-copy">When I&rsquo;m not coding, working with robotics or organizing something, I enjoy listening to music, playing basketball, watching action movies and designing. Those are the things that help me relax, recharge and return to my work with fresh ideas.</p>
+
+                <ul class="interests-list" aria-label="Personal interests">
+                    <li>Music</li>
+                    <li>Basketball</li>
+                    <li>Action Movies</li>
+                    <li>Designing</li>
+                </ul>
             </div>
 
-            <div class="about-toolkit fade-in" style="transition-delay: 0.2s;">
-                <div>
-                    <h3>Core toolkit</h3>
-                    <p>The skills I keep sharpening while building real projects.</p>
-                </div>
-                <div class="about-tools">
-                    <span>HTML</span>
-                    <span>CSS</span>
-                    <span>JavaScript</span>
-                    <span>Python</span>
-                    <span>UI/UX</span>
-                    <span>Chatbots</span>
-                </div>
-            </div>
-        </div>
-    </section>
+            <blockquote class="about-quote reveal-item reveal-delay-1">
+                <p>&ldquo;The difference between talents and character is &hellip; power and courage to make a new road to new and better goals.&rdquo;</p>
+                <footer>
+                    <cite>&mdash; Ralph Waldo Emerson</cite>
+                    <span class="quote-work">Circles</span>
+                </footer>
+            </blockquote>
+
+            <div class="page-ending" aria-hidden="true"></div>
+        </section>
+    </main>
 
     <footer>
         <div class="container">
             <div class="social-icons">
-                <a href="https://www.instagram.com/techwizard285/" target="_blank" aria-label="Instagram">
+                <a href="https://www.instagram.com/techwizard285/" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on Instagram">
                     <i class="fab fa-instagram"></i>
                 </a>
-                
+                <a href="https://github.com/INEZA-24" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on GitHub">
+                    <i class="fab fa-github"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" aria-label="LinkedIn">
+                <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on LinkedIn">
                     <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a href="https://discord.com/users/1280955016928297013" target="_blank" aria-label="Discord" class="discord-icon">
-                    <i class="fab fa-discord"></i>
                 </a>
             </div>
             <p>© <span id="year"></span> Fidele. All rights reserved.</p>
-            <div class="copyright">
-                <p>Built with passion and innovation</p>
-            </div>
         </div>
     </footer>
 
     <script>
-        // Mobile Navigation Toggle - SAME AS INDEX.HTML
+        const header = document.querySelector('body > header');
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('navLinks');
         const body = document.body;
-        
+
+        const closeMenu = (returnFocus = false) => {
+            if (!hamburger || !navLinks) return;
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+            hamburger.setAttribute('aria-label', 'Open navigation menu');
+            body.classList.remove('no-scroll');
+            if (returnFocus) hamburger.focus();
+        };
+
         if (hamburger && navLinks) {
-            hamburger.addEventListener('click', (e) => {
-                e.stopPropagation();
-                hamburger.classList.toggle('active');
-                navLinks.classList.toggle('active');
-                body.classList.toggle('no-scroll');
+            hamburger.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const isOpen = hamburger.getAttribute('aria-expanded') === 'true';
+
+                if (isOpen) {
+                    closeMenu();
+                    return;
+                }
+
+                hamburger.classList.add('active');
+                navLinks.classList.add('active');
+                hamburger.setAttribute('aria-expanded', 'true');
+                hamburger.setAttribute('aria-label', 'Close navigation menu');
+                body.classList.add('no-scroll');
             });
-            
-            // Close menu when clicking a link
-            const navItems = document.querySelectorAll('.nav-links a');
-            navItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                    body.classList.remove('no-scroll');
-                });
+
+            navLinks.querySelectorAll('a').forEach((link) => {
+                link.addEventListener('click', () => closeMenu());
             });
-            
-            // Close menu when clicking outside
+
             document.addEventListener('click', (event) => {
                 if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                    body.classList.remove('no-scroll');
+                    closeMenu();
                 }
             });
-            
-            // Close menu with ESC key
+
             document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape') {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                    body.classList.remove('no-scroll');
+                if (event.key === 'Escape' && hamburger.getAttribute('aria-expanded') === 'true') {
+                    closeMenu(true);
                 }
             });
         }
-        
-        // Handle window resize - close menu if resized to desktop
+
         window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                if (hamburger) hamburger.classList.remove('active');
-                if (navLinks) navLinks.classList.remove('active');
-                body.classList.remove('no-scroll');
-            }
+            if (window.innerWidth > 768) closeMenu();
         });
-        
-        // Set current year in footer
-        document.getElementById('year').textContent = new Date().getFullYear();
-        
-        // Fade in animation for new sections
-        document.addEventListener('DOMContentLoaded', function() {
-            const fadeElements = document.querySelectorAll('.fade-in');
-            
-            const fadeInObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = 1;
-                        entry.target.style.transform = 'translateY(0)';
-                        fadeInObserver.unobserve(entry.target);
-                    }
+
+        const updateHeader = () => header?.classList.toggle('scrolled', window.scrollY > 16);
+        updateHeader();
+        window.addEventListener('scroll', updateHeader, { passive: true });
+
+        const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const revealItems = document.querySelectorAll('.reveal-item');
+
+        if ('IntersectionObserver' in window && !reducedMotionQuery.matches && revealItems.length) {
+            document.documentElement.classList.add('js-reveal');
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
                 });
-            }, { threshold: 0.1 });
-            
-            fadeElements.forEach(el => {
-                el.style.opacity = 0;
-                el.style.transform = 'translateY(20px)';
-                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                fadeInObserver.observe(el);
+            }, {
+                threshold: 0.12,
+                rootMargin: '0px 0px -8% 0px'
             });
-        });
-        
-        // Add this for smooth page transitions (optional enhancement)
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add smooth transition when navigating between pages
-            document.querySelectorAll('a').forEach(link => {
-                if (link.href && !link.href.includes('#')) {
-                    link.addEventListener('click', function(e) {
-                        // Only apply to internal links
-                        if (this.hostname === window.location.hostname) {
-                            e.preventDefault();
-                            document.body.style.opacity = '0.7';
-                            document.body.style.transition = 'opacity 0.3s ease';
-                            
-                            setTimeout(() => {
-                                window.location.href = this.href;
-                            }, 300);
-                        }
-                    });
-                }
-            });
-            
-            // Fade in page on load
-            document.body.style.opacity = '0';
-            document.body.style.transition = 'opacity 0.5s ease';
-            
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-            }, 100);
-        });
+
+            revealItems.forEach((item) => revealObserver.observe(item));
+        }
+
+        const heroImages = document.querySelectorAll('.about-hero-image');
+
+        if (heroImages.length === 2 && !reducedMotionQuery.matches) {
+            let activeHeroImage = 0;
+
+            window.setInterval(() => {
+                heroImages[activeHeroImage].classList.remove('is-active');
+                activeHeroImage = (activeHeroImage + 1) % heroImages.length;
+                heroImages[activeHeroImage].classList.add('is-active');
+            }, 300000);
+        }
+
+        document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 </body>
 

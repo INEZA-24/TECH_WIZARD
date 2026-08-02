@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact | FIDELE Portfolio</title>
+    <title>Contact | Fidele Portfolio</title>
     <link rel="icon" type="image/png" href="images/flash.png">
     <meta name="theme-color" content="#0a192f">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,279 +14,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link rel="stylesheet" href="css/index.css">
-    <style>
-        /* Contact Page Specific Styles */
-        #contact {
-            padding: 100px 0;
-            min-height: 100vh;
-        }
-        
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            margin-top: 30px;
-        }
-        
-        .contact-info {
-            background-color: var(--darker);
-            padding: 40px;
-            border-radius: 10px;
-            border: 1px solid rgba(204, 214, 246, 0.1);
-        }
-        
-        .contact-info h2 {
-            color: var(--lighter);
-            margin-bottom: 30px;
-            font-size: 28px;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 30px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid rgba(204, 214, 246, 0.1);
-        }
-        
-        .contact-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        
-        .contact-item i {
-            font-size: 24px;
-            color: var(--primary);
-            background-color: rgba(52, 152, 219, 0.1);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 20px;
-            flex-shrink: 0;
-        }
-        
-        .contact-item h3 {
-            color: var(--lighter);
-            margin-bottom: 5px;
-            font-size: 18px;
-        }
-        
-        .contact-item p {
-            color: var(--light);
-            opacity: 0.8;
-        }
-        
-        .social-links-contact {
-            display: flex;
-            gap: 15px;
-            margin-top: 40px;
-        }
-        
-        .social-links-contact a {
-            color: var(--light);
-            font-size: 20px;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background-color: rgba(52, 152, 219, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-        }
-        
-        .social-links-contact a:hover {
-            color: var(--primary);
-            transform: translateY(-3px);
-            background-color: rgba(52, 152, 219, 0.2);
-        }
-        
-        .contact-form-container {
-            background-color: var(--darker);
-            padding: 40px;
-            border-radius: 10px;
-            border: 1px solid rgba(204, 214, 246, 0.1);
-        }
-        
-        .contact-form-container h2 {
-            color: var(--lighter);
-            margin-bottom: 30px;
-            font-size: 28px;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--lighter);
-            font-weight: 500;
-        }
-        
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 15px;
-            background-color: rgba(10, 25, 47, 0.5);
-            border: 1px solid rgba(204, 214, 246, 0.1);
-            border-radius: 5px;
-            color: var(--light);
-            font-size: 16px;
-            font-family: 'Inter', sans-serif;
-            transition: var(--transition);
-        }
-        
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-        }
-        
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-        
-        .required {
-            color: var(--primary);
-        }
-        
-        .submit-btn-contact {
-            background-color: var(--primary);
-            color: var(--dark);
-            border: none;
-            padding: 15px 35px;
-            font-size: 16px;
-            font-weight: 500;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            margin-top: 10px;
-        }
-        
-        .submit-btn-contact:hover:not(.loading) {
-            background-color: transparent;
-            color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow);
-        }
-        
-        .submit-btn-contact.loading {
-            opacity: 0.7;
-            cursor: not-allowed;
-            background-color: #666;
-        }
-        
-        .form-message {
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 20px;
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .form-message.success {
-            background-color: rgba(52, 211, 153, 0.1);
-            color: #10b981;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
-        
-        .form-message.error {
-            background-color: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Responsive styles for contact page */
-        @media (max-width: 992px) {
-            .contact-container {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .contact-info,
-            .contact-form-container {
-                padding: 30px 20px;
-            }
-            
-            #contact {
-                padding: 100px 0 60px;
-            }
-            
-            .contact-item {
-                flex-direction: column;
-                text-align: center;
-                align-items: center;
-            }
-            
-            .contact-item i {
-                margin-right: 0;
-                margin-bottom: 15px;
-            }
-            
-            .social-links-contact {
-                justify-content: center;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .contact-container {
-                gap: 20px;
-            }
-            
-            .contact-info,
-            .contact-form-container {
-                padding: 20px 15px;
-            }
-            
-            .contact-item {
-                margin-bottom: 20px;
-                padding-bottom: 20px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/contact.css">
 </head>
 
 <body>
     <header> 
         <div class="container">
             <nav>
-                <a href="index.html" class="logo">Fidele</a>
+                <a href="index.html" class="logo">Fidele<span aria-hidden="true">.</span></a>
                 
-                <!-- Hamburger Menu - Only shows on mobile -->
-                <div class="hamburger" id="hamburger">
-                    <span class="line"></span>
-                    <span class="line"></span>
-                    <span class="line"></span>
-                </div>
+                <button class="menu-toggle" id="hamburger" type="button" aria-label="Open navigation menu" aria-controls="navLinks" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
 
                 <!-- Navigation Links - Shows on desktop, hidden on mobile until hamburger clicked -->
                 <ul class="nav-links" id="navLinks">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="aboutus.html">About</a></li>
-                     <!--<li><a href="skills.html">Skills</a></li>-->
-                    <li><a href="certifications.html">Certifications</a></li>
                     <li><a href="projects.html">Projects</a></li>
-                    <li><a href="contact.html" class="btn btn-outline contact-btn active">Contact Me</a></li>
+                    <li><a href="certifications.html">Certificates</a></li>
+                    <li><a href="contact.html" class="btn btn-outline contact-btn active">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -294,65 +43,15 @@
 
     <section id="contact">
         <div class="container">
-            <div class="section-title fade-in">
-                <h2>Get In Touch</h2>
+            <div class="contact-header fade-in">
+                <p class="contact-label">Contact</p>
+                <h1>Let&rsquo;s connect.</h1>
+                <p class="contact-intro">Have a question, an idea or an opportunity to collaborate? Send me a message and I&rsquo;ll get back to you as soon as I can.</p>
             </div>
             
             <div class="contact-container">
-                <!-- Contact Information -->
-                <div class="contact-info fade-in" style="transition-delay: 0.1s;">
-                    <h2>Contact Information</h2>
-                    
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <h3>Location</h3>
-                            <p>Kigali, Rwanda</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <h3>Email Address</h3>
-                            <p>inezafidele126@gmail.com</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <div>
-                            <h3>Phone Number</h3>
-                            <p>+250 796 485 717</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <i class="fas fa-clock"></i>
-                        <div>
-                            <h3>Availability</h3>
-                            <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
-                            <p>Response Time: Within 48 hours</p>
-                        </div>
-                    </div>
-                    
-                    <div class="social-links-contact">
-                        <a href="https://www.instagram.com/techwizard285/" target="_blank" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                
-                        </a>
-                        <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                          <a href="https://discord.com/users/1280955016928297013" target="_blank" aria-label="Discord" class="discord-icon">
-                    <i class="fab fa-discord"></i>
-                </a>
-                    </div>
-                </div>
-                
                 <!-- Contact Form -->
-                <div class="contact-form-container fade-in" style="transition-delay: 0.2s;">
+                <div class="contact-form-container fade-in" style="transition-delay: 0.1s;">
                     <h2>Send a Message</h2>
                     
                     <form 
@@ -395,7 +94,7 @@
                     
                     <div class="form-message success" id="successMessage">
                         <i class="fas fa-check-circle"></i>
-                        <span id="successText">Message sent successfully! I'll get back to you within 24 hours.</span>
+                        <span id="successText">Message sent successfully! I&rsquo;ll get back to you as soon as I can.</span>
                     </div>
                     
                     <div class="form-message error" id="errorMessage">
@@ -410,22 +109,17 @@
     <footer>
         <div class="container">
             <div class="social-icons">
-                <a href="https://www.instagram.com/techwizard285/" target="_blank" aria-label="Instagram">
+                <a href="https://www.instagram.com/techwizard285/" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on Instagram">
                     <i class="fab fa-instagram"></i>
                 </a>
-                
+                <a href="https://github.com/INEZA-24" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on GitHub">
+                    <i class="fab fa-github"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" aria-label="LinkedIn">
+                <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on LinkedIn">
                     <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a href="https://discord.com/users/1280955016928297013" target="_blank" aria-label="Discord" class="discord-icon">
-                    <i class="fab fa-discord"></i>
                 </a>
             </div>
             <p>© <span id="year"></span> Fidele. All rights reserved.</p>
-            <div class="copyright">
-                <p>Built with passion and innovation</p>
-            </div>
         </div>
     </footer>
 
@@ -436,12 +130,15 @@
         const body = document.body;
         
         if (hamburger && navLinks) {
-            hamburger.addEventListener('click', (e) => {
-                e.stopPropagation();
-                hamburger.classList.toggle('active');
-                navLinks.classList.toggle('active');
-                body.classList.toggle('no-scroll');
-            });
+                hamburger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    hamburger.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                    body.classList.toggle('no-scroll');
+                    const isOpen = navLinks.classList.contains('active');
+                    hamburger.setAttribute('aria-expanded', String(isOpen));
+                    hamburger.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+                });
             
             // Close menu when clicking a link
             const navItems = document.querySelectorAll('.nav-links a');
@@ -450,6 +147,8 @@
                     hamburger.classList.remove('active');
                     navLinks.classList.remove('active');
                     body.classList.remove('no-scroll');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    hamburger.setAttribute('aria-label', 'Open navigation menu');
                 });
             });
             
@@ -459,6 +158,8 @@
                     hamburger.classList.remove('active');
                     navLinks.classList.remove('active');
                     body.classList.remove('no-scroll');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    hamburger.setAttribute('aria-label', 'Open navigation menu');
                 }
             });
             
@@ -468,6 +169,8 @@
                     hamburger.classList.remove('active');
                     navLinks.classList.remove('active');
                     body.classList.remove('no-scroll');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    hamburger.setAttribute('aria-label', 'Open navigation menu');
                 }
             });
         }
@@ -478,6 +181,10 @@
                 if (hamburger) hamburger.classList.remove('active');
                 if (navLinks) navLinks.classList.remove('active');
                 body.classList.remove('no-scroll');
+                if (hamburger) {
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    hamburger.setAttribute('aria-label', 'Open navigation menu');
+                }
             }
         });
         
@@ -519,7 +226,7 @@
                     
                     if (response.ok) {
                         // Success!
-                        successText.textContent = 'Message sent successfully! I\'ll get back to you within 48 hours.';
+                        successText.textContent = 'Message sent successfully! I\'ll get back to you as soon as I can.';
                         successMessage.style.display = 'block';
                         errorMessage.style.display = 'none';
                         
@@ -581,8 +288,15 @@
             
             // ===== FADE IN ANIMATIONS =====
             const fadeElements = document.querySelectorAll('.fade-in');
-            
-            const fadeInObserver = new IntersectionObserver((entries) => {
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            if (!('IntersectionObserver' in window) || reduceMotion) {
+                fadeElements.forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'none';
+                });
+            } else {
+                const fadeInObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.style.opacity = 1;
@@ -590,14 +304,15 @@
                         fadeInObserver.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.1 });
-            
-            fadeElements.forEach(el => {
-                el.style.opacity = 0;
-                el.style.transform = 'translateY(20px)';
-                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                fadeInObserver.observe(el);
-            });
+                }, { threshold: 0.1 });
+
+                fadeElements.forEach(el => {
+                    el.style.opacity = 0;
+                    el.style.transform = 'translateY(20px)';
+                    el.style.transition = 'opacity 0.65s ease, transform 0.65s ease';
+                    fadeInObserver.observe(el);
+                });
+            }
             
             // ===== SMOOTH PAGE TRANSITIONS =====
             document.querySelectorAll('a').forEach(link => {
