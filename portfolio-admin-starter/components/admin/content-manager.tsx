@@ -317,7 +317,6 @@ function CertificateFields({ item, certificateAssets, errors }: { item: Certific
       <Area name="description" label="Description" defaultValue={item.description} error={errors.description} />
       <Field name="skills" label="Skills" defaultValue={item.skills.join(', ')} error={errors.skills} />
       <CertificateAssetSelect assets={certificateAssets} defaultValue={item.certificateFile} error={errors.certificateFile} />
-      <Field name="icon" label="Icon" defaultValue={item.icon} error={errors.icon} />
       <Field name="sortOrder" label="Sort Order" type="number" defaultValue={item.sortOrder} error={errors.sortOrder} />
       <Check name="published" label="Published" defaultChecked={item.published} />
     </>
