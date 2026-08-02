@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FIDELE | Projects</title>
+    <title>Fidele | Projects</title>
     <link rel="icon" type="image/png" href="images/flash.png">
     <meta name="theme-color" content="#0a192f">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,45 +12,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/projects.css">
-    <style>
-        .scroll-animate {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
-        .scroll-animate.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .delay-1 { transition-delay: 0.1s; }
-
-        .projects-note {
-            text-align: center;
-            margin-top: 40px;
-            color: rgba(204, 214, 246, 0.7);
-            font-size: 14px;
-        }
-    </style>
 </head>
 
 <body>
     <header>
         <div class="container">
             <nav>
-                <a href="index.html" class="logo">Fidele</a>
-                <div class="hamburger" id="hamburger">
-                    <span class="line"></span>
-                    <span class="line"></span>
-                    <span class="line"></span>
-                </div>
+                <a href="index.html" class="logo">Fidele<span aria-hidden="true">.</span></a>
+                <button class="menu-toggle" id="hamburger" type="button" aria-label="Open navigation menu" aria-controls="navLinks" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <ul class="nav-links" id="navLinks">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="aboutus.html">About</a></li>
-                    <li><a href="certifications.html">Certifications</a></li>
                     <li><a href="projects.html" class="active">Projects</a></li>
-                    <li><a href="contact.html" class="btn btn-outline contact-btn">Contact Me</a></li>
+                    <li><a href="certifications.html">Certificates</a></li>
+                    <li><a href="contact.html" class="nav-contact">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -59,17 +38,12 @@
     <section id="projects" class="projects-section">
         <div class="container">
             <div class="section-title scroll-animate">
-                <h2>My Projects</h2>
+                <p class="page-label">Projects</p>
+                <h1>My Projects</h1>
             </div>
 
             <div class="projects-intro scroll-animate delay-1">
-                <p>
-                    Here's a showcase of my recent work where I blend <span class="projects-intro-highlight">robotics engineering</span>,
-                    <span class="projects-intro-highlight">full-stack development</span>, and
-                    <span class="projects-intro-highlight">creative problem-solving</span> to build impactful solutions.
-                    Each project represents a unique challenge I've tackled, from hardware prototypes to sophisticated web applications.
-                </p>
-                <p class="projects-note">This page now reads from a shared content source so it can later switch cleanly to Supabase.</p>
+                <p>Here is a collection of projects that reflect what I am currently learning and building in programming and web development. Each project represents an idea I explored, a problem I worked through, or a new skill I put into practice as I continue building the foundations for a future in software engineering and applied artificial intelligence.</p>
             </div>
 
             <div class="projects-grid stagger-container" id="projectsGrid"></div>
@@ -79,20 +53,17 @@
     <footer>
         <div class="container">
             <div class="social-icons">
-                <a href="https://www.instagram.com/techwizard285/" target="_blank" aria-label="Instagram">
+                <a href="https://www.instagram.com/techwizard285/" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on Instagram">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" aria-label="LinkedIn">
-                    <i class="fab fa-linkedin-in"></i>
+                <a href="https://github.com/INEZA-24" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on GitHub">
+                    <i class="fab fa-github"></i>
                 </a>
-                <a href="https://discord.com/users/1280955016928297013" target="_blank" aria-label="Discord" class="discord-icon">
-                    <i class="fab fa-discord"></i>
+                <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
                 </a>
             </div>
             <p>&copy; <span id="year"></span> Fidele. All rights reserved.</p>
-            <div class="copyright">
-                <p>Built with passion and innovation</p>
-            </div>
         </div>
     </footer>
 
@@ -108,6 +79,9 @@
                 this.classList.toggle('active');
                 navLinks.classList.toggle('active');
                 body.classList.toggle('no-scroll');
+                const isOpen = navLinks.classList.contains('active');
+                this.setAttribute('aria-expanded', String(isOpen));
+                this.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
             });
 
             document.querySelectorAll('.nav-links a').forEach((item) => {
@@ -115,6 +89,8 @@
                     hamburger.classList.remove('active');
                     navLinks.classList.remove('active');
                     body.classList.remove('no-scroll');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    hamburger.setAttribute('aria-label', 'Open navigation menu');
                 });
             });
 
@@ -123,6 +99,8 @@
                     hamburger.classList.remove('active');
                     navLinks.classList.remove('active');
                     body.classList.remove('no-scroll');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    hamburger.setAttribute('aria-label', 'Open navigation menu');
                 }
             });
 
@@ -131,6 +109,8 @@
                     hamburger.classList.remove('active');
                     navLinks.classList.remove('active');
                     body.classList.remove('no-scroll');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    hamburger.setAttribute('aria-label', 'Open navigation menu');
                 }
             });
         }
@@ -140,11 +120,20 @@
                 hamburger.classList.remove('active');
                 navLinks.classList.remove('active');
                 body.classList.remove('no-scroll');
+                hamburger.setAttribute('aria-expanded', 'false');
+                hamburger.setAttribute('aria-label', 'Open navigation menu');
             }
         });
 
         function initAnimations() {
-            const observer = new IntersectionObserver((entries) => {
+            const animatedElements = document.querySelectorAll('.scroll-animate');
+            if (!animatedElements.length || !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                animatedElements.forEach((el) => el.classList.add('show'));
+                return;
+            }
+
+            document.documentElement.classList.add('js-project-reveal');
+            const observer = new IntersectionObserver((entries, currentObserver) => {
                 entries.forEach((entry) => {
                     if (!entry.isIntersecting) {
                         return;
@@ -158,13 +147,14 @@
                             setTimeout(() => item.classList.add('show'), index * 100);
                         });
                     }
+                    currentObserver.unobserve(entry.target);
                 });
             }, {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
             });
 
-            document.querySelectorAll('.scroll-animate').forEach((el) => observer.observe(el));
+            animatedElements.forEach((el) => observer.observe(el));
         }
 
         function balanceProjectsGrid() {
@@ -184,8 +174,7 @@
             if (!projects.length) {
                 grid.innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; padding: 50px;">
-                        <h3 style="color: var(--lighter); margin-bottom: 20px;">No projects available right now</h3>
-                        <p style="color: rgba(204, 214, 246, 0.7);">Add items to your shared content source to publish them here.</p>
+                        <h3>No projects are available right now.</h3>
                     </div>
                 `;
                 return;
@@ -210,12 +199,12 @@
                         <p class="project-description">${project.description}</p>
                         <div class="project-links">
                             ${project.github ? `
-                                <a href="${project.github}" target="_blank" class="project-link">
+                                <a href="${project.github}" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View code for ${project.title}">
                                     <i class="fab fa-github"></i> Code
                                 </a>
                             ` : ''}
                             ${project.demo ? `
-                                <a href="${project.demo}" target="_blank" class="project-link">
+                                <a href="${project.demo}" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Open live demo for ${project.title}">
                                     <i class="fas fa-external-link-alt"></i> Live Demo
                                 </a>
                             ` : ''}
@@ -223,17 +212,6 @@
                     </div>
                 </div>
             `).join('');
-
-            const styleSheet = document.createElement('style');
-            styleSheet.textContent = `
-                .project-card-full {
-                    grid-column: 1 / -1;
-                    max-width: 800px;
-                    justify-self: center;
-                    margin-top: 20px;
-                }
-            `;
-            document.head.appendChild(styleSheet);
 
             balanceProjectsGrid();
             initAnimations();
@@ -248,8 +226,8 @@
             } catch (error) {
                 document.getElementById('projectsGrid').innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; padding: 50px;">
-                        <h3 style="color: var(--lighter); margin-bottom: 20px;">Unable to load projects right now</h3>
-                        <p style="color: rgba(204, 214, 246, 0.7);">Check the configured content source and try again.</p>
+                        <h3>Projects could not be loaded.</h3>
+                        <p>Please try again later.</p>
                     </div>
                 `;
             }
