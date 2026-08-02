@@ -1,7 +1,14 @@
 #contact {
     min-height: 0;
     padding: 138px 0 82px;
+    position: relative;
+    overflow: hidden;
     background: #09121d;
+}
+
+#contact > .container {
+    position: relative;
+    z-index: 1;
 }
 
 .contact-header {

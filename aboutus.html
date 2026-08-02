@@ -123,7 +123,19 @@
 
         .journey-section {
             padding: 72px 0 76px;
+            position: relative;
+            overflow: hidden;
             background: var(--background);
+        }
+
+        .journey-section > .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .journey-quote {
+            width: min(100%, 640px);
+            margin: 46px auto 0;
         }
 
         .section-heading {
@@ -420,6 +432,7 @@
         .beyond-section {
             min-height: auto;
             padding: 84px 24px 0;
+            position: relative;
             display: block;
             overflow: hidden;
             background: #0a111c;
@@ -430,6 +443,8 @@
         .beyond-content {
             max-width: 760px;
             margin-inline: auto;
+            position: relative;
+            z-index: 1;
         }
 
         .beyond-content .editorial-label {
@@ -902,6 +917,7 @@
         </section>
 
         <section class="journey-section" aria-labelledby="journey-title">
+            <div class="network-background" data-network-mode="journey" aria-hidden="true"></div>
             <div class="container">
                 <div class="section-heading">
                     <p class="about-label">My Journey</p>
@@ -1010,6 +1026,10 @@
         </section>
 
         <section class="beyond-section" aria-labelledby="beyond-title">
+            <div class="network-background" data-network-mode="beyond" aria-hidden="true"></div>
+            <div class="corner-honeycomb corner-honeycomb-top-right corner-honeycomb-fade" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+            </div>
             <div class="beyond-content reveal-item">
                 <p class="editorial-label">Beyond the Work</p>
                 <h2 id="beyond-title">The person behind the work.</h2>
@@ -1023,15 +1043,28 @@
                 </ul>
             </div>
 
-            <blockquote class="about-quote reveal-item reveal-delay-1">
-                <p>&ldquo;The difference between talents and character is &hellip; power and courage to make a new road to new and better goals.&rdquo;</p>
-                <footer>
-                    <cite>&mdash; Ralph Waldo Emerson</cite>
-                    <span class="quote-work">Circles</span>
-                </footer>
-            </blockquote>
-
             <div class="page-ending" aria-hidden="true"></div>
+        </section>
+
+        <section class="closing-quote-section about-closing-quote" aria-label="Closing thought">
+            <div class="network-background" data-network-mode="closing" aria-hidden="true"></div>
+            <div class="corner-honeycomb corner-honeycomb-bottom-left corner-honeycomb-soft" aria-hidden="true">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="container closing-quote-inner">
+                <blockquote class="closing-quote">
+                    <span class="closing-quote-accent" aria-hidden="true"></span>
+                    <span class="closing-quote-mark" aria-hidden="true">&#10077;</span>
+                    <p class="closing-quote-text">&ldquo;The difference between talents and character is &hellip; power and courage to make a new road to new and better goals.&rdquo;</p>
+                    <cite class="closing-quote-author">&mdash; Ralph Waldo Emerson</cite>
+                    <span class="closing-quote-source">Circles</span>
+                    <div class="closing-quote-decoration" aria-hidden="true">
+                        <span class="closing-quote-line"></span>
+                        <span class="closing-quote-node"></span>
+                        <span class="closing-quote-line"></span>
+                    </div>
+                </blockquote>
+            </div>
         </section>
     </main>
 
@@ -1144,6 +1177,7 @@
 
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
+    <script src="script/network-background.js"></script>
 </body>
 
 </html>

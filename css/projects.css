@@ -1,8 +1,20 @@
 .projects-section {
     min-height: 0;
-    padding: 140px 0 84px;
+    padding: 0 0 84px;
     display: block;
     background: #09121d;
+}
+
+.projects-intro-stage {
+    padding: 140px 0 56px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(7, 11, 18, 0.3), rgba(9, 18, 29, 0.12));
+}
+
+.projects-intro-content {
+    position: relative;
+    z-index: 1;
 }
 
 .projects-section .section-title {
@@ -54,7 +66,7 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 28px;
-    margin-top: 56px;
+    margin-top: 0;
 }
 
 .project-card {
@@ -225,7 +237,11 @@ body:has(.projects-section) footer .social-icons a {
 
 @media (max-width: 768px) {
     .projects-section {
-        padding: 112px 0 60px;
+        padding-bottom: 60px;
+    }
+
+    .projects-intro-stage {
+        padding: 112px 0 42px;
     }
 
     .projects-intro {
@@ -235,7 +251,7 @@ body:has(.projects-section) footer .social-icons a {
     .projects-grid {
         grid-template-columns: 1fr;
         gap: 22px;
-        margin-top: 42px;
+        margin-top: 0;
     }
 
     .project-card-full {

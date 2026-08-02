@@ -40,6 +40,7 @@
     </header>
     <main>
     <section class="home-hero" aria-labelledby="hero-title">
+        <div class="network-background" data-network-mode="hero" aria-hidden="true"></div>
         <div class="container hero-showcase">
             <div class="hero-copy">
                 <p class="hero-intro">Hi, I&rsquo;m</p>
@@ -53,6 +54,14 @@
                 </div>
             </div>
             <div class="hero-portrait">
+                <div class="portrait-tiles" aria-hidden="true">
+                    <span class="portrait-tile portrait-tile-1"></span>
+                    <span class="portrait-tile portrait-tile-2"></span>
+                    <span class="portrait-tile portrait-tile-3"></span>
+                    <span class="portrait-tile portrait-tile-4"></span>
+                    <span class="portrait-tile portrait-tile-5"></span>
+                    <span class="portrait-tile portrait-tile-6"></span>
+                </div>
                 <div class="portrait-backdrop">
                     <div class="portrait-inner">
                         <img src="images/new-profile.png" alt="Portrait of Fidele, a Rwandan student developer and youth technology leader">
@@ -75,6 +84,26 @@
             <div class="featured-projects-grid" id="featuredProjectsGrid">
                 <p class="featured-projects-empty">Loading featured projects&hellip;</p>
             </div>
+        </div>
+    </section>
+
+    <section class="closing-quote-section home-closing-quote" aria-label="Closing thought">
+        <div class="network-background" data-network-mode="closing" aria-hidden="true"></div>
+        <div class="corner-honeycomb corner-honeycomb-top-right corner-honeycomb-soft" aria-hidden="true">
+            <span></span><span></span><span></span>
+        </div>
+        <div class="container closing-quote-inner">
+            <blockquote class="closing-quote">
+                <span class="closing-quote-accent" aria-hidden="true"></span>
+                <span class="closing-quote-mark" aria-hidden="true">&#10077;</span>
+                <p class="closing-quote-text">&ldquo;The best way to predict the future is to invent it.&rdquo;</p>
+                <cite class="closing-quote-author">&mdash; Alan Kay</cite>
+                <div class="closing-quote-decoration" aria-hidden="true">
+                    <span class="closing-quote-line"></span>
+                    <span class="closing-quote-node"></span>
+                    <span class="closing-quote-line"></span>
+                </div>
+            </blockquote>
         </div>
     </section>
 
@@ -308,6 +337,7 @@
 
         document.addEventListener('DOMContentLoaded', loadFeaturedProjects);
     </script>
+    <script src="script/network-background.js"></script>
 </body>
 
 </html>

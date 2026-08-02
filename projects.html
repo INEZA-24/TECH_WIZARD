@@ -36,16 +36,24 @@
     </header>
 
     <section id="projects" class="projects-section">
+        <div class="projects-intro-stage">
+            <div class="network-background" data-network-mode="projects" aria-hidden="true"></div>
+            <div class="corner-honeycomb corner-honeycomb-top-right corner-honeycomb-fade" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="container projects-intro-content">
+                <div class="section-title scroll-animate">
+                    <p class="page-label">Projects</p>
+                    <h1>My Projects</h1>
+                </div>
+
+                <div class="projects-intro scroll-animate delay-1">
+                    <p>Here is a collection of projects that reflect what I am currently learning and building in programming and web development. Each project represents an idea I explored, a problem I worked through, or a new skill I put into practice as I continue building the foundations for a future in software engineering and applied artificial intelligence.</p>
+                </div>
+            </div>
+        </div>
+
         <div class="container">
-            <div class="section-title scroll-animate">
-                <p class="page-label">Projects</p>
-                <h1>My Projects</h1>
-            </div>
-
-            <div class="projects-intro scroll-animate delay-1">
-                <p>Here is a collection of projects that reflect what I am currently learning and building in programming and web development. Each project represents an idea I explored, a problem I worked through, or a new skill I put into practice as I continue building the foundations for a future in software engineering and applied artificial intelligence.</p>
-            </div>
-
             <div class="projects-grid stagger-container" id="projectsGrid"></div>
         </div>
     </section>
@@ -235,5 +243,6 @@
             initAnimations();
         });
     </script>
+    <script src="script/network-background.js"></script>
 </body>
 </html>
