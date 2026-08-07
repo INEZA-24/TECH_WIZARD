@@ -14,30 +14,13 @@
     };
   }
 
-  function normalizeCertification(item) {
-    const certificateFile =
-      item.certificateFile ||
-      item.certificate_file ||
-      item.image ||
-      "";
-
-    return {
-      ...item,
-      issuedAt: item.issuedAt || item.issued_at || "",
-      issuedAtLabel:
-        item.issuedAtLabel ||
-        item.issued_at_label ||
-        "",
-      skills: Array.isArray(item.skills) ? item.skills : [],
-      certificateFile,
-      image: resolveCertificateImage(certificateFile),
-      icon: item.icon || "fa-certificate",
-      published: item.published !== false,
-      sortOrder: item.sortOrder ?? item.sort_order ?? 0
-    };
+  function isPdfCertificate(value) {
+    if (!value) return false;
+    const cleanValue = String(value).split("?")[0].split("#")[0];
+    return cleanValue.toLowerCase().endsWith(".pdf");
   }
 
-  function resolveCertificateImage(value) {
+  function resolveCertificateAsset(value) {
     if (!value) return "";
 
     if (
@@ -60,6 +43,34 @@
       "/" +
       encodeURIComponent(filename)
     );
+  }
+
+  function normalizeCertification(item) {
+    const certificateFile =
+      item.certificateFile ||
+      item.certificate_file ||
+      item.image ||
+      "";
+    const assetUrl = resolveCertificateAsset(certificateFile);
+    const isPdf = isPdfCertificate(certificateFile || assetUrl);
+
+    return {
+      ...item,
+      issuedAt: item.issuedAt || item.issued_at || "",
+      issuedAtLabel:
+        item.issuedAtLabel ||
+        item.issued_at_label ||
+        "",
+      skills: Array.isArray(item.skills) ? item.skills : [],
+      certificateFile,
+      assetUrl,
+      isPdf,
+      fileType: isPdf ? "pdf" : "image",
+      image: isPdf ? "" : assetUrl,
+      icon: item.icon || "fa-certificate",
+      published: item.published !== false,
+      sortOrder: item.sortOrder ?? item.sort_order ?? 0
+    };
   }
 
   async function fetchSupabaseTable(table) {
@@ -141,6 +152,8 @@
 
   window.PortfolioContentStore = {
     loadProjects,
-    loadCertifications
+    loadCertifications,
+    resolveCertificateAsset,
+    isPdfCertificate
   };
 })();
