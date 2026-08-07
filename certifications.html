@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificates | Fidele Portfolio</title>
+    <title>Achievements | Fidele Portfolio</title>
     <link rel="icon" type="image/png" href="images/flash.png">
     <meta name="theme-color" content="#0a192f">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,114 +13,238 @@
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/certifications.css">
 </head>
-
-<body>
-    <header>
+<body class="achievements-page-body">
+    <header class="site-header" id="siteHeader">
         <div class="container">
-            <nav>
-                <a href="index.html" class="logo">Fidele<span aria-hidden="true">.</span></a>
+            <nav aria-label="Primary navigation">
+                <a href="index.html" class="logo" aria-label="Fidele home">Fidele<span aria-hidden="true">.</span></a>
                 <button class="menu-toggle" id="hamburger" type="button" aria-label="Open navigation menu" aria-controls="navLinks" aria-expanded="false">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span></span><span></span><span></span>
                 </button>
                 <ul class="nav-links" id="navLinks">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="aboutus.html">About</a></li>
                     <li><a href="projects.html">Projects</a></li>
-                    <li><a href="certifications.html" class="active">Certificates</a></li>
+                    <li><a href="certifications.html" class="active">Achievements</a></li>
                     <li><a href="contact.html" class="nav-contact">Contact</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <div class="certificate-popup-overlay" id="certificatePopup">
-        <div class="certificate-popup" id="popupContent">
+    <div class="certificate-popup-overlay" id="certificatePopup" aria-hidden="true">
+        <div class="certificate-popup" id="popupContent" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
             <div class="certificate-popup-header">
-                <div class="certificate-popup-title" id="popupTitle">Certificate Title</div>
+                <div>
+                    <p class="viewer-kicker">Credential viewer</p>
+                    <div class="certificate-popup-title" id="popupTitle">Certificate</div>
+                </div>
                 <button class="certificate-popup-close" id="closePopup" type="button" aria-label="Close certificate viewer">
-                    <i class="fas fa-times"></i>
+                    <i class="fas fa-times" aria-hidden="true"></i>
                 </button>
             </div>
-            <div class="certificate-image-container">
-                <img src="" alt="Certificate" class="certificate-image" id="popupImage">
+            <div class="certificate-viewer" id="certificateViewer">
+                <img src="" alt="" class="certificate-image" id="popupImage" hidden>
+                <iframe class="certificate-pdf-frame" id="popupPdf" src="about:blank" title="PDF certificate viewer" hidden></iframe>
+                <div class="certificate-viewer-fallback" id="popupFallback" hidden>
+                    <i class="fas fa-file-circle-exclamation" aria-hidden="true"></i>
+                    <p>This credential cannot be previewed inside the browser.</p>
+                </div>
             </div>
             <div class="certificate-popup-footer">
                 <div class="certificate-popup-info">
-                    Issuer: <strong id="popupIssuer">Issuer Name</strong> •
-                    Date: <strong id="popupDate">Issued Date</strong>
+                    <span>Issuer <strong id="popupIssuer">—</strong></span>
+                    <span>Date <strong id="popupDate">—</strong></span>
                 </div>
-                <div class="certificate-nav">
-                    <button class="certificate-nav-btn" id="prevCert" type="button" aria-label="View previous certificate">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button class="certificate-nav-btn" id="nextCert" type="button" aria-label="View next certificate">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
+                <div class="certificate-popup-actions">
+                    <a class="certificate-original-link" id="popupOpenOriginal" href="#" target="_blank" rel="noopener noreferrer">
+                        Open original <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                    </a>
+                    <div class="certificate-nav" aria-label="Certificate navigation">
+                        <button class="certificate-nav-btn" id="prevCert" type="button" aria-label="View previous certificate"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+                        <button class="certificate-nav-btn" id="nextCert" type="button" aria-label="View next certificate"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <section class="certifications-page">
-        <div class="container">
-            <div class="certifications-hero">
-                <p class="page-label">Certifications</p>
-                <h1>My Certifications</h1>
-                <p>Validated expertise and continuous learning journey in technology and development</p>
+    <main>
+        <section class="achievements-hero" aria-labelledby="achievements-title">
+            <!-- Replace this image later with your professional achievements portrait. -->
+            <img class="achievements-hero-image" src="images/ME_IN_FLL_KCC.png" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
+            <div class="achievements-hero-overlay" aria-hidden="true"></div>
+            <div class="container achievements-hero-content">
+                <p class="page-label">Achievements</p>
+                <h1 id="achievements-title">Milestones that show the journey in motion.</h1>
+                <p>Recognition, competition milestones, selected credentials and leadership experiences that reflect how I keep learning, building and contributing.</p>
+                <a class="hero-scroll-link" href="#achievement-overview">Explore achievements <span aria-hidden="true">↓</span></a>
             </div>
+        </section>
 
-            <div class="certifications-grid" id="certificationsGrid"></div>
-
-            <div class="stats-section" id="cert-stats">
-                <h2>Certification Achievements</h2>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-certificate"></i>
-                        </div>
-                        <div class="stat-number" id="totalCertifications">0</div>
-                        <div class="stat-label">Total Certifications</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="stat-number">120+</div>
-                        <div class="stat-label">Learning Hours</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-building"></i>
-                        </div>
-                        <div class="stat-number" id="totalIssuers">0</div>
-                        <div class="stat-label">Different Issuers</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="stat-number">4.5/5</div>
-                        <div class="stat-label">Average Rating</div>
-                    </div>
+        <section class="achievement-overview-section" id="achievement-overview" aria-labelledby="overview-title">
+            <div class="container">
+                <div class="section-heading compact-heading">
+                    <p class="page-label">At a glance</p>
+                    <h2 id="overview-title">Achievement Overview</h2>
+                </div>
+                <div class="achievement-overview-grid">
+                    <a class="achievement-metric" href="#featured-certifications">
+                        <span class="achievement-metric-icon"><i class="fas fa-certificate" aria-hidden="true"></i></span>
+                        <strong class="achievement-metric-number" id="totalCertifications">0</strong>
+                        <span class="achievement-metric-title">Certificates</span>
+                        <span class="achievement-metric-copy">Published learning credentials</span>
+                    </a>
+                    <a class="achievement-metric" href="#recognition">
+                        <span class="achievement-metric-icon"><i class="fas fa-award" aria-hidden="true"></i></span>
+                        <strong class="achievement-metric-number" id="totalRecognition">0</strong>
+                        <span class="achievement-metric-title">Recognition</span>
+                        <span class="achievement-metric-copy">Awards and notable recognition</span>
+                    </a>
+                    <a class="achievement-metric" href="#competitions">
+                        <span class="achievement-metric-icon"><i class="fas fa-flag-checkered" aria-hidden="true"></i></span>
+                        <strong class="achievement-metric-number" id="totalCompetitions">0</strong>
+                        <span class="achievement-metric-title">Competition Milestones</span>
+                        <span class="achievement-metric-copy">Qualifications and challenge experiences</span>
+                    </a>
+                    <a class="achievement-metric" href="#leadership-impact">
+                        <span class="achievement-metric-icon"><i class="fas fa-people-group" aria-hidden="true"></i></span>
+                        <strong class="achievement-metric-number" id="totalLeadership">0</strong>
+                        <span class="achievement-metric-title">Leadership & Impact</span>
+                        <span class="achievement-metric-copy">Initiatives, teams and contribution</span>
+                    </a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <section class="featured-achievements-section" aria-labelledby="featured-achievements-title">
+            <div class="container">
+                <div class="section-heading section-heading-left">
+                    <p class="page-label">Selected highlights</p>
+                    <h2 id="featured-achievements-title">Featured Achievements</h2>
+                    <p>The milestones I want visitors to understand first, with more context than a simple badge or certificate can provide.</p>
+                </div>
+                <div class="featured-achievement-major">
+                    <div class="featured-achievement-symbol" aria-hidden="true">
+                        <span class="symbol-ring"></span>
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="featured-achievement-copy">
+                        <span class="achievement-type">Competition</span>
+                        <h3>ICSC 2026 — Pre-Final Round Qualifier</h3>
+                        <p>Qualified for the Pre-Final Round of the International Computer Science Competition, representing an important milestone in competitive problem-solving and computer science.</p>
+                        <div class="achievement-meta"><span>International Computer Science Competition</span><span>2026</span></div>
+                    </div>
+                </div>
+                <div class="featured-achievement-grid">
+                    <article class="featured-achievement-card">
+                        <span class="achievement-type">Recognition</span>
+                        <h3>FTC Robotics — Certificate of Recognition</h3>
+                        <p>Recognized for contribution and dedication in robotics, including robot design, engineering and strategic gameplay.</p>
+                        <div class="achievement-meta"><span>College Saint André / FIRST</span><span>2024</span></div>
+                    </article>
+                    <article class="featured-achievement-card">
+                        <span class="achievement-type">Entrepreneurship</span>
+                        <h3>Wavumbuzi Entrepreneurship Challenge</h3>
+                        <p>Participated actively in the 5th Edition of the Wavumbuzi Entrepreneurship Challenge.</p>
+                        <div class="achievement-meta"><span>Wavumbuzi Rwanda</span><span>2025</span></div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="achievement-lists-section" aria-label="Recognition and competitions">
+            <div class="container achievement-lists-grid">
+                <div class="achievement-list-block" id="recognition">
+                    <div class="achievement-list-heading">
+                        <div><p class="page-label">Recognition</p><h2>Awards & Recognition</h2></div>
+                        <span class="achievement-list-count" id="recognitionCountLabel">0 items</span>
+                    </div>
+                    <div class="achievement-list" id="recognitionList"></div>
+                </div>
+                <div class="achievement-list-block" id="competitions">
+                    <div class="achievement-list-heading">
+                        <div><p class="page-label">Milestones</p><h2>Competition Milestones</h2></div>
+                        <span class="achievement-list-count" id="competitionCountLabel">0 items</span>
+                    </div>
+                    <div class="achievement-list" id="competitionList"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="certifications-section" id="featured-certifications" aria-labelledby="certifications-title">
+            <div class="container">
+                <div class="section-heading section-heading-left certificates-heading-row">
+                    <div>
+                        <p class="page-label">Verified learning</p>
+                        <h2 id="certifications-title">Featured Certifications</h2>
+                        <p>A curated selection of the credentials most relevant to my work and current direction. The complete certificate inventory remains available below.</p>
+                    </div>
+                    <span class="featured-note">Top 6 by portfolio priority</span>
+                </div>
+
+                <div class="certifications-grid" id="featuredCertificationsGrid">
+                    <p class="certifications-empty">Loading featured certificates…</p>
+                </div>
+
+                <div class="certificate-inventory-control">
+                    <button class="inventory-toggle" id="inventoryToggle" type="button" aria-expanded="false" aria-controls="certificateInventory">
+                        <span>View Full Certificate Inventory</span>
+                        <span class="inventory-toggle-count" id="inventoryToggleCount">0 certificates</span>
+                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="certificate-inventory" id="certificateInventory" hidden>
+                    <div class="inventory-header">
+                        <div>
+                            <p class="page-label">Complete record</p>
+                            <h3>All Published Certificates</h3>
+                            <p>Every credential currently published through the portfolio admin, including supporting and foundational certificates.</p>
+                        </div>
+                        <label class="inventory-search">
+                            <span class="sr-only">Search certificates</span>
+                            <i class="fas fa-magnifying-glass" aria-hidden="true"></i>
+                            <input type="search" id="certificateSearch" placeholder="Search title, issuer or skill…" autocomplete="off">
+                        </label>
+                    </div>
+                    <div class="certificate-inventory-list" id="certificateInventoryList"></div>
+                    <p class="inventory-empty" id="inventoryEmpty" hidden>No certificates match this search.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="leadership-impact-section" id="leadership-impact" aria-labelledby="leadership-title">
+            <div class="container leadership-layout">
+                <div class="section-heading section-heading-left leadership-heading">
+                    <p class="page-label">Responsibility & contribution</p>
+                    <h2 id="leadership-title">Leadership & Impact</h2>
+                    <p>Leadership is shown as a timeline because responsibility and contribution tell a different story from formal credentials.</p>
+                </div>
+                <div class="leadership-timeline" id="leadershipTimeline"></div>
+            </div>
+        </section>
+
+        <section class="closing-quote-section achievements-closing-quote" aria-label="Closing thought">
+            <div class="network-background" data-network-mode="closing" aria-hidden="true"></div>
+            <div class="container closing-quote-inner">
+                <blockquote class="closing-quote">
+                    <span class="closing-quote-accent" aria-hidden="true"></span>
+                    <span class="closing-quote-mark" aria-hidden="true">&#10077;</span>
+                    <p class="closing-quote-text">“Every milestone should show progress, not just participation.”</p>
+                    <cite class="closing-quote-author">— A record of growth</cite>
+                    <div class="closing-quote-decoration" aria-hidden="true"><span class="closing-quote-line"></span><span class="closing-quote-node"></span><span class="closing-quote-line"></span></div>
+                </blockquote>
+            </div>
+        </section>
+    </main>
 
     <footer>
         <div class="container">
             <div class="social-icons">
-                <a href="https://www.instagram.com/techwizard285/" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://github.com/INEZA-24" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on GitHub">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on LinkedIn">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
+                <a href="https://www.instagram.com/techwizard285/" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://github.com/INEZA-24" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
             </div>
             <p>&copy; <span id="year"></span> Fidele. All rights reserved.</p>
         </div>
@@ -129,238 +252,358 @@
 
     <script src="script/content-store.js"></script>
     <script>
+        const recognitionItems = [
+            {
+                icon: 'fa-robot',
+                title: 'FTC Robotics — Certificate of Recognition',
+                description: 'Recognition for contribution and dedication in robotics, including robot design, engineering and strategic gameplay.',
+                organization: 'College Saint André / FIRST',
+                year: '2024'
+            }
+        ];
+
+        const competitionItems = [
+            {
+                icon: 'fa-code',
+                title: 'ICSC 2026 — Pre-Final Round Qualifier',
+                description: 'Advanced to the Pre-Final Round of the International Computer Science Competition.',
+                organization: 'ICSC',
+                year: '2026'
+            },
+            {
+                icon: 'fa-code-branch',
+                title: 'Open Source Hackathon — Repo-Pilot',
+                description: 'Built Repo-Pilot during an open-source hackathon focused on practical contribution tooling.',
+                organization: 'Elite Coders',
+                year: '2026'
+            },
+            {
+                icon: 'fa-lightbulb',
+                title: 'Wavumbuzi Entrepreneurship Challenge',
+                description: 'Active participant in the 5th Edition of the Wavumbuzi Entrepreneurship Challenge.',
+                organization: 'Wavumbuzi Rwanda',
+                year: '2025'
+            }
+        ];
+
+        const leadershipItems = [
+            {
+                year: '2026',
+                title: 'Founder & Leader — TECH INSPIRES',
+                description: 'Leading a youth-focused technology initiative built around practical skills, innovation and access to opportunity.'
+            },
+            {
+                year: '2026',
+                title: 'President — ICT & Innovation Club',
+                description: 'Leading student technology activities, workshops, competitions and innovation initiatives.'
+            },
+            {
+                year: '2026',
+                title: 'Robotics — Team Contribution',
+                description: 'Contributing across robotics teams, competition preparation and practical engineering experiences.'
+            }
+        ];
+
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('navLinks');
         const body = document.body;
-
-        if (hamburger && navLinks) {
-            hamburger.addEventListener('click', function (e) {
-                e.stopPropagation();
-                hamburger.classList.toggle('active');
-                navLinks.classList.toggle('active');
-                body.classList.toggle('no-scroll');
-                const isOpen = navLinks.classList.contains('active');
-                hamburger.setAttribute('aria-expanded', String(isOpen));
-                hamburger.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
-            });
-
-            document.querySelectorAll('.nav-links a').forEach((item) => {
-                item.addEventListener('click', function () {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                    body.classList.remove('no-scroll');
-                    hamburger.setAttribute('aria-expanded', 'false');
-                    hamburger.setAttribute('aria-label', 'Open navigation menu');
-                });
-            });
-
-            document.addEventListener('click', function (event) {
-                if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                    body.classList.remove('no-scroll');
-                    hamburger.setAttribute('aria-expanded', 'false');
-                    hamburger.setAttribute('aria-label', 'Open navigation menu');
-                }
-            });
-
-            document.addEventListener('keydown', function (event) {
-                if (event.key === 'Escape' && !document.getElementById('certificatePopup').classList.contains('active')) {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                    body.classList.remove('no-scroll');
-                }
-            });
-        }
-
-        window.addEventListener('resize', function () {
-            if (window.innerWidth > 768) {
-                if (hamburger) hamburger.classList.remove('active');
-                if (navLinks) navLinks.classList.remove('active');
-                body.classList.remove('no-scroll');
-                if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
-                if (hamburger) hamburger.setAttribute('aria-label', 'Open navigation menu');
-            }
-        });
-
-        document.getElementById('year').textContent = new Date().getFullYear();
-
+        const siteHeader = document.getElementById('siteHeader');
         const certificatePopup = document.getElementById('certificatePopup');
         const popupContent = document.getElementById('popupContent');
         const closePopup = document.getElementById('closePopup');
         const popupImage = document.getElementById('popupImage');
+        const popupPdf = document.getElementById('popupPdf');
+        const popupFallback = document.getElementById('popupFallback');
         const popupTitle = document.getElementById('popupTitle');
         const popupIssuer = document.getElementById('popupIssuer');
         const popupDate = document.getElementById('popupDate');
+        const popupOpenOriginal = document.getElementById('popupOpenOriginal');
         const prevCertBtn = document.getElementById('prevCert');
         const nextCertBtn = document.getElementById('nextCert');
+        const inventoryToggle = document.getElementById('inventoryToggle');
+        const certificateInventory = document.getElementById('certificateInventory');
+        const certificateSearch = document.getElementById('certificateSearch');
 
-        let currentCertIndex = 0;
         let certificates = [];
+        let currentCertIndex = 0;
 
-        if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            document.documentElement.classList.add('js-cert-reveal');
+        const escapeHtml = (value = '') => String(value)
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#039;');
+
+        function closeMenu() {
+            if (!hamburger || !navLinks) return;
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+            hamburger.setAttribute('aria-label', 'Open navigation menu');
+            body.classList.remove('no-scroll');
         }
 
-        function animateOnScroll() {
-            document.querySelectorAll('.certification-card').forEach((card, index) => {
-                const cardTop = card.getBoundingClientRect().top;
-                if (cardTop < window.innerHeight - 150) {
-                    setTimeout(() => card.classList.add('animate'), index * 200);
-                }
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const isOpen = hamburger.getAttribute('aria-expanded') === 'true';
+                if (isOpen) return closeMenu();
+                hamburger.classList.add('active');
+                navLinks.classList.add('active');
+                hamburger.setAttribute('aria-expanded', 'true');
+                hamburger.setAttribute('aria-label', 'Close navigation menu');
+                body.classList.add('no-scroll');
             });
-
-            const statsSection = document.querySelector('.stats-section');
-            if (statsSection && statsSection.getBoundingClientRect().top < window.innerHeight - 100) {
-                statsSection.classList.add('animate');
-                document.querySelectorAll('.stat-item').forEach((item, index) => {
-                    setTimeout(() => item.classList.add('animate'), index * 150);
-                });
-            }
+            navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+            document.addEventListener('click', event => {
+                if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) closeMenu();
+            });
         }
 
-        function renderCertifications(items) {
-            const grid = document.getElementById('certificationsGrid');
-            grid.innerHTML = items.map((cert) => `
-                <div class="certification-card" data-cert-id="${cert.id}">
-                    <button class="certificate-preview" type="button" data-view-cert="${cert.id}" aria-label="View ${cert.title} certificate">
-                        <img src="${cert.image}" alt="Preview of ${cert.title}" loading="lazy" decoding="async"
-                            onerror="this.closest('.certificate-preview').classList.add('preview-unavailable'); this.remove();">
-                        <span class="certificate-preview-fallback">
-                            <i class="fas fa-certificate" aria-hidden="true"></i>
-                            Certificate preview unavailable
-                        </span>
+        window.addEventListener('resize', () => { if (window.innerWidth > 768) closeMenu(); });
+        const updateHeader = () => siteHeader?.classList.toggle('scrolled', window.scrollY > 16);
+        updateHeader();
+        window.addEventListener('scroll', updateHeader, { passive: true });
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        function renderAchievementLists() {
+            const render = item => `
+                <article class="achievement-list-item">
+                    <span class="achievement-list-icon"><i class="fas ${escapeHtml(item.icon)}" aria-hidden="true"></i></span>
+                    <div class="achievement-list-copy">
+                        <h3>${escapeHtml(item.title)}</h3>
+                        <p>${escapeHtml(item.description)}</p>
+                        <span>${escapeHtml(item.organization)}</span>
+                    </div>
+                    <time>${escapeHtml(item.year)}</time>
+                </article>`;
+
+            document.getElementById('recognitionList').innerHTML = recognitionItems.map(render).join('');
+            document.getElementById('competitionList').innerHTML = competitionItems.map(render).join('');
+            document.getElementById('totalRecognition').textContent = recognitionItems.length;
+            document.getElementById('totalCompetitions').textContent = competitionItems.length;
+            document.getElementById('recognitionCountLabel').textContent = `${recognitionItems.length} ${recognitionItems.length === 1 ? 'item' : 'items'}`;
+            document.getElementById('competitionCountLabel').textContent = `${competitionItems.length} items`;
+        }
+
+        function renderLeadership() {
+            const timeline = document.getElementById('leadershipTimeline');
+            timeline.innerHTML = leadershipItems.map(item => `
+                <article class="leadership-timeline-item">
+                    <time>${escapeHtml(item.year)}</time>
+                    <span class="leadership-timeline-node" aria-hidden="true"></span>
+                    <div><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description)}</p></div>
+                </article>`).join('');
+            document.getElementById('totalLeadership').textContent = leadershipItems.length;
+        }
+
+        function displayDate(cert) {
+            return cert.issuedAtLabel || cert.issuedAt || 'Date not specified';
+        }
+
+        function getAssetUrl(cert) {
+            return cert.assetUrl || cert.image || '';
+        }
+
+        function certificatePreviewMarkup(cert) {
+            const title = escapeHtml(cert.title || 'Certificate');
+            const issuer = escapeHtml(cert.issuer || 'Credential issuer');
+            const assetUrl = getAssetUrl(cert);
+
+            if (cert.isPdf) {
+                return `
+                    <span class="certificate-document-preview" aria-hidden="true">
+                        <i class="fas fa-file-pdf"></i>
+                        <strong>PDF Credential</strong>
+                        <small>${issuer}</small>
+                    </span>`;
+            }
+
+            if (!assetUrl) {
+                return `
+                    <span class="certificate-document-preview" aria-hidden="true">
+                        <i class="fas fa-certificate"></i>
+                        <strong>Credential</strong>
+                        <small>${issuer}</small>
+                    </span>`;
+            }
+
+            return `<img src="${escapeHtml(assetUrl)}" alt="Preview of ${title}" loading="lazy" decoding="async" onerror="this.closest('.certificate-preview').classList.add('preview-unavailable'); this.remove();">`;
+        }
+
+        function certificateCardMarkup(cert) {
+            const id = escapeHtml(cert.id || cert.slug || cert.title);
+            const skills = (cert.skills || []).slice(0, 6).map(skill => `<span class="skill-tag">${escapeHtml(skill)}</span>`).join('');
+            const fileLabel = cert.isPdf ? 'PDF' : 'Image';
+            return `
+                <article class="certification-card" data-cert-id="${id}">
+                    <button class="certificate-preview ${cert.isPdf ? 'is-pdf' : 'is-image'}" type="button" data-view-cert="${id}" aria-label="View ${escapeHtml(cert.title)} certificate">
+                        ${certificatePreviewMarkup(cert)}
+                        <span class="certificate-file-type">${fileLabel}</span>
+                        <span class="certificate-preview-fallback"><i class="fas fa-certificate" aria-hidden="true"></i>Preview unavailable</span>
                     </button>
                     <div class="certificate-content">
-                        <div class="certificate-heading">
-                            <h3>${cert.title}</h3>
-                        </div>
+                        <div class="certificate-heading"><h3>${escapeHtml(cert.title || 'Untitled certificate')}</h3></div>
                         <div class="certificate-meta">
-                            <span class="certificate-issuer">${cert.issuer}</span>
-                            <span class="certificate-date">Issued ${cert.issuedAt}</span>
+                            <span class="certificate-issuer">${escapeHtml(cert.issuer || 'Issuer not specified')}</span>
+                            <span class="certificate-date">${escapeHtml(displayDate(cert))}</span>
                         </div>
-                        <p class="certificate-description">${cert.description}</p>
-                        <div class="certificate-skills">
-                            ${(cert.skills || []).map((skill) => `<span class="skill-tag">${skill}</span>`).join('')}
-                        </div>
+                        <p class="certificate-description">${escapeHtml(cert.description || 'Credential details available in the certificate viewer.')}</p>
+                        <div class="certificate-skills">${skills}</div>
                         <div class="certificate-actions">
-                            <button class="certificate-button" type="button" data-view-cert="${cert.id}" aria-label="View ${cert.title} certificate">
-                            <i class="fas fa-image"></i>
-                            View Certificate
+                            <button class="certificate-button" type="button" data-view-cert="${id}">
+                                <i class="fas ${cert.isPdf ? 'fa-file-pdf' : 'fa-image'}" aria-hidden="true"></i>
+                                View Certificate
                             </button>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                </article>`;
         }
 
-        function updateCertificationStats(items) {
-            document.getElementById('totalCertifications').textContent = items.length;
-            document.getElementById('totalIssuers').textContent = new Set(items.map((item) => item.issuer)).size;
+        function renderFeaturedCertificates() {
+            const grid = document.getElementById('featuredCertificationsGrid');
+            const featured = certificates.slice(0, 6);
+            if (!featured.length) {
+                grid.innerHTML = '<p class="certifications-empty">Featured certificates will appear here once they are published.</p>';
+                return;
+            }
+            grid.innerHTML = featured.map(certificateCardMarkup).join('');
+        }
+
+        function inventoryRowMarkup(cert) {
+            const id = escapeHtml(cert.id || cert.slug || cert.title);
+            const topSkills = (cert.skills || []).slice(0, 4).map(skill => `<span>${escapeHtml(skill)}</span>`).join('');
+            return `
+                <article class="certificate-inventory-item">
+                    <span class="inventory-file-icon"><i class="fas ${cert.isPdf ? 'fa-file-pdf' : 'fa-image'}" aria-hidden="true"></i></span>
+                    <div class="inventory-item-copy">
+                        <div class="inventory-item-heading"><h4>${escapeHtml(cert.title || 'Untitled certificate')}</h4><span>${cert.isPdf ? 'PDF' : 'IMAGE'}</span></div>
+                        <p>${escapeHtml(cert.issuer || 'Issuer not specified')} <span aria-hidden="true">·</span> ${escapeHtml(displayDate(cert))}</p>
+                        <div class="inventory-skills">${topSkills}</div>
+                    </div>
+                    <button class="inventory-view-button" type="button" data-view-cert="${id}" aria-label="View ${escapeHtml(cert.title)} certificate">View <span aria-hidden="true">→</span></button>
+                </article>`;
+        }
+
+        function renderInventory(query = '') {
+            const normalizedQuery = query.trim().toLowerCase();
+            const filtered = certificates.filter(cert => {
+                if (!normalizedQuery) return true;
+                const searchable = [cert.title, cert.issuer, cert.description, ...(cert.skills || [])].filter(Boolean).join(' ').toLowerCase();
+                return searchable.includes(normalizedQuery);
+            });
+            document.getElementById('certificateInventoryList').innerHTML = filtered.map(inventoryRowMarkup).join('');
+            document.getElementById('inventoryEmpty').hidden = filtered.length !== 0;
+        }
+
+        function resetViewer() {
+            popupImage.hidden = true;
+            popupImage.src = '';
+            popupImage.alt = '';
+            popupPdf.hidden = true;
+            popupPdf.src = 'about:blank';
+            popupFallback.hidden = true;
         }
 
         function showCertificate(index) {
-            if (index < 0 || index >= certificates.length) {
-                return;
-            }
-
+            if (index < 0 || index >= certificates.length) return;
             currentCertIndex = index;
             const cert = certificates[index];
+            const assetUrl = getAssetUrl(cert);
+            resetViewer();
 
-            popupImage.src = cert.image;
-            popupTitle.textContent = cert.title;
-            popupIssuer.textContent = cert.issuer;
-            popupDate.textContent = cert.issuedAt;
+            popupTitle.textContent = cert.title || 'Certificate';
+            popupIssuer.textContent = cert.issuer || 'Issuer not specified';
+            popupDate.textContent = displayDate(cert);
+            popupOpenOriginal.href = assetUrl || '#';
+            popupOpenOriginal.classList.toggle('is-disabled', !assetUrl);
+            popupOpenOriginal.setAttribute('aria-disabled', String(!assetUrl));
+
+            if (!assetUrl) {
+                popupFallback.hidden = false;
+            } else if (cert.isPdf) {
+                popupPdf.src = `${assetUrl}#view=FitH&toolbar=1&navpanes=0`;
+                popupPdf.title = `${cert.title || 'Certificate'} PDF`;
+                popupPdf.hidden = false;
+            } else {
+                popupImage.src = assetUrl;
+                popupImage.alt = `${cert.title || 'Certificate'} credential`;
+                popupImage.hidden = false;
+                popupImage.onerror = () => {
+                    popupImage.hidden = true;
+                    popupFallback.hidden = false;
+                };
+            }
+
             prevCertBtn.disabled = index === 0;
             nextCertBtn.disabled = index === certificates.length - 1;
-
             certificatePopup.classList.add('active');
-            setTimeout(() => popupContent.classList.add('active'), 50);
+            certificatePopup.setAttribute('aria-hidden', 'false');
+            requestAnimationFrame(() => popupContent.classList.add('active'));
             document.body.style.overflow = 'hidden';
+            closePopup.focus();
         }
 
         function closeCertificatePopup() {
             popupContent.classList.remove('active');
-            setTimeout(() => {
-                certificatePopup.classList.remove('active');
-                document.body.style.overflow = '';
-            }, 300);
+            certificatePopup.classList.remove('active');
+            certificatePopup.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            resetViewer();
         }
 
-        document.addEventListener('click', function (e) {
-            const trigger = e.target.closest('[data-view-cert]');
-            if (!trigger) {
-                return;
-            }
-
-            e.preventDefault();
+        document.addEventListener('click', event => {
+            const trigger = event.target.closest('[data-view-cert]');
+            if (!trigger) return;
+            event.preventDefault();
             const certId = trigger.getAttribute('data-view-cert');
-            const index = certificates.findIndex((cert) => cert.id === certId);
-            if (index !== -1) {
-                showCertificate(index);
-            }
-        });
-
-        prevCertBtn.addEventListener('click', function () {
-            if (currentCertIndex > 0) {
-                showCertificate(currentCertIndex - 1);
-            }
-        });
-
-        nextCertBtn.addEventListener('click', function () {
-            if (currentCertIndex < certificates.length - 1) {
-                showCertificate(currentCertIndex + 1);
-            }
+            const index = certificates.findIndex(cert => String(cert.id || cert.slug || cert.title) === certId);
+            if (index !== -1) showCertificate(index);
         });
 
         closePopup.addEventListener('click', closeCertificatePopup);
+        certificatePopup.addEventListener('click', event => { if (event.target === certificatePopup) closeCertificatePopup(); });
+        prevCertBtn.addEventListener('click', () => { if (currentCertIndex > 0) showCertificate(currentCertIndex - 1); });
+        nextCertBtn.addEventListener('click', () => { if (currentCertIndex < certificates.length - 1) showCertificate(currentCertIndex + 1); });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') {
+                if (certificatePopup.classList.contains('active')) closeCertificatePopup();
+                else closeMenu();
+            }
+            if (!certificatePopup.classList.contains('active')) return;
+            if (event.key === 'ArrowLeft' && currentCertIndex > 0) showCertificate(currentCertIndex - 1);
+            if (event.key === 'ArrowRight' && currentCertIndex < certificates.length - 1) showCertificate(currentCertIndex + 1);
+        });
 
-        certificatePopup.addEventListener('click', function (e) {
-            if (e.target === this) {
-                closeCertificatePopup();
+        inventoryToggle.addEventListener('click', () => {
+            const shouldOpen = inventoryToggle.getAttribute('aria-expanded') !== 'true';
+            inventoryToggle.setAttribute('aria-expanded', String(shouldOpen));
+            certificateInventory.hidden = !shouldOpen;
+            inventoryToggle.classList.toggle('is-open', shouldOpen);
+            inventoryToggle.querySelector('span:first-child').textContent = shouldOpen ? 'Hide Full Certificate Inventory' : 'View Full Certificate Inventory';
+            if (shouldOpen) {
+                renderInventory(certificateSearch.value);
+                setTimeout(() => certificateInventory.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
             }
         });
 
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && certificatePopup.classList.contains('active')) {
-                closeCertificatePopup();
-            }
+        certificateSearch.addEventListener('input', event => renderInventory(event.target.value));
 
-            if (!certificatePopup.classList.contains('active')) {
-                return;
-            }
-
-            if (e.key === 'ArrowLeft' && currentCertIndex > 0) {
-                showCertificate(currentCertIndex - 1);
-            } else if (e.key === 'ArrowRight' && currentCertIndex < certificates.length - 1) {
-                showCertificate(currentCertIndex + 1);
-            }
-        });
-
-        window.addEventListener('scroll', animateOnScroll);
-
-        document.addEventListener('DOMContentLoaded', async function () {
-            document.body.style.opacity = '0';
-            document.body.style.transition = 'opacity 0.5s ease';
-
+        document.addEventListener('DOMContentLoaded', async () => {
+            renderAchievementLists();
+            renderLeadership();
             try {
                 certificates = await window.PortfolioContentStore.loadCertifications();
-                renderCertifications(certificates);
-                updateCertificationStats(certificates);
-                setTimeout(animateOnScroll, 500);
+                document.getElementById('totalCertifications').textContent = certificates.length;
+                document.getElementById('inventoryToggleCount').textContent = `${certificates.length} ${certificates.length === 1 ? 'certificate' : 'certificates'}`;
+                renderFeaturedCertificates();
+                renderInventory();
             } catch (error) {
-                document.getElementById('certificationsGrid').innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; color: var(--light);">
-                        Unable to load certifications right now.
-                    </div>
-                `;
+                console.error('Unable to load certificates:', error);
+                document.getElementById('featuredCertificationsGrid').innerHTML = '<p class="certifications-empty">Unable to load certificates right now.</p>';
             }
-
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-            }, 100);
         });
     </script>
+    <script src="script/network-background.js"></script>
 </body>
-
 </html>
