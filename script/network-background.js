@@ -207,7 +207,24 @@
         }
     }
 
+    function updateAchievementsNavigation() {
+        document.querySelectorAll('a[href="certifications.html"], a[href$="/certifications.html"]').forEach((link) => {
+            if (link.textContent.trim() === 'Certificates') link.textContent = 'Achievements';
+        });
+    }
+
+    function loadAchievementsRefinements() {
+        if (!document.body.classList.contains('achievements-page-body')) return;
+        if (document.querySelector('script[data-achievements-refinements]')) return;
+        const script = document.createElement('script');
+        script.src = 'script/achievements-refinements.js';
+        script.dataset.achievementsRefinements = 'true';
+        document.body.appendChild(script);
+    }
+
     function initialize() {
+        updateAchievementsNavigation();
+        loadAchievementsRefinements();
         document.querySelectorAll('.network-background[data-network-mode]').forEach((host) => {
             if (!host.dataset.networkReady) {
                 host.dataset.networkReady = 'true';
@@ -237,6 +254,7 @@
     });
     window.addEventListener('pageshow', (event) => {
         if (event.persisted) {
+            updateAchievementsNavigation();
             instances.forEach((instance) => {
                 instance.resize();
                 instance.updateAnimation();
