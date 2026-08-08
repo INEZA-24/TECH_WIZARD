@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    { "source": "/images/ME_IN_FLL_KCC.png", "destination": "/images/ME_IN_FLL_KCC.webp" },
+    { "source": "/images/Us_In_Camp.jpg", "destination": "/images/Us_In_Camp.webp" },
+    { "source": "/images/FTC_me.png", "destination": "/images/FTC_me.webp" },
+    { "source": "/images/FTC_3.png", "destination": "/images/FTC_3.webp" },
+    { "source": "/images/ME_IN_FTC_INTARE.PNG", "destination": "/images/ME_IN_FTC_INTARE.webp" },
+    { "source": "/images/FTC_2.png", "destination": "/images/FTC_2.webp" },
+    { "source": "/images/ROBOT_PERFORMANCE_INTARE.PNG", "destination": "/images/ROBOT_PERFORMANCE_INTARE.webp" },
+    { "source": "/images/my%20profile.png", "destination": "/images/my%20profile.webp" },
+    { "source": "/images/Scratch2.png", "destination": "/images/Scratch2.webp" },
+    { "source": "/images/Scratch%20Competition.png", "destination": "/images/Scratch%20Competition.webp" },
+    { "source": "/images/AI_for_good2.png", "destination": "/images/AI_for_good2.webp" },
+    { "source": "/images/AI_for_good.png", "destination": "/images/AI_for_good.webp" }
+  ]
+}
