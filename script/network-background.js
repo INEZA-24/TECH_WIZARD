@@ -364,9 +364,18 @@
         document.body.appendChild(script);
     }
 
+    function loadUiMotion() {
+        if (document.querySelector('script[data-portfolio-ui-motion]')) return;
+        const script = document.createElement('script');
+        script.src = 'script/ui-motion.js';
+        script.dataset.portfolioUiMotion = 'true';
+        document.body.appendChild(script);
+    }
+
     function initialize() {
         updateAchievementsNavigation();
         loadAchievementsRefinements();
+        loadUiMotion();
         document.querySelectorAll('.network-background[data-network-mode]').forEach((host) => {
             if (!host.dataset.networkReady) {
                 host.dataset.networkReady = 'true';
