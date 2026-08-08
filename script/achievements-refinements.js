@@ -83,6 +83,7 @@
 
     function injectRefinementStyles() {
         if (document.getElementById('achievements-refinement-styles')) return;
+
         const style = document.createElement('style');
         style.id = 'achievements-refinement-styles';
         style.textContent = `
@@ -131,6 +132,41 @@
                 white-space: nowrap;
             }
 
+            .achievements-closing-quote .closing-quote-text {
+                width: min(100%, 1120px);
+                margin-inline: auto;
+                text-align: center;
+                font-size: clamp(34px, 3.8vw, 48px);
+                line-height: 1.18;
+                letter-spacing: -0.025em;
+            }
+
+            .achievements-closing-quote .quote-pyramid-line {
+                display: block;
+                width: max-content;
+                max-width: 100%;
+                margin-inline: auto;
+                white-space: nowrap;
+            }
+
+            .achievements-closing-quote .closing-quote-author {
+                margin-top: 30px;
+            }
+
+            @media (max-width: 768px) {
+                .achievements-closing-quote .closing-quote-text {
+                    width: min(100%, 680px);
+                    font-size: clamp(26px, 6.5vw, 34px);
+                    line-height: 1.28;
+                }
+
+                .achievements-closing-quote .quote-pyramid-line {
+                    display: inline;
+                    width: auto;
+                    white-space: normal;
+                }
+            }
+
             @media (max-width: 600px) {
                 .achievement-list-marker {
                     grid-column: 2;
@@ -162,9 +198,28 @@
             </article>`;
     }
 
+    function renderLists() {
+        const recognitionList = document.getElementById('recognitionList');
+        const competitionList = document.getElementById('competitionList');
+
+        if (recognitionList) recognitionList.innerHTML = recognitionItems.map(renderAchievementItem).join('');
+        if (competitionList) competitionList.innerHTML = competitionItems.map(renderAchievementItem).join('');
+
+        const totalRecognition = document.getElementById('totalRecognition');
+        const totalCompetitions = document.getElementById('totalCompetitions');
+        const recognitionCount = document.getElementById('recognitionCountLabel');
+        const competitionCount = document.getElementById('competitionCountLabel');
+
+        if (totalRecognition) totalRecognition.textContent = recognitionItems.length;
+        if (totalCompetitions) totalCompetitions.textContent = competitionItems.length;
+        if (recognitionCount) recognitionCount.textContent = `${recognitionItems.length} items`;
+        if (competitionCount) competitionCount.textContent = `${competitionItems.length} items`;
+    }
+
     function renderLeadership() {
         const timeline = document.getElementById('leadershipTimeline');
         if (!timeline) return;
+
         timeline.innerHTML = leadershipItems.map(item => `
             <article class="leadership-timeline-item">
                 <time>${escapeHtml(item.year)}</time>
@@ -174,39 +229,26 @@
                     <p>${escapeHtml(item.description)}</p>
                 </div>
             </article>`).join('');
+
         const total = document.getElementById('totalLeadership');
         if (total) total.textContent = leadershipItems.length;
     }
 
-    function renderLists() {
-        const recognitionList = document.getElementById('recognitionList');
-        const competitionList = document.getElementById('competitionList');
-        if (recognitionList) recognitionList.innerHTML = recognitionItems.map(renderAchievementItem).join('');
-        if (competitionList) competitionList.innerHTML = competitionItems.map(renderAchievementItem).join('');
-
-        const totalRecognition = document.getElementById('totalRecognition');
-        const totalCompetitions = document.getElementById('totalCompetitions');
-        const recognitionCount = document.getElementById('recognitionCountLabel');
-        const competitionCount = document.getElementById('competitionCountLabel');
-        if (totalRecognition) totalRecognition.textContent = recognitionItems.length;
-        if (totalCompetitions) totalCompetitions.textContent = competitionItems.length;
-        if (recognitionCount) recognitionCount.textContent = `${recognitionItems.length} items`;
-        if (competitionCount) competitionCount.textContent = `${competitionItems.length} items`;
-    }
-
     function updateFeaturedAchievements() {
         const major = document.querySelector('.featured-achievement-major');
+
         if (major) {
             const type = major.querySelector('.achievement-type');
             const title = major.querySelector('.featured-achievement-copy h3');
             const description = major.querySelector('.featured-achievement-copy > p');
             const meta = major.querySelector('.achievement-meta');
+            const copy = major.querySelector('.featured-achievement-copy');
+
             if (type) type.textContent = 'Competition & Recognition';
             if (title) title.textContent = 'ICSC 2026: Qualification Round Special Honour';
             if (description) description.textContent = 'Successfully participated in the 2026 Qualification Round and received a Special Honour after my submitted code was successfully evaluated and passed all test cases.';
             if (meta) meta.innerHTML = '<span>International Computer Science Competition</span><span>20 July 2026</span>';
 
-            const copy = major.querySelector('.featured-achievement-copy');
             if (copy && !copy.querySelector('[data-view-icsc-award]')) {
                 const actions = document.createElement('div');
                 actions.className = 'achievement-actions';
@@ -240,9 +282,16 @@
     function updateClosingQuote() {
         const quoteText = document.querySelector('.achievements-closing-quote .closing-quote-text');
         const quoteAuthor = document.querySelector('.achievements-closing-quote .closing-quote-author');
+
         if (quoteText) {
-            quoteText.textContent = '“A journey is not made in one leap. It is built step by step, through lessons learned, challenges faced and the courage to keep moving forward.”';
+            quoteText.innerHTML = [
+                '“A journey is not made in one leap. It is built ',
+                'step by step, through lessons learned, ',
+                'challenges faced and the courage ',
+                'to keep moving forward.”'
+            ].map(line => `<span class="quote-pyramid-line">${line}</span>`).join('');
         }
+
         if (quoteAuthor) quoteAuthor.textContent = 'The journey continues';
     }
 
@@ -267,6 +316,7 @@
         const next = document.getElementById('nextCert');
 
         if (!overlay || !popup || !pdf) return;
+
         const url = awardAssetUrl();
 
         if (image) {
@@ -274,9 +324,11 @@
             image.src = '';
         }
         if (fallback) fallback.hidden = true;
+
         pdf.src = `${url}#view=FitH&toolbar=1&navpanes=0`;
         pdf.title = `${ICSC_AWARD.title} PDF`;
         pdf.hidden = false;
+
         if (title) title.textContent = ICSC_AWARD.title;
         if (issuer) issuer.textContent = ICSC_AWARD.issuer;
         if (date) date.textContent = ICSC_AWARD.date;
@@ -306,6 +358,7 @@
 
     function apply() {
         if (!document.body.classList.contains('achievements-page-body')) return;
+
         injectRefinementStyles();
         updateFeaturedAchievements();
         renderLists();
