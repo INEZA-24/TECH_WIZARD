@@ -285,14 +285,12 @@
 
         if (quoteText) {
             quoteText.innerHTML = [
-                '“A journey is not made in one leap. It is built ',
-                'step by step, through lessons learned, ',
-                'challenges faced and the courage ',
-                'to keep moving forward.”'
+                '“You can’t connect the dots looking forward;',
+                'you can only connect them looking backwards.”'
             ].map(line => `<span class="quote-pyramid-line">${line}</span>`).join('');
         }
 
-        if (quoteAuthor) quoteAuthor.textContent = 'The journey continues';
+        if (quoteAuthor) quoteAuthor.textContent = 'Steve Jobs';
     }
 
     function awardAssetUrl() {
