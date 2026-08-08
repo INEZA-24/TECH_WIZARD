@@ -2,14 +2,16 @@
     'use strict';
 
     const MODE_SETTINGS = {
-        hero: { desktop: 32, tablet: 22, mobile: 13, distance: 150, speed: 0.055, pointer: true },
-        journey: { desktop: 20, tablet: 15, mobile: 10, distance: 118, speed: 0.035, pointer: false },
-        beyond: { desktop: 17, tablet: 13, mobile: 8, distance: 132, speed: 0.032, pointer: false },
-        contact: { desktop: 18, tablet: 14, mobile: 9, distance: 160, speed: 0.04, pointer: true },
-        closing: { desktop: 14, tablet: 11, mobile: 7, distance: 155, speed: 0.026, pointer: false },
-        projects: { desktop: 26, tablet: 18, mobile: 11, distance: 168, speed: 0.05, pointer: true }
+        hero: { desktop: 32, tablet: 22, mobile: 13, distance: 150, speed: 0.28, pointer: true, pointerDistance: 175, pointerLinkDistance: 185, click: true },
+        journey: { desktop: 20, tablet: 15, mobile: 10, distance: 118, speed: 0.16, pointer: true, pointerDistance: 150, pointerLinkDistance: 165, click: true },
+        beyond: { desktop: 17, tablet: 13, mobile: 8, distance: 132, speed: 0.14, pointer: true, pointerDistance: 150, pointerLinkDistance: 165, click: true },
+        contact: { desktop: 18, tablet: 14, mobile: 9, distance: 160, speed: 0.22, pointer: true, pointerDistance: 180, pointerLinkDistance: 190, click: true },
+        closing: { desktop: 14, tablet: 11, mobile: 7, distance: 155, speed: 0.14, pointer: true, pointerDistance: 165, pointerLinkDistance: 180, click: true },
+        projects: { desktop: 26, tablet: 18, mobile: 11, distance: 168, speed: 0.25, pointer: true, pointerDistance: 180, pointerLinkDistance: 195, click: true }
     };
 
+    const MAX_USER_NODES = 10;
+    const CLICK_PULSE_DURATION = 900;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
     const instances = new Set();
@@ -28,10 +30,12 @@
             this.resizeFrame = 0;
             this.width = 0;
             this.height = 0;
+            this.interactionHost = this.host.parentElement || this.host;
             this.draw = this.draw.bind(this);
             this.resize = this.resize.bind(this);
             this.handlePointer = this.handlePointer.bind(this);
             this.clearPointer = this.clearPointer.bind(this);
+            this.handlePointerDown = this.handlePointerDown.bind(this);
             this.handleVisibility = this.handleVisibility.bind(this);
             this.canvas.setAttribute('aria-hidden', 'true');
             this.host.appendChild(this.canvas);
@@ -46,25 +50,34 @@
             return this.settings.desktop;
         }
 
-        makeNode(index) {
+        makeNode(index, overrides = {}) {
             const edgeBias = (this.mode === 'contact' && index % 3 === 0) || (this.mode === 'closing' && index % 2 === 0);
             const x = edgeBias
                 ? (index % 2 ? Math.random() * this.width * 0.2 : this.width * (0.8 + Math.random() * 0.2))
                 : Math.random() * this.width;
+
             return {
                 x,
                 y: Math.random() * this.height,
                 vx: (Math.random() - 0.5) * this.settings.speed,
                 vy: (Math.random() - 0.5) * this.settings.speed,
                 radius: 1 + Math.random() * 0.75,
-                phase: Math.random() * Math.PI * 2
+                phase: Math.random() * Math.PI * 2,
+                userCreated: false,
+                createdAt: 0,
+                ...overrides
             };
         }
 
         populate() {
+            const baseNodes = this.nodes.filter((node) => !node.userCreated);
+            const userNodes = this.nodes.filter((node) => node.userCreated);
             const count = this.nodeCount();
-            if (this.nodes.length > count) this.nodes.length = count;
-            while (this.nodes.length < count) this.nodes.push(this.makeNode(this.nodes.length));
+
+            if (baseNodes.length > count) baseNodes.length = count;
+            while (baseNodes.length < count) baseNodes.push(this.makeNode(baseNodes.length));
+
+            this.nodes = [...baseNodes, ...userNodes.slice(-MAX_USER_NODES)];
         }
 
         resize() {
@@ -97,21 +110,70 @@
         bind() {
             window.addEventListener('resize', this.resize, { passive: true });
             document.addEventListener('visibilitychange', this.handleVisibility);
-            if (this.settings.pointer && finePointer.matches) {
-                this.host.parentElement.addEventListener('pointermove', this.handlePointer, { passive: true });
-                this.host.parentElement.addEventListener('pointerleave', this.clearPointer, { passive: true });
+
+            if (finePointer.matches && (this.settings.pointer || this.settings.click)) {
+                this.interactionHost.addEventListener('pointermove', this.handlePointer, { passive: true });
+                this.interactionHost.addEventListener('pointerleave', this.clearPointer, { passive: true });
+                this.interactionHost.addEventListener('pointerdown', this.handlePointerDown, { passive: true });
             }
         }
 
-        handlePointer(event) {
+        pointFromEvent(event) {
             const rect = this.host.getBoundingClientRect();
-            this.pointer.x = event.clientX - rect.left;
-            this.pointer.y = event.clientY - rect.top;
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            if (x < 0 || y < 0 || x > rect.width || y > rect.height) return null;
+            return { x, y };
+        }
+
+        handlePointer(event) {
+            if (!this.settings.pointer) return;
+            const point = this.pointFromEvent(event);
+            if (!point) {
+                this.clearPointer();
+                return;
+            }
+
+            this.pointer.x = point.x;
+            this.pointer.y = point.y;
             this.pointer.active = true;
         }
 
         clearPointer() {
             this.pointer.active = false;
+        }
+
+        handlePointerDown(event) {
+            if (!this.settings.click || reduceMotion.matches || event.button !== 0) return;
+            if (event.target.closest('a, button, input, textarea, select, summary, [role="button"]')) return;
+
+            const point = this.pointFromEvent(event);
+            if (!point) return;
+            this.createUserNode(point.x, point.y);
+        }
+
+        createUserNode(x, y) {
+            const userNodes = this.nodes.filter((node) => node.userCreated);
+            if (userNodes.length >= MAX_USER_NODES) {
+                const oldest = userNodes.reduce((currentOldest, node) => (
+                    !currentOldest || node.createdAt < currentOldest.createdAt ? node : currentOldest
+                ), null);
+                const oldestIndex = this.nodes.indexOf(oldest);
+                if (oldestIndex >= 0) this.nodes.splice(oldestIndex, 1);
+            }
+
+            const launchSpeed = Math.max(this.settings.speed * 1.25, 0.18);
+            const angle = Math.random() * Math.PI * 2;
+            this.nodes.push(this.makeNode(this.nodes.length, {
+                x,
+                y,
+                vx: Math.cos(angle) * launchSpeed,
+                vy: Math.sin(angle) * launchSpeed,
+                radius: 2.25,
+                userCreated: true,
+                createdAt: performance.now()
+            }));
         }
 
         handleVisibility() {
@@ -128,10 +190,14 @@
         }
 
         update() {
+            const pointerDistance = this.settings.pointerDistance || 160;
+            const pointerDistanceSquared = pointerDistance * pointerDistance;
+
             this.nodes.forEach((node) => {
                 node.x += node.vx;
                 node.y += node.vy;
-                node.phase += 0.002;
+                node.phase += 0.006;
+
                 if (node.x < -12) node.x = this.width + 12;
                 if (node.x > this.width + 12) node.x = -12;
                 if (node.y < -12) node.y = this.height + 12;
@@ -141,43 +207,99 @@
                     const dx = node.x - this.pointer.x;
                     const dy = node.y - this.pointer.y;
                     const distanceSquared = dx * dx + dy * dy;
-                    if (distanceSquared < 18000 && distanceSquared > 1) {
-                        const influence = (1 - distanceSquared / 18000) * 0.07;
-                        node.x += dx * influence * 0.02;
-                        node.y += dy * influence * 0.02;
+
+                    if (distanceSquared < pointerDistanceSquared && distanceSquared > 1) {
+                        const distance = Math.sqrt(distanceSquared);
+                        const influence = 1 - distance / pointerDistance;
+                        const push = influence * 1.45;
+                        node.x += (dx / distance) * push;
+                        node.y += (dy / distance) * push;
+                        node.vx += (dx / distance) * influence * 0.006;
+                        node.vy += (dy / distance) * influence * 0.006;
                     }
                 }
+
+                const maxVelocity = Math.max(this.settings.speed * 2.8, 0.55);
+                const velocity = Math.hypot(node.vx, node.vy);
+                if (velocity > maxVelocity) {
+                    node.vx = (node.vx / velocity) * maxVelocity;
+                    node.vy = (node.vy / velocity) * maxVelocity;
+                }
+
+                node.vx *= 0.9995;
+                node.vy *= 0.9995;
             });
         }
 
         render(isStatic) {
             const context = this.context;
             context.clearRect(0, 0, this.width, this.height);
-            const maxDistance = this.settings.distance;
-            const maxDistanceSquared = maxDistance * maxDistance;
+            const baseDistance = this.settings.distance;
 
             for (let first = 0; first < this.nodes.length; first += 1) {
                 const a = this.nodes[first];
                 for (let second = first + 1; second < this.nodes.length; second += 1) {
                     const b = this.nodes[second];
+                    const maxDistance = (a.userCreated || b.userCreated) ? baseDistance * 1.28 : baseDistance;
+                    const maxDistanceSquared = maxDistance * maxDistance;
                     const dx = a.x - b.x;
                     const dy = a.y - b.y;
                     const distanceSquared = dx * dx + dy * dy;
                     if (distanceSquared > maxDistanceSquared) continue;
+
                     const distance = Math.sqrt(distanceSquared);
-                    let alpha = (1 - distance / maxDistance) * 0.16;
-                    if (this.mode === 'journey') alpha *= 0.72 + Math.sin(a.phase + b.phase) * 0.16;
+                    let alpha = (1 - distance / maxDistance) * (a.userCreated || b.userCreated ? 0.3 : 0.18);
+                    if (this.mode === 'journey') alpha *= 0.82 + Math.sin(a.phase + b.phase) * 0.12;
+
                     context.beginPath();
                     context.moveTo(a.x, a.y);
                     context.lineTo(b.x, b.y);
-                    context.strokeStyle = `rgba(65, 148, 208, ${Math.max(0.025, alpha)})`;
-                    context.lineWidth = 0.7;
+                    context.strokeStyle = `rgba(65, 148, 208, ${Math.max(0.03, alpha)})`;
+                    context.lineWidth = a.userCreated || b.userCreated ? 0.9 : 0.7;
                     context.stroke();
                 }
             }
 
+            if (this.pointer.active && !isStatic) {
+                const pointerLinkDistance = this.settings.pointerLinkDistance || 180;
+                const pointerLinkDistanceSquared = pointerLinkDistance * pointerLinkDistance;
+
+                this.nodes.forEach((node) => {
+                    const dx = node.x - this.pointer.x;
+                    const dy = node.y - this.pointer.y;
+                    const distanceSquared = dx * dx + dy * dy;
+                    if (distanceSquared > pointerLinkDistanceSquared) return;
+
+                    const distance = Math.sqrt(distanceSquared);
+                    const alpha = (1 - distance / pointerLinkDistance) * 0.32;
+                    context.beginPath();
+                    context.moveTo(this.pointer.x, this.pointer.y);
+                    context.lineTo(node.x, node.y);
+                    context.strokeStyle = `rgba(87, 166, 221, ${Math.max(0.035, alpha)})`;
+                    context.lineWidth = 0.75;
+                    context.stroke();
+                });
+            }
+
+            const now = performance.now();
             this.nodes.forEach((node) => {
-                const alpha = isStatic ? 0.22 : 0.2 + Math.sin(node.phase) * 0.035;
+                const pulseAge = node.userCreated ? now - node.createdAt : CLICK_PULSE_DURATION + 1;
+                const isPulsing = pulseAge >= 0 && pulseAge < CLICK_PULSE_DURATION;
+                const alpha = isStatic
+                    ? 0.22
+                    : node.userCreated
+                        ? 0.4 + Math.sin(node.phase) * 0.05
+                        : 0.22 + Math.sin(node.phase) * 0.04;
+
+                if (isPulsing) {
+                    const progress = pulseAge / CLICK_PULSE_DURATION;
+                    context.beginPath();
+                    context.arc(node.x, node.y, 6 + progress * 18, 0, Math.PI * 2);
+                    context.strokeStyle = `rgba(87, 166, 221, ${0.42 * (1 - progress)})`;
+                    context.lineWidth = 1.1;
+                    context.stroke();
+                }
+
                 context.beginPath();
                 context.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
                 context.fillStyle = `rgba(87, 166, 221, ${alpha})`;
@@ -199,10 +321,13 @@
             this.observer.disconnect();
             window.removeEventListener('resize', this.resize);
             document.removeEventListener('visibilitychange', this.handleVisibility);
-            if (this.settings.pointer && this.host.parentElement) {
-                this.host.parentElement.removeEventListener('pointermove', this.handlePointer);
-                this.host.parentElement.removeEventListener('pointerleave', this.clearPointer);
+
+            if (finePointer.matches && (this.settings.pointer || this.settings.click)) {
+                this.interactionHost.removeEventListener('pointermove', this.handlePointer);
+                this.interactionHost.removeEventListener('pointerleave', this.clearPointer);
+                this.interactionHost.removeEventListener('pointerdown', this.handlePointerDown);
             }
+
             this.canvas.remove();
         }
     }
@@ -248,6 +373,7 @@
     } else {
         initialize();
     }
+
     reduceMotion.addEventListener('change', refreshMotion);
     window.addEventListener('pagehide', (event) => {
         if (!event.persisted) destroyAll();
