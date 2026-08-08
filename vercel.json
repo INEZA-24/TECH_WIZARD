@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/images/flash.png", "destination": "/images/favicon.svg" },
     { "source": "/images/ME_IN_FLL_KCC.png", "destination": "/images/ME_IN_FLL_KCC.webp" },
     { "source": "/images/Us_In_Camp.jpg", "destination": "/images/Us_In_Camp.webp" },
     { "source": "/images/FTC_me.png", "destination": "/images/FTC_me.webp" },
