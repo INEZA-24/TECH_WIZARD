@@ -207,6 +207,16 @@
         });
     }
 
+    function normalizeAboutMobileNavigation() {
+        if (!document.body.classList.contains('about-page')) return;
+
+        const legacyToggle = document.querySelector('button.hamburger#hamburger');
+        if (!legacyToggle) return;
+
+        legacyToggle.classList.remove('hamburger');
+        legacyToggle.classList.add('menu-toggle');
+    }
+
     function keepLenisInSyncWithOverlays() {
         if (!lenisInstance || !document.body) return;
 
@@ -283,6 +293,7 @@
     }
 
     function initialize() {
+        normalizeAboutMobileNavigation();
         injectStyles();
         initializeHeroMotion();
         loadLenis();
