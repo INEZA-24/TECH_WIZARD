@@ -1,6 +1,6 @@
 (function () {
   const SUPABASE_URL = "https://znqjiafbqsrugzvjpsfy.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdWIiOiJwdWJsaXNoZWQiLCJpc3MiOiJ6bnFqaWFmYnFzcnVnenZqcHNmeSIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzgzNjczMTE2LCJleHAiOjIwOTkyNDExMTZ9.GHEFNhbrvE-IJpUW709irr36xdBHcCqCgNbU4PL0e3k";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6bnFqaWFmYnFzcnVnenZqcHNmeSIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzgzNjczMTE2LCJleHAiOjIwOTkyNDExMTZ9.GHEFNhbrvE-IJpUW709irr36xdBHcCqCgNbU4PL0e3k";
   function normalizeProject(item){return{...item,tags:Array.isArray(item.tags)?item.tags:[],github:item.github||"",demo:item.demo||"",icon:item.icon||"fa-code",featured:item.featured===true,published:item.published!==false,sortOrder:item.sortOrder??item.sort_order??0}}
   function isPdfCertificate(value){if(!value)return false;return String(value).split("?")[0].split("#")[0].toLowerCase().endsWith(".pdf")}
   function resolveCertificateAsset(value){if(!value)return"";if(/^https?:\/\//i.test(value)||value.startsWith("/")||value.startsWith("images/")||value.startsWith("portfolio-admin-starter/"))return value;const basePath=window.CERTIFICATE_ASSET_BASE_URL||"https://wizadmin.vercel.app/certificates";return basePath.replace(/\/$/,"")+"/"+encodeURIComponent(value.replace(/^certificates\//,""))}
