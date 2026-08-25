@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,24 +9,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link rel="stylesheet" href="css/index.css"> 
+    <link rel="stylesheet" href="css/index.css">
 </head>
-
 <body>
     <header class="site-header" id="siteHeader">
         <div class="container">
             <nav class="site-nav" aria-label="Primary navigation">
                 <a href="index.html" class="logo" aria-label="Fidele home">Fidele<span aria-hidden="true">.</span></a>
-
-                <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation menu" aria-controls="navLinks" aria-expanded="false">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-
+                <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation menu" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
                 <ul class="nav-links" id="navLinks">
                     <li><a href="index.html" class="active">Home</a></li>
                     <li><a href="aboutus.html">About</a></li>
@@ -39,305 +29,45 @@
         </div>
     </header>
     <main>
-    <section class="home-hero" aria-labelledby="hero-title">
-        <div class="network-background" data-network-mode="hero" aria-hidden="true"></div>
-        <div class="container hero-showcase">
-            <div class="hero-copy">
-                <p class="hero-intro">Hi, I&rsquo;m</p>
-                <h1 id="hero-title">Fidele</h1>
-                <p class="hero-role" aria-hidden="true">I&rsquo;m <span id="rotatingRole">a Python Developer</span><span class="role-cursor">&#9612;</span></p>
-                <p class="sr-only">I am a Python Developer, a Graphic Designer, an Aspiring Full-Stack Developer, and an Aspiring Tech Founder.</p>
-                <p class="hero-description">I build practical projects with Python, lead youth technology initiatives, and am growing toward a future in software engineering and artificial intelligence. I hope to use both fields to create meaningful solutions for real challenges in education, communities and everyday life.</p>
-                <div class="hero-actions">
-                    <a href="projects.html" class="hero-button hero-button-primary">View Projects</a>
-                    <a href="aboutus.html" class="hero-button hero-button-secondary">My Journey</a>
+        <section class="home-hero" aria-labelledby="hero-title">
+            <div class="network-background" data-network-mode="hero" aria-hidden="true"></div>
+            <div class="container hero-showcase">
+                <div class="hero-copy">
+                    <p class="hero-intro">Hi, I&rsquo;m</p>
+                    <h1 id="hero-title">Fidele</h1>
+                    <p class="hero-role" aria-hidden="true">I&rsquo;m <span id="rotatingRole">a Python Developer</span><span class="role-cursor">&#9612;</span></p>
+                    <p class="sr-only">I am a Python Developer, a Graphic Designer, an Aspiring Full-Stack Developer, and an Aspiring Tech Founder.</p>
+                    <p class="hero-description">I build practical projects with Python, lead youth technology initiatives, and am growing toward a future in software engineering and artificial intelligence. I hope to use both fields to create meaningful solutions for real challenges in education, communities and everyday life.</p>
+                    <div class="hero-actions"><a href="projects.html" class="hero-button hero-button-primary">View Projects</a><a href="aboutus.html" class="hero-button hero-button-secondary">My Journey</a></div>
                 </div>
+                <div class="hero-portrait"><div class="portrait-tiles" aria-hidden="true"><span class="portrait-tile portrait-tile-1"></span><span class="portrait-tile portrait-tile-2"></span><span class="portrait-tile portrait-tile-3"></span><span class="portrait-tile portrait-tile-4"></span><span class="portrait-tile portrait-tile-5"></span><span class="portrait-tile portrait-tile-6"></span></div><div class="portrait-backdrop"><div class="portrait-inner"><img src="images/new-profile.png" alt="Portrait of Fidele, a Rwandan student developer and youth technology leader"></div></div></div>
             </div>
-            <div class="hero-portrait">
-                <div class="portrait-tiles" aria-hidden="true">
-                    <span class="portrait-tile portrait-tile-1"></span>
-                    <span class="portrait-tile portrait-tile-2"></span>
-                    <span class="portrait-tile portrait-tile-3"></span>
-                    <span class="portrait-tile portrait-tile-4"></span>
-                    <span class="portrait-tile portrait-tile-5"></span>
-                    <span class="portrait-tile portrait-tile-6"></span>
-                </div>
-                <div class="portrait-backdrop">
-                    <div class="portrait-inner">
-                        <img src="images/new-profile.png" alt="Portrait of Fidele, a Rwandan student developer and youth technology leader">
-                    </div>
-                </div>
+        </section>
+        <section class="featured-projects" id="featured-projects">
+            <div class="container featured-projects-content">
+                <div class="featured-projects-header"><div><p class="section-label">Selected work</p><h2>Featured Projects</h2><p>A brief look at projects that reflect my learning, creativity and interest in practical technology.</p></div><a href="projects.html" class="projects-all-link">View All Projects <span aria-hidden="true">&rarr;</span></a></div>
+                <div class="featured-projects-grid" id="featuredProjectsGrid"><p class="featured-projects-empty">Loading featured projects&hellip;</p></div>
             </div>
-        </div>
-    </section>
-
-    <section class="featured-projects" id="featured-projects">
-        <div class="container featured-projects-content">
-            <div class="featured-projects-header">
-                <div>
-                    <p class="section-label">Selected work</p>
-                    <h2>Featured Projects</h2>
-                    <p>A brief look at projects that reflect my learning, creativity and interest in practical technology.</p>
-                </div>
-                <a href="projects.html" class="projects-all-link">View All Projects <span aria-hidden="true">&rarr;</span></a>
-            </div>
-            <div class="featured-projects-grid" id="featuredProjectsGrid">
-                <p class="featured-projects-empty">Loading featured projects&hellip;</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="closing-quote-section home-closing-quote" aria-label="Closing thought">
-        <div class="network-background" data-network-mode="closing" aria-hidden="true"></div>
-        <div class="corner-honeycomb corner-honeycomb-top-right corner-honeycomb-soft" aria-hidden="true">
-            <span></span><span></span><span></span>
-        </div>
-        <div class="container closing-quote-inner">
-            <blockquote class="closing-quote">
-                <span class="closing-quote-accent" aria-hidden="true"></span>
-                <span class="closing-quote-mark" aria-hidden="true">&#10077;</span>
-                <p class="closing-quote-text">&ldquo;The best way to predict the future is to invent it.&rdquo;</p>
-                <cite class="closing-quote-author">&mdash; Alan Kay</cite>
-                <div class="closing-quote-decoration" aria-hidden="true">
-                    <span class="closing-quote-line"></span>
-                    <span class="closing-quote-node"></span>
-                    <span class="closing-quote-line"></span>
-                </div>
-            </blockquote>
-        </div>
-    </section>
-
+        </section>
+        <section class="closing-quote-section home-closing-quote" aria-label="Closing thought">
+            <div class="network-background" data-network-mode="closing" aria-hidden="true"></div>
+            <div class="corner-honeycomb corner-honeycomb-top-right corner-honeycomb-soft" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="container closing-quote-inner"><blockquote class="closing-quote"><span class="closing-quote-accent" aria-hidden="true"></span><span class="closing-quote-mark" aria-hidden="true">&#10077;</span><p class="closing-quote-text">&ldquo;The best way to predict the future is to invent it.&rdquo;</p><cite class="closing-quote-author">&mdash; Alan Kay</cite><div class="closing-quote-decoration" aria-hidden="true"><span class="closing-quote-line"></span><span class="closing-quote-node"></span><span class="closing-quote-line"></span></div></blockquote></div>
+        </section>
     </main>
-
-    <footer>
-        <div class="container">
-            <div class="social-icons">
-                <a href="https://www.instagram.com/techwizard285/" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://github.com/INEZA-24" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on GitHub">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on LinkedIn">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-            </div>
-            <p>© <span id="year"></span> Fidele. All rights reserved.</p>
-            <div class="copyright">
-                <p>Built with passion and innovation</p>
-            </div>
-        </div>
-    </footer>
-
+    <footer><div class="container"><div class="social-icons"><a href="https://www.instagram.com/techwizard285/" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on Instagram"><i class="fab fa-instagram"></i></a><a href="https://github.com/INEZA-24" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on GitHub"><i class="fab fa-github"></i></a><a href="https://www.linkedin.com/in/ineza-fidele-b06554331/" target="_blank" rel="noopener noreferrer" aria-label="Visit Fidele on LinkedIn"><i class="fab fa-linkedin-in"></i></a></div><p>© <span id="year"></span> Fidele. All rights reserved.</p><div class="copyright"><p>Built with passion and innovation</p></div></div></footer>
     <script>
-        // Header and mobile navigation
-        const siteHeader = document.getElementById('siteHeader');
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-        const body = document.body;
-
-        const closeMenu = () => {
-            if (!menuToggle || !navLinks) return;
-            menuToggle.classList.remove('active');
-            navLinks.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-            menuToggle.setAttribute('aria-label', 'Open navigation menu');
-            body.classList.remove('no-scroll');
-        };
-
-        if (menuToggle && navLinks) {
-            menuToggle.addEventListener('click', (event) => {
-                event.stopPropagation();
-                const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
-                if (isOpen) {
-                    closeMenu();
-                    return;
-                }
-                menuToggle.classList.add('active');
-                navLinks.classList.add('active');
-                menuToggle.setAttribute('aria-expanded', 'true');
-                menuToggle.setAttribute('aria-label', 'Close navigation menu');
-                body.classList.add('no-scroll');
-            });
-
-            navLinks.querySelectorAll('a').forEach((item) => item.addEventListener('click', closeMenu));
-
-            document.addEventListener('click', (event) => {
-                if (!navLinks.contains(event.target) && !menuToggle.contains(event.target)) {
-                    closeMenu();
-                }
-            });
-
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape') {
-                    closeMenu();
-                    menuToggle.focus();
-                }
-            });
-        }
-
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                closeMenu();
-            }
-        });
-
-        const updateHeader = () => siteHeader?.classList.toggle('scrolled', window.scrollY > 16);
-        updateHeader();
-        window.addEventListener('scroll', updateHeader, { passive: true });
-        
-        // Set current year in footer
-        document.getElementById('year').textContent = new Date().getFullYear();
-        
-        const roles = [
-            'a Python Developer',
-            'a Graphic Designer',
-            'an Aspiring Full-Stack Developer',
-            'an Aspiring Tech Founder'
-        ];
-        const rotatingRole = document.getElementById('rotatingRole');
-        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-        function startRoleRotation() {
-            if (!rotatingRole || reduceMotion.matches) {
-                if (rotatingRole) rotatingRole.textContent = roles[0];
-                return;
-            }
-
-            let roleIndex = 0;
-            let characterIndex = roles[0].length;
-            let deleting = true;
-
-            const updateRole = () => {
-                const role = roles[roleIndex];
-
-                if (deleting) {
-                    characterIndex -= 1;
-                    rotatingRole.textContent = role.slice(0, characterIndex);
-
-                    if (characterIndex === 0) {
-                        deleting = false;
-                        roleIndex = (roleIndex + 1) % roles.length;
-                        window.setTimeout(updateRole, 500);
-                        return;
-                    }
-
-                    window.setTimeout(updateRole, 70);
-                    return;
-                }
-
-                characterIndex += 1;
-                rotatingRole.textContent = roles[roleIndex].slice(0, characterIndex);
-
-                if (characterIndex === roles[roleIndex].length) {
-                    deleting = true;
-                    window.setTimeout(updateRole, 2800);
-                    return;
-                }
-
-                window.setTimeout(updateRole, 110);
-            };
-
-            window.setTimeout(updateRole, 2800);
-        }
-
+        const siteHeader=document.getElementById('siteHeader'),menuToggle=document.getElementById('menuToggle'),navLinks=document.getElementById('navLinks'),body=document.body;
+        const closeMenu=()=>{if(!menuToggle||!navLinks)return;menuToggle.classList.remove('active');navLinks.classList.remove('active');menuToggle.setAttribute('aria-expanded','false');menuToggle.setAttribute('aria-label','Open navigation menu');body.classList.remove('no-scroll')};
+        if(menuToggle&&navLinks){menuToggle.addEventListener('click',event=>{event.stopPropagation();const isOpen=menuToggle.getAttribute('aria-expanded')==='true';if(isOpen){closeMenu();return}menuToggle.classList.add('active');navLinks.classList.add('active');menuToggle.setAttribute('aria-expanded','true');menuToggle.setAttribute('aria-label','Close navigation menu');body.classList.add('no-scroll')});navLinks.querySelectorAll('a').forEach(item=>item.addEventListener('click',closeMenu));document.addEventListener('click',event=>{if(!navLinks.contains(event.target)&&!menuToggle.contains(event.target))closeMenu()});document.addEventListener('keydown',event=>{if(event.key==='Escape'){closeMenu();menuToggle.focus()}})}
+        window.addEventListener('resize',()=>{if(window.innerWidth>768)closeMenu()});
+        const updateHeader=()=>siteHeader?.classList.toggle('scrolled',window.scrollY>16);updateHeader();window.addEventListener('scroll',updateHeader,{passive:true});document.getElementById('year').textContent=new Date().getFullYear();
+        const roles=['a Python Developer','a Graphic Designer','an Aspiring Full-Stack Developer','an Aspiring Tech Founder'],rotatingRole=document.getElementById('rotatingRole'),reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+        function startRoleRotation(){if(!rotatingRole||reduceMotion.matches){if(rotatingRole)rotatingRole.textContent=roles[0];return}let roleIndex=0,characterIndex=roles[0].length,deleting=true;const updateRole=()=>{const role=roles[roleIndex];if(deleting){characterIndex-=1;rotatingRole.textContent=role.slice(0,characterIndex);if(characterIndex===0){deleting=false;roleIndex=(roleIndex+1)%roles.length;window.setTimeout(updateRole,500);return}window.setTimeout(updateRole,70);return}characterIndex+=1;rotatingRole.textContent=roles[roleIndex].slice(0,characterIndex);if(characterIndex===roles[roleIndex].length){deleting=true;window.setTimeout(updateRole,2800);return}window.setTimeout(updateRole,110)};window.setTimeout(updateRole,2800)}
         startRoleRotation();
-
-        async function loadFeaturedProjects() {
-            const grid = document.getElementById('featuredProjectsGrid');
-            if (!grid) return;
-
-            try {
-                const response = await fetch('data/projects.json');
-                if (!response.ok) throw new Error(`Projects request failed: ${response.status}`);
-                const data = await response.json();
-                const projects = Array.isArray(data.projects) ? data.projects : [];
-                const featuredProjects = projects
-                    .filter(project => project.featured && project.published)
-                    .slice(0, 2);
-
-                grid.replaceChildren();
-                if (!featuredProjects.length) {
-                    grid.innerHTML = '<p class="featured-projects-empty">Featured projects will appear here soon.</p>';
-                    return;
-                }
-
-                featuredProjects.forEach((project, index) => {
-                    const card = document.createElement('article');
-                    card.className = 'featured-project-card';
-
-                    const media = document.createElement('div');
-                    media.className = 'featured-project-media';
-                    const fallback = document.createElement('div');
-                    fallback.className = 'featured-project-image-fallback';
-                    fallback.setAttribute('aria-hidden', 'true');
-                    const fallbackIcon = document.createElement('i');
-                    fallbackIcon.className = `fas ${project.icon || 'fa-code'}`;
-                    fallback.appendChild(fallbackIcon);
-
-                    if (project.image) {
-                        const image = document.createElement('img');
-                        image.src = project.image;
-                        image.alt = `${project.title || 'Project'} preview`;
-                        image.loading = 'lazy';
-                        image.decoding = 'async';
-                        image.addEventListener('error', () => {
-                            image.remove();
-                            media.classList.add('is-fallback');
-                        }, { once: true });
-                        media.append(image, fallback);
-                    } else {
-                        media.classList.add('is-fallback');
-                        media.appendChild(fallback);
-                    }
-
-                    const number = document.createElement('p');
-                    number.className = 'featured-project-number';
-                    number.textContent = String(index + 1).padStart(2, '0');
-
-                    const title = document.createElement('h3');
-                    title.className = 'featured-project-title';
-                    title.textContent = project.title || 'Untitled project';
-
-                    const description = document.createElement('p');
-                    description.className = 'featured-project-description';
-                    description.textContent = project.description || 'Project details coming soon.';
-
-                    const tags = document.createElement('div');
-                    tags.className = 'featured-project-tech';
-                    (Array.isArray(project.tags) ? project.tags : []).slice(0, 3).forEach((tag) => {
-                        const item = document.createElement('span');
-                        item.textContent = tag;
-                        tags.appendChild(item);
-                    });
-
-                    const actions = document.createElement('div');
-                    actions.className = 'featured-project-actions';
-                    const addProjectLink = (href, label, iconClass) => {
-                        if (!href) return;
-                        const link = document.createElement('a');
-                        link.href = href;
-                        link.target = '_blank';
-                        link.rel = 'noopener noreferrer';
-                        link.setAttribute('aria-label', `${label}: ${project.title || 'project'}`);
-                        link.innerHTML = `<i class="${iconClass}" aria-hidden="true"></i>${label}`;
-                        actions.appendChild(link);
-                    };
-
-                    addProjectLink(project.github, 'GitHub', 'fab fa-github');
-                    addProjectLink(project.demo, 'Live Demo', 'fas fa-arrow-up-right-from-square');
-                    card.append(media, number, title, description, tags, actions);
-                    grid.appendChild(card);
-                });
-            } catch (error) {
-                console.error('Error loading featured projects:', error);
-                grid.innerHTML = '<p class="featured-projects-empty">Unable to load featured projects right now.</p>';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', loadFeaturedProjects);
     </script>
+    <script src="script/content-store.js"></script>
+    <script src="script/featured-projects.js"></script>
     <script src="script/network-background.js"></script>
 </body>
-
 </html>
