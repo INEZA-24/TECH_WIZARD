@@ -8,6 +8,7 @@ export type Project = {
   github: string;
   demo: string;
   icon: string;
+  featured: boolean;
   published: boolean;
   sortOrder: number;
 };
