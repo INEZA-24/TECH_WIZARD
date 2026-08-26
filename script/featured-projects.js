@@ -6,17 +6,61 @@
         const style = document.createElement('style');
         style.id = 'featured-project-layout-styles';
         style.textContent = `
-            .featured-projects-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; align-items:start; }
-            .featured-project-card { min-width:0; height:auto; padding:0 !important; overflow:hidden; background:var(--surface-light); border:1px solid var(--border); display:flex; flex-direction:column; }
-            .featured-project-media { width:100%; aspect-ratio:16 / 10 !important; height:auto !important; flex:0 0 auto; margin:0 !important; padding:0 !important; overflow:hidden; display:flex; align-items:center; justify-content:center; background:var(--surface); border:0 !important; border-bottom:1px solid var(--border) !important; }
-            .featured-project-media img { width:100% !important; height:100% !important; object-fit:contain !important; }
-            .featured-project-number { margin:16px 18px 0 !important; }
-            .featured-project-title { margin:10px 18px 0 !important; font-size:1.1rem; line-height:1.3; }
-            .featured-project-description { margin:8px 18px 0 !important; line-height:1.5; }
-            .featured-project-tech { margin:14px 18px 0 !important; }
-            .featured-project-actions { margin:16px 18px 18px !important; }
-            @media (max-width:900px){ .featured-projects-grid{grid-template-columns:repeat(2,minmax(0,1fr));} }
-            @media (max-width:620px){ .featured-projects-grid{grid-template-columns:1fr;} }
+            /* Match the sizing and responsive grid used on projects.html */
+            .featured-projects-grid {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                align-items: stretch;
+                gap: 28px;
+            }
+            .featured-project-card {
+                display: flex;
+                min-width: 0;
+                height: 100%;
+                padding: 0 !important;
+                overflow: hidden;
+                background: #0d1d2f;
+                border: 1px solid #284968;
+                flex-direction: column;
+            }
+            .featured-project-media {
+                width: 100%;
+                height: 220px !important;
+                flex: 0 0 auto;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #091725;
+                border: 0 !important;
+                border-bottom: 1px solid #203850 !important;
+            }
+            .featured-project-media img {
+                display: block;
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: contain !important;
+                object-position: center;
+            }
+            .featured-project-number { margin: 26px 26px 0 !important; }
+            .featured-project-title { margin: 12px 26px 0 !important; font-size: 22px; line-height: 1.25; }
+            .featured-project-description { margin: 16px 26px 0 !important; line-height: 1.65; }
+            .featured-project-tech { margin: 18px 26px 0 !important; }
+            .featured-project-actions { margin: 24px 26px 26px !important; }
+            @media (min-width: 1200px) {
+                .featured-projects-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            }
+            @media (max-width: 768px) {
+                .featured-projects-grid { grid-template-columns: 1fr; gap: 22px; }
+                .featured-project-media { height: 210px !important; }
+            }
+            @media (max-width: 480px) {
+                .featured-project-media { height: 190px !important; }
+                .featured-project-number { margin-left: 20px !important; margin-right: 20px !important; }
+                .featured-project-title, .featured-project-description, .featured-project-tech, .featured-project-actions { margin-left: 20px !important; margin-right: 20px !important; }
+            }
         `;
         document.head.appendChild(style);
     }
